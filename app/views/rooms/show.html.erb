@@ -1,0 +1,25 @@
+<h1>Table</h1>
+
+<div id="messages">
+  <%= render @messages %>
+</div>
+
+<form>
+  <label>Say something:</label><br>
+  <input type="text" data-behavior="room_speaker">
+</form>
+
+<form>
+  <label>Bet:</label><br>
+  <input type="submit" data-behavior="room_speaker" value="Bet / Raise" id="bet">
+</form>
+
+<form>
+  <label>Check:</label><br>
+  <input type="submit" data-behavior="room_speaker" value="Check" id="check">
+</form>
+
+<form>
+  <label>Fold:</label><br>
+  <input type="submit" data-behavior="room_speaker" value="Fold" id="fold">
+</form>
