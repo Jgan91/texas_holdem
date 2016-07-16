@@ -19,3 +19,9 @@ $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
     App.room.speak "jones bet $30"
     $("#this").value = ""
     event.preventDefault()
+
+$(document).on "keypress", "[data-behavior~=room_speaker]", (event) ->
+  if event.keyCode is 13
+    App.room.speak event.target.value
+    event.target.value = ""
+    event.preventDefault()
