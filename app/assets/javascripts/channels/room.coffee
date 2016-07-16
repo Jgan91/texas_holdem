@@ -17,11 +17,23 @@ $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
   if event.target.id is "bet"
     # App.room.speak event.target.value
     App.room.speak "jones bet $30"
-    $("#this").value = ""
+    # $("#this").value = ""
     event.preventDefault()
 
 $(document).on "keypress", "[data-behavior~=room_speaker]", (event) ->
   if event.keyCode is 13
     App.room.speak event.target.value
     event.target.value = ""
+    event.preventDefault()
+
+$(document).on "click", "[data-behavior~=room_speaker]", (event) ->
+  if event.target.id is "check"
+    App.room.speak "jones checks"
+    # event.target.value = ""
+    event.preventDefault()
+
+$(document).on "click", "[data-behavior~=room_speaker]", (event) ->
+  if event.target.id is "fold"
+    App.room.speak "jones folds"
+
     event.preventDefault()
