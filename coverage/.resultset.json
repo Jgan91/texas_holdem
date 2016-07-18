@@ -12,7 +12,7 @@
       "/Users/charlesellison/texas_holdem/app/controllers/rooms_controller.rb": [
         1,
         1,
-        2,
+        3,
         null,
         null
       ],
@@ -52,11 +52,31 @@
       "/Users/charlesellison/texas_holdem/app/models/user.rb": [
         1,
         1,
+        null,
+        1,
+        1,
         null
       ],
       "/Users/charlesellison/texas_holdem/app/controllers/welcome_controller.rb": [
         1,
         1,
+        null,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/controllers/users_controller.rb": [
+        1,
+        1,
+        4,
+        4,
+        1,
+        1,
+        null,
+        3,
+        null,
+        null,
+        null,
+        1,
+        4,
         null,
         null
       ],
@@ -133,6 +153,6 @@
         0
       ]
     },
-    "timestamp": 1468847142
+    "timestamp": 1468876836
   }
 }
