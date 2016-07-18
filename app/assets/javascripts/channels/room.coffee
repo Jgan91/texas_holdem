@@ -16,7 +16,7 @@ $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
   # if event.keyCode is 13 # return = send
   if event.target.id is "bet"
     # App.room.speak event.target.value
-    App.room.speak "jones bet $30"
+    App.room.speak "Bet $#{$("#bet-amount").val()}"
     # $("#this").value = ""
     event.preventDefault()
 
@@ -28,12 +28,30 @@ $(document).on "keypress", "[data-behavior~=room_speaker]", (event) ->
 
 $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
   if event.target.id is "check"
-    App.room.speak "jones checks"
+    App.room.speak "Check"
     # event.target.value = ""
     event.preventDefault()
 
 $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
   if event.target.id is "fold"
-    App.room.speak "jones folds"
+    App.room.speak "Fold"
 
     event.preventDefault()
+
+$(document).on "click", "[data-behavior~=room_speaker]", (event) ->
+  if event.target.id is "add-ai-player"
+    App.room.speak "ai_player"
+
+    event.preventDefault()
+
+$(document).on "click", "[data-behavior~=room_speaker]", (event) ->
+  if event.target.id is "little-blind"
+    App.room.speak "little_blind"
+
+    event.preventDefault()
+
+# $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
+#           if event.target.parent.id is "big-blind"
+#             App.room.speak "big_blind"
+#
+#             event.preventDefault()

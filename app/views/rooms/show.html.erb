@@ -1,25 +1,63 @@
-<h1>Table</h1>
+<div class="history">
+  <h1>Table</h1>
+  <form>
+    <label>Say something:</label><br>
+    <input name="chat" id="chat" type="text" data-behavior="room_speaker">
+  </form>
 
-<div id="messages">
-  <%= render @messages %>
+  <div id="messages">
+    <%= render @messages %>
+  </div>
 </div>
 
-<form>
-  <label>Say something:</label><br>
-  <input name="chat" id="chat" type="text" data-behavior="room_speaker">
-</form>
+<div class="pregame">
+  <form>
+    <input id="add-ai-player" type="submit" value="Add AI Player" data-behavior="room_speaker">
+    <div class="blind-dropdown">
+      <button class="blind-btn">Little Blind</button>
+      <div class="blind-content">
+        <a href="#">10</a>
+        <a href="#">20</a>
+        <a href="#">30</a>
+        <a href="#">40</a>
+        <a href="#">50</a>
+        <a href="#">75</a>
+        <a href="#">100</a>
+        <a href="#">200</a>
+      </div>
+    </div>
 
-<form>
-  <label>Bet:</label><br>
-  <input type="submit" data-behavior="room_speaker" value="Bet / Raise" id="bet">
-</form>
+    <div class="blind-dropdown">
+      <button class="blind-btn">Big Blind</button>
+      <div class="blind-content big-blind">
+        <a href="#">20</a>
+        <a href="#">40</a>
+        <a href="#">60</a>
+        <a href="#">80</a>
+        <a href="#">100</a>
+        <a href="#">150</a>
+        <a href="#">200</a>
+        <a href="#">400</a>
+      </div>
+    </div>
+    <input id="begin-game" type="submit" value="Play" data-behavior="room_speaker">
+  </form>
+</div>
 
-<form>
-  <label>Check:</label><br>
-  <input type="submit" data-behavior="room_speaker" value="Check" id="check">
-</form>
+<div class="game-actions">
+  <form>
+    <label>Bet:</label><br>
+    <input type="text" data-behavior="room_speaker" id="bet-amount">
+    <input type="submit" data-behavior="room_speaker" value="Bet / Raise" id="bet">
+  </form>
 
-<form>
-  <label>Fold:</label><br>
-  <input type="submit" data-behavior="room_speaker" value="Fold" id="fold">
-</form>
+  <form>
+    <label>Check:</label><br>
+    <input type="submit" data-behavior="room_speaker" value="Check" id="check">
+  </form>
+
+  <form>
+    <label>Fold:</label><br>
+    <input type="submit" data-behavior="room_speaker" value="Fold" id="fold">
+  </form>
+</div>
