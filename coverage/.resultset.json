@@ -1,0 +1,144 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/Users/charlesellison/texas_holdem/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/helpers/rooms_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/controllers/rooms_controller.rb": [
+        1,
+        1,
+        2,
+        null,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/controllers/application_controller.rb": [
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        0,
+        null,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/jobs/message_broadcast_job.rb": [
+        1,
+        1,
+        null,
+        1,
+        0,
+        null,
+        null,
+        1,
+        1,
+        0,
+        null,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/jobs/application_job.rb": [
+        1,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/models/message.rb": [
+        1,
+        1,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/models/application_record.rb": [
+        1,
+        1,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/models/user.rb": [
+        1,
+        1,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/controllers/welcome_controller.rb": [
+        1,
+        1,
+        null,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/controllers/sessions_controller.rb": [
+        1,
+        1,
+        2,
+        2,
+        1,
+        1,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        0,
+        0,
+        null,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/channels/application_cable/channel.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/charlesellison/texas_holdem/app/channels/application_cable/connection.rb": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/charlesellison/texas_holdem/app/channels/room_channel.rb": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/charlesellison/texas_holdem/app/mailers/application_mailer.rb": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "timestamp": 1468846319
+  }
+}
