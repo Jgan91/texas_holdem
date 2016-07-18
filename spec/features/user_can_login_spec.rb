@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.feature "user can login" do
   scenario "user goes to game room" do
-    User.create(username: "jones", password: "123")
+    User.create(username: "jones", password: "123", email: "jones@gmail.com")
 
     visit root_path
 
