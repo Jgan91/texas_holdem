@@ -19,12 +19,6 @@
       "/Users/charlesellison/texas_holdem/app/controllers/application_controller.rb": [
         1,
         1,
-        null,
-        1,
-        null,
-        1,
-        0,
-        null,
         null
       ],
       "/Users/charlesellison/texas_holdem/app/jobs/message_broadcast_job.rb": [
@@ -74,7 +68,6 @@
         1,
         1,
         null,
-        1,
         1,
         null,
         null,
@@ -130,6 +123,7 @@
         0,
         0,
         0,
+        0,
         0
       ],
       "/Users/charlesellison/texas_holdem/app/mailers/application_mailer.rb": [
@@ -139,6 +133,6 @@
         0
       ]
     },
-    "timestamp": 1468846319
+    "timestamp": 1468847142
   }
 }
