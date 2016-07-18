@@ -37,3 +37,21 @@ $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
     App.room.speak "Fold"
 
     event.preventDefault()
+
+$(document).on "click", "[data-behavior~=room_speaker]", (event) ->
+  if event.target.id is "add-ai-player"
+    App.room.speak "ai_player"
+
+    event.preventDefault()
+
+$(document).on "click", "[data-behavior~=room_speaker]", (event) ->
+  if event.target.id is "little-blind"
+    App.room.speak "little_blind"
+
+    event.preventDefault()
+
+# $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
+#           if event.target.parent.id is "big-blind"
+#             App.room.speak "big_blind"
+#
+#             event.preventDefault()
