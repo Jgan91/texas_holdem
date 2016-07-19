@@ -17,12 +17,18 @@
   border: 1px solid black;
   text-align: center;
   margin-bottom: 40px;
+  background-color: white;
+  padding: 10px;
 }
 
 .current-bet {
-  width: 400px;
+  width: 90%;
   font-size: 20px;
   margin: 10px;
+}
+
+#bet-amount {
+  width: 89%;
 }
 
 #current-bet {
@@ -76,4 +82,11 @@
 
 .action:active {
   transform: translateY(2px);
+}
+
+.background {
+  width: 98.9%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
 }
