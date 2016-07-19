@@ -13,17 +13,16 @@ App.room = App.cable.subscriptions.create "RoomChannel",
     @perform 'speak', message: message
 
 $(document).on "keypress", "[data-behavior~=room_speaker]", (event) ->
-  if event.keyCode is 13
+  if event.keyCode is 13 && $("#bet-amount").val() is ""
     App.room.speak event.target.value
     event.target.value = ""
     event.preventDefault()
 
 $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
   # if event.keyCode is 13 # return = send
-  if event.target.id is "bet"
-    # App.room.speak event.target.value
+  if event.target.id is "current-bet"
     App.room.speak "Bet $#{$("#bet-amount").val()}"
-    # $("#this").value = ""
+    $("#bet-amount").value = ""
     event.preventDefault()
 
 

@@ -1,28 +1,58 @@
 .game-actions {
   width: 100%;
-  /*margin: center;*/
   clear: both;
-  padding: 30px;
   height: 50px;
 }
 
 .bet {
   width: 20%;
   display: inline-block;
-  /*margin: center;*/
   float: right;
+}
+
+.bet-form {
+  display: none;
+  width: 47%;
+  margin-left: 40%;
+  border: 1px solid black;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.current-bet {
+  width: 400px;
+  font-size: 20px;
+  margin: 10px;
+}
+
+#current-bet {
+  background-color: #b30000;
+  color: white;
+  font-size: 15px;
+  border: none;
+  outline: none;
+  margin-top: 5px;
+  font-family: Sans-serif;
+  height: 30px;
+
+}
+
+#current-bet:hover:not(.active) {
+  background-color: #cc0000;
+}
+
+#current-bet:active {
+  transform: translateY(2px);
 }
 
 .check {
   width: 20%;
-  /*margin: center;*/
   display: inline-block;
   float: right;
 }
 
 .fold {
   width: 20%;
-  /*margin: center;*/
   display: inline-block;
   float: right;
 }

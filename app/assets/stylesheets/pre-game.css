@@ -1,5 +1,5 @@
 /* Style The Dropdown Button */
-.blind-btn {
+.btn {
     background-color: #4CAF50;
     color: white;
     padding: 16px;
@@ -32,19 +32,20 @@
 }
 
 /* Change color of dropdown links on hover */
-.blind-content a:hover {background-color: #f1f1f1}
+.blind-content a:hover {
+  background-color: #f1f1f1
+}
 
 /* Show the dropdown menu on hover */
 .blind-dropdown:hover .blind-content {
     display: block;
 }
 
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.blind-dropdown:hover .blind-btn {
-    background-color: #3e8e41;
-}
-
 .pregame {
   width: 60%;
   float: right;
+}
+
+.btn:hover {
+  background-color: #3e8e41;
 }
