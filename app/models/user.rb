@@ -3,4 +3,6 @@ class User < ApplicationRecord
 
   validates_presence_of :username, :email
   validates_uniqueness_of :username, :email
+
+  belongs_to :game, required: false
 end

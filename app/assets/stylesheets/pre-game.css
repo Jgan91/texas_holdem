@@ -1,34 +1,36 @@
 /* Style The Dropdown Button */
 .btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  font-family: Sans-serif;
 }
 
 /* The container <div> - needed to position the dropdown content */
 .blind-dropdown {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
+  font-family: Sans-serif;
 }
 
 /* Dropdown Content (Hidden by Default) */
 .blind-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 /* Links inside the dropdown */
 .blind-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
 }
 
 /* Change color of dropdown links on hover */
@@ -38,7 +40,7 @@
 
 /* Show the dropdown menu on hover */
 .blind-dropdown:hover .blind-content {
-    display: block;
+  display: block;
 }
 
 .pregame {

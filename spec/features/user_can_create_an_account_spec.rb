@@ -12,7 +12,7 @@ RSpec.feature "user can create an account" do
       click_on "Create Account"
     end
 
-    expect(current_path).to eq rooms_path
+    expect(current_path).to eq user_path(User.last.id)
   end
 
   scenario "user sees form when fields are not all filled in" do

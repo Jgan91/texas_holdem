@@ -4,6 +4,7 @@ $(document).ready(function() {
   })
 
   $("#bet").on("click", function() {
+    $(".action").fadeOut()
     $(".bet-form").fadeIn()
   })
 

@@ -2,12 +2,12 @@
   width: 20%;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
-  /*background-color: #d1d1e0;*/
   background-color: #333;
   padding: 15px;
   height: 500px;
   color: white;
   overflow: scroll;
+  font-family: Sans-serif;
 }
 
 #chat {
@@ -16,4 +16,5 @@
   margin-right: 10px;
   margin-bottom: 10px;
   height: 30%;
+  font-family: Sans-serif;
 }

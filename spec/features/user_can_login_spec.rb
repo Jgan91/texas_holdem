@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.feature "user can login" do
   scenario "user goes to game room" do
-    User.create(username: "jones", password: "123", email: "jones@gmail.com")
+    user = User.create(username: "jones", password: "123", email: "jones@gmail.com")
 
     visit root_path
 
@@ -13,7 +13,7 @@ RSpec.feature "user can login" do
       click_on "Sign in"
     end
 
-    expect(current_path).to eq rooms_path
+    expect(current_path).to eq user_path(user.id)
   end
 
   scenario "user sees login fields again" do

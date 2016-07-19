@@ -3,7 +3,7 @@
   <form>
     <div class="blind-dropdown">
       <button class="btn">Little Blind</button>
-      <div class="blind-content">
+      <div class="blind-content little-blind" id="little">
         <a href="#">10</a>
         <a href="#">20</a>
         <a href="#">30</a>
@@ -17,7 +17,7 @@
 
     <div class="blind-dropdown">
       <button class="btn">Big Blind</button>
-      <div class="blind-content big-blind">
+      <div class="blind-content big-blind" id="big">
         <a href="#">20</a>
         <a href="#">40</a>
         <a href="#">60</a>
@@ -28,9 +28,20 @@
         <a href="#">400</a>
       </div>
     </div>
+
     <input id="add-ai-player" type="submit" value="Add AI Player" data-behavior="room_speaker" class="btn">
     <input id="begin-game" type="submit" value="Play" data-behavior="room_speaker" class="btn">
   </form>
+</div>
+
+<div class="players">
+  <h4>Players:</h4>
+  <% if @game %>
+    <% @game.players.each do |player| %>
+      <p><%= player.username %></p>
+    <% end %>
+  <% end %>
+  <p>frank</p>
 </div>
 
 <div class="history">

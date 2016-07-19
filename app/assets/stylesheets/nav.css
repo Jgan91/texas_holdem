@@ -11,7 +11,7 @@ li {
   font-family: Sans-serif;
 }
 
-li a {
+li {
   display: block;
   color: white;
   text-align: center;
@@ -19,15 +19,24 @@ li a {
   text-decoration: none;
 }
 
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
 /* Change the link color to #111 (black) on hover */
-li a:hover {
+li:hover {
   background-color: #111;
 }
 
-#search {
-  margin-top: 13px;
-  margin-left: 20px;
-  width: 200px;
-  height: 14px;
+.game-stats {
+  display: block;
+  color: white;
+  text-align: center;
+  /*padding: 14px 16px;*/
+  text-decoration: none;
+  float: left;
   font-family: Sans-serif;
 }
