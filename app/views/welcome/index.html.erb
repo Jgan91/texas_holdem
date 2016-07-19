@@ -1,4 +1,4 @@
-<div class="sign-in">
+<div class="sign-in hidden">
   <%= form_for(:session, url: login_path, method: :post) do |f| %>
     <%= f.label :username %>
     <%= f.text_field :username %>
@@ -8,7 +8,7 @@
   <% end %>
 </div>
 
-<div class="create-account">
+<div class="create-account hidden">
   <%= form_for(:user, url: users_path, method: :post) do |f| %>
     <%= f.label :email %>
     <%= f.text_field :email %>
