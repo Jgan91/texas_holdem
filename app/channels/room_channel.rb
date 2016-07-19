@@ -12,11 +12,8 @@ class RoomChannel < ApplicationCable::Channel
     # ActionCable.server.broadcast "room_channel", message: data["message"]
     #have access to current user here
     client_action = data["message"]
-    binding.pry
-    if client_action == "ai_player" ||
-      client_action == "little_blind" ||
-      client_action == "big_blind"
-      # do something with the pregame
+    if client_action["gameInfo"]
+      # start the game with the relevent stats
     else
       Message.create! content: "#{current_user.username}: #{client_action}"
       # some sort of game action with the current user

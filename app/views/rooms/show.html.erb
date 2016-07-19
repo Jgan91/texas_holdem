@@ -1,15 +1,3 @@
-<div class="history">
-  <h1>Table</h1>
-  <form>
-    <label>Say something:</label><br>
-    <input name="chat" id="chat" type="text" data-behavior="room_speaker">
-  </form>
-
-  <div id="messages">
-    <%= render @messages %>
-  </div>
-</div>
-
 <div class="pregame">
   <form>
     <input id="add-ai-player" type="submit" value="Add AI Player" data-behavior="room_speaker">
@@ -44,20 +32,35 @@
   </form>
 </div>
 
+<div class="history">
+  <h1>Table</h1>
+  <form>
+    <label>Say something:</label><br>
+    <input name="chat" id="chat" type="text" data-behavior="room_speaker">
+  </form>
+
+  <div id="messages">
+    <%= render @messages %>
+  </div>
+</div>
+
 <div class="game-actions">
-  <form>
-    <label>Bet:</label><br>
-    <input type="text" data-behavior="room_speaker" id="bet-amount">
-    <input type="submit" data-behavior="room_speaker" value="Bet / Raise" id="bet">
-  </form>
+  <div class="check">
+    <form>
+      <input type="submit" data-behavior="room_speaker" value="Check" id="check" class="action">
+    </form>
+  </div>
 
-  <form>
-    <label>Check:</label><br>
-    <input type="submit" data-behavior="room_speaker" value="Check" id="check">
-  </form>
+  <div class="bet">
+    <form>
+      <input type="text" data-behavior="room_speaker" id="bet-amount">
+      <input type="submit" data-behavior="room_speaker" value="Bet / Raise" id="bet" class="action">
+    </form>
+  </div>
 
-  <form>
-    <label>Fold:</label><br>
-    <input type="submit" data-behavior="room_speaker" value="Fold" id="fold">
-  </form>
+  <div class="fold">
+    <form>
+      <input type="submit" data-behavior="room_speaker" value="Fold" id="fold" class="action">
+    </form>
+  </div>
 </div>

@@ -1,0 +1,14 @@
+.history {
+  width: 20%;
+  border: 1px solid black;
+  background-color: gray;
+  padding: 15px;
+  height: 70%;
+}
+
+#chat {
+  width: 90%;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}

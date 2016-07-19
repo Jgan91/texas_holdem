@@ -1,0 +1,49 @@
+.game-actions {
+  width: 100%;
+  /*margin: center;*/
+  clear: both;
+  padding: 30px;
+  height: 50px;
+}
+
+.bet {
+  width: 20%;
+  display: inline-block;
+  /*margin: center;*/
+  float: right;
+}
+
+.check {
+  width: 20%;
+  /*margin: center;*/
+  display: inline-block;
+  float: right;
+}
+
+.fold {
+  width: 20%;
+  /*margin: center;*/
+  display: inline-block;
+  float: right;
+}
+
+.action {
+  float: left;
+  background-color: #b30000;
+  color: white;
+  font-size: 15px;
+  border: none;
+  outline: none;
+  margin-top: 5px;
+  font-family: Sans-serif;
+  height: 30px;
+  width: 100px;
+}
+
+.action:hover:not(.active) {
+  background-color: #cc0000;
+}
+
+.action:active {
+  transform: translateY(2px);
+}

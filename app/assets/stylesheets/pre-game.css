@@ -43,3 +43,8 @@
 .blind-dropdown:hover .blind-btn {
     background-color: #3e8e41;
 }
+
+.pregame {
+  width: 60%;
+  float: right;
+}
