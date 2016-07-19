@@ -1,9 +1,11 @@
 $(document).ready(function() {
   $("#create-account").on("click", function() {
-    $(".create-account").show()
+    $(".create-account").fadeIn()
+    $(".sign-in").fadeOut()
   })
 
   $("#sign-in").on("click", function() {
-    $(".sign-in").show()
+    $(".sign-in").fadeIn()
+    $(".create-account").fadeOut()
   })
 })

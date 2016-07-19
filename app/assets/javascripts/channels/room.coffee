@@ -42,7 +42,7 @@ $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
   if event.target.id is "begin-game"
     littleBlind = 50
     bigBlind = 100
-    aiPlayers = 2
+    aiPlayers = 1
     gameInfo = {"gameInfo": [littleBlind, bigBlind, aiPlayers]}
     App.room.speak gameInfo
 

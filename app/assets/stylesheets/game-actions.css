@@ -19,6 +19,7 @@
   margin-bottom: 40px;
   background-color: white;
   padding: 10px;
+  font-family: Sans-serif;
 }
 
 .current-bet {
@@ -55,12 +56,14 @@
   width: 20%;
   display: inline-block;
   float: right;
+  font-family: Sans-serif;
 }
 
 .fold {
   width: 20%;
   display: inline-block;
   float: right;
+  font-family: Sans-serif;
 }
 
 .action {

@@ -1,10 +1,13 @@
 <div class="nav">
   <ul>
-    <li><a id="create-account" href="#">Create Account</a></li>
-    <li><a id="sign-in" href="#">Sign In</a></li>
-    <!-- <li><a id="swill" href="#">Swill</a></li>
-    <li><a id="all" href="#">All Ideas</a></li>
-    <li><a id="sort" href="#">Sort</a></li> -->
-    <!-- <li><input id="search" type="text" name="search" placeholder="Search Ideas"></a></li> -->
+    <li id="create-account">Create Account</li>
+    <li id="sign-in">Sign In</li>
+    <% if session[:user_id] %>
+      <li id="play"><%= link_to "Play", rooms_path %></li>
+    <% end %>
+    <li class="game-stats">Buy In: $<%= @game.buy_in if @game %></li>
+    <li id="little-blind" class="game-stats">Little Blind: $ <%= @game.little_blind if @game %></li>
+    <li class="game-stats">Big Blind: $<%= @game.big_blind if @game %></li>
+    <li class="game-stats">Pot: $<%= @game.pot if @game %></li>
   </ul>
 </div>

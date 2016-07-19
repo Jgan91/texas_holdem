@@ -8,4 +8,11 @@ RSpec.describe User, type: :model do
 
     expect(User.create(email: "a@gmail.com", username: "frank", password: "123")).to be_valid
   end
+
+  it "should belong to a game" do
+    user = User.create(username: "frank", password: "123", email: "j@gmail.com")
+    game = Game.create
+    game.users << user
+    expect(user.game).to eq game
+  end
 end
