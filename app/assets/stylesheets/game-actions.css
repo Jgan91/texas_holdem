@@ -2,6 +2,7 @@
   width: 100%;
   clear: both;
   height: 50px;
+  display: inline-block;
 }
 
 .bet {
@@ -77,6 +78,7 @@
   font-family: Sans-serif;
   height: 30px;
   width: 100px;
+  display: inline-block;
 }
 
 .action:hover:not(.active) {

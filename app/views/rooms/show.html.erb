@@ -39,7 +39,14 @@
   <% ActionCable.server.connections.each do |connection| %>
     <p><%= connection.current_user.username %></p>
   <% end %>
+  <div class=" user-stats">
+    <h4>Cash: $<%= User.find(session[:user_id]).cash %></h4>
+    <% User.find(session[:user_id]).cards.each do |card| %>
+    <img class="pocket" src="<%= card.image %>">
+    <% end %></p>
+  </div>
 </div>
+
 
 <div class="history">
   <h1>Table</h1>

@@ -10,5 +10,6 @@ $(document).ready(function() {
 
   $("#current-bet").on("click", function() {
     $(".bet-form").fadeOut()
+    $(".action").fadeIn()
   })
 })

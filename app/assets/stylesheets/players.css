@@ -1,7 +1,13 @@
 .players {
   margin-left: 30%;
-  margin-right: 10%;
+  margin-right: 2%;
   text-align: center;
   color: white;
+  float: right;
+  font-family: sans-serif;
+}
+
+.pocket {
+  width: 100px;
   float: right;
 }
