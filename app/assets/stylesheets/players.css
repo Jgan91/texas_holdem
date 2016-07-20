@@ -4,4 +4,10 @@
   text-align: center;
   color: white;
   float: right;
+  font-family: sans-serif;
+}
+
+.pocket {
+  width: 100px;
+  float: right;
 }

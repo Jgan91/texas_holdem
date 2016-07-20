@@ -30,16 +30,24 @@
     </div>
 
     <input id="add-ai-player" type="submit" value="Add AI Player" data-behavior="room_speaker" class="btn">
+    <input id="join" type="submit" value="Join" data-behavior="room_speaker" class="btn">
     <input id="begin-game" type="submit" value="Play Poker" data-behavior="room_speaker" class="btn">
   </form>
 </div>
 
 <div class="players">
   <h4>Players:</h4>
-  <% ActionCable.server.connections.each do |connection| %>
-    <p><%= connection.current_user.username %></p>
+  <% display_players(@game).each do |player| %>
+    <p><%= player.username %></p>
   <% end %>
+  <div class=" user-stats">
+    <h4>Cash: $<%= current_user.cash %></h4>
+    <% current_user.cards.each do |card| %>
+    <img class="pocket" src="<%= card.image %>">
+    <% end %></p>
+  </div>
 </div>
+
 
 <div class="history">
   <h1>Table</h1>
@@ -49,7 +57,7 @@
   </form>
 
   <div id="messages">
-    <%= render @messages %>
+    <%= render @messages.reverse %>
   </div>
 </div>
 

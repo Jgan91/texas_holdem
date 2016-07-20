@@ -8,6 +8,12 @@
   color: white;
   overflow: scroll;
   font-family: Sans-serif;
+  display: inline-block;
+}
+
+#messages {
+  width: 100%;
+  display: inline-block;
 }
 
 #chat {
@@ -17,4 +23,5 @@
   margin-bottom: 10px;
   height: 30%;
   font-family: Sans-serif;
+  display: inline-block;
 }

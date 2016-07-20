@@ -13,14 +13,24 @@ class RoomChannel < ApplicationCable::Channel
     #have access to current user here
     # binding.pry
     client_action = data["message"]
-    if client_action["gameInfo"]
-      game = Game.create(little_blind: client_action["gameInfo"].first, big_blind: client_action["gameInfo"][1])
-      ai_players = AiPlayer.limit(client_action["gameInfo"].last).map { |ai_player| ai_player.reset }
-      game.ai_players = ai_players
+    @game = Game.find_by(started: false)
+    if client_action["join"]
+      @game.users << current_user.reset
+      Message.create! content: "#{current_user.username}: has joined the game"
+    elsif client_action["add-ai-player"]
+      ai_player = AiPlayer.order("random()").limit(1).reset.last
+      @game.ai_players << ai_player
+      Message.create! content: "#{ai_player.username}: has joined the game"
+    elsif client_action["littleBlind"]
+      @game.update(little_blind: client_action["littleBlind"])
+    elsif client_action["bigBlind"]
+      @game.update(big_blind: client_action["bigBlind"])
+    elsif client_action["startGame"]
+      @game.update(started: true)
 
-      players = ActionCable.server.connections.map { |connection| connection.current_user.reset }
-      game.users = players
-      game.set_up_game
+      # players = ActionCable.server.connections.map { |connection| connection.current_user.reset }
+      # game.users = players
+      @game.set_up_game
       # flash[:ai_action] = game.ai_action
       # start the game with the relevent stats
     else
