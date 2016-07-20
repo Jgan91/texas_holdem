@@ -5,6 +5,17 @@
         1,
         null
       ],
+      "/Users/charlesellison/texas_holdem/app/helpers/games_helper.rb": [
+        1,
+        1,
+        1,
+        0,
+        null,
+        1,
+        null,
+        null,
+        null
+      ],
       "/Users/charlesellison/texas_holdem/app/helpers/rooms_helper.rb": [
         1,
         null
@@ -13,12 +24,24 @@
         1,
         1,
         2,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
         null,
         null
       ],
       "/Users/charlesellison/texas_holdem/app/controllers/application_controller.rb": [
         1,
         1,
+        null,
+        1,
+        null,
+        1,
+        7,
+        null,
         null
       ],
       "/Users/charlesellison/texas_holdem/app/jobs/message_broadcast_job.rb": [
@@ -81,7 +104,7 @@
         1,
         null,
         1,
-        1,
+        2,
         null,
         null,
         1,
@@ -279,6 +302,16 @@
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         0
       ],
       "/Users/charlesellison/texas_holdem/app/mailers/application_mailer.rb": [
@@ -288,6 +321,6 @@
         0
       ]
     },
-    "timestamp": 1468988640
+    "timestamp": 1469003050
   }
 }

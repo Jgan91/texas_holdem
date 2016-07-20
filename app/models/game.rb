@@ -24,7 +24,7 @@ class Game < ApplicationRecord
 
   def load_deck
     deck = CardsService.new.deck_of_cards_hash.map do |card|
-      Card.create(value: card[:value], suit: card[:suit], image: card[:image])
+      Card.find_or_create_by(value: card[:value], suit: card[:suit], image: card[:image])
     end
     self.cards = deck
   end

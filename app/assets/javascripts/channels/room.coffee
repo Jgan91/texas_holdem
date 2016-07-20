@@ -39,11 +39,20 @@ $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
     event.preventDefault()
 
 $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
+  if event.target.id is "join"
+    App.room.speak {"join": "join"}
+
+    event.preventDefault()
+
+$(document).on "click", "[data-behavior~=room_speaker]", (event) ->
+  if event.target.id is "add-ai-player"
+    App.room.speak {"add-ai-player": 1}
+
+    event.preventDefault()
+
+$(document).on "click", "[data-behavior~=room_speaker]", (event) ->
   if event.target.id is "begin-game"
-    littleBlind = 50
-    bigBlind = 100
-    aiPlayers = 1
-    gameInfo = {"gameInfo": [littleBlind, bigBlind, aiPlayers]}
+    gameInfo = {"startGame": 1}
     App.room.speak gameInfo
 
     event.preventDefault()

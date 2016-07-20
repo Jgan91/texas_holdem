@@ -21,6 +21,5 @@ RSpec.feature "user can select game settings" do
     expect(page).to have_content "Players"
     expect(page).to have_content "Little Blind: $"
     expect(page).to have_content "Big Blind: $"
-    expect(page).to have_content "Buy In: $"
   end
 end
