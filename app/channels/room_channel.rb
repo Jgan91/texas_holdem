@@ -11,8 +11,17 @@ class RoomChannel < ApplicationCable::Channel
   def speak(data)
     # ActionCable.server.broadcast "room_channel", message: data["message"]
     #have access to current user here
+    # binding.pry
     client_action = data["message"]
     if client_action["gameInfo"]
+      game = Game.create(little_blind: client_action["gameInfo"].first, big_blind: client_action["gameInfo"][1])
+      ai_players = AiPlayer.limit(client_action["gameInfo"].last).map { |ai_player| ai_player.reset }
+      game.ai_players = ai_players
+
+      players = ActionCable.server.connections.map { |connection| connection.current_user.reset }
+      game.users = players
+      game.set_up_game
+      # flash[:ai_action] = game.ai_action
       # start the game with the relevent stats
     else
       Message.create! content: "#{current_user.username}: #{client_action}"
