@@ -8,6 +8,7 @@ class RoomChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
     if ActionCable.server.connections.none?(&:current_user)
       Game.destroy_all
+      Message.destroy_all
     end
   end
 
@@ -20,15 +21,22 @@ class RoomChannel < ApplicationCable::Channel
     if client_action["join"]
       @game.users << current_user.reset
       Message.create! content: "#{current_user.username}: has joined the game"
+
+      if ActionCable.server.connections.map(&:current_user).count == @game.users.count
+
+        @game.update(started: true)
+        @game.set_up_game
+        Message.create! content: "THE GAME HAS STARTED!"
+      end
     elsif client_action["add-ai-player"]
       ai_player = AiPlayer.order("random()").limit(1).reset.last
       @game.ai_players << ai_player
       Message.create! content: "#{ai_player.username}: has joined the game"
-    elsif client_action["startGame"]
-      @game.update(started: true)
+    # elsif client_action["startGame"]
+    #   @game.update(started: true)
       # players = ActionCable.server.connections.map { |connection| connection.current_user.reset }
       # game.users = players
-      @game.set_up_game
+      # @game.set_up_game
       # flash[:ai_action] = game.ai_action
       # start the game with the relevent stats
     else
