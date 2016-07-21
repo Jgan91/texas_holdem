@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   get "/rooms", to: "rooms#show"
 
+  get "/card", to: "cards#show"
+
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 

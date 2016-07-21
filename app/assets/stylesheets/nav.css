@@ -9,9 +9,6 @@ ul {
 li {
   float: right;
   font-family: Sans-serif;
-}
-
-li {
   display: block;
   color: white;
   text-align: center;
@@ -24,11 +21,13 @@ li a {
   color: white;
   text-align: center;
   text-decoration: none;
+  cursor:default;
 }
 
 /* Change the link color to #111 (black) on hover */
 li:hover {
   background-color: #111;
+  cursor:default;
 }
 
 .game-stats {

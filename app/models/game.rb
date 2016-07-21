@@ -37,11 +37,7 @@ class Game < ApplicationRecord
 
   def find_players
     ordered_players.map do |id|
-      if id.include?("a")
-        AiPlayer.find(id[1..-1])
-      else
-        User.find(id)
-      end
+      id.include?("a") ? AiPlayer.find(id[1..-1]) : User.find(id)
     end
   end
 end
