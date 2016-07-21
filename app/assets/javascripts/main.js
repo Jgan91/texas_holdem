@@ -1,7 +1,5 @@
 $(document).ready(function() {
-  $("#begin-game").on("click", function() {
-    $(".pregame").fadeOut()
-  })
+  hideGamePlayButtons();
 
   $("#bet").on("click", function() {
     $(".action").fadeOut()
@@ -15,7 +13,18 @@ $(document).ready(function() {
   })
 
   $("#current-bet").on("click", function() {
-    $(".bet-form").fadeOut()
-    $(".action").fadeIn()
-  })
-})
+    $(".bet-form").fadeOut();
+    $(".action").fadeIn();
+  });
+
+  $("#create-account").on("click", function() {
+    $(".create-account").fadeIn();
+    $(".sign-in").fadeOut();
+  });
+
+  $("#sign-in").on("click", function() {
+    $(".sign-in").fadeIn();
+    $(".create-account").fadeOut();
+  });
+
+});
