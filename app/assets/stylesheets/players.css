@@ -7,7 +7,17 @@
   font-family: sans-serif;
 }
 
-/*#pocket {
+#pocket {
   width: 100px;
   float: right;
-}*/
+}
+
+.pocket {
+  float: right;
+  margin-right: 10%;
+  margin-top: -10%;
+}
+
+.pocket-cards {
+  display: inline-block;
+}

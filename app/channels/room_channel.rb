@@ -6,6 +6,9 @@ class RoomChannel < ApplicationCable::Channel
 
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
+    if ActionCable.server.connections.none?(&:current_user)
+      Game.destroy_all
+    end
   end
 
   def speak(data)
@@ -21,13 +24,8 @@ class RoomChannel < ApplicationCable::Channel
       ai_player = AiPlayer.order("random()").limit(1).reset.last
       @game.ai_players << ai_player
       Message.create! content: "#{ai_player.username}: has joined the game"
-    elsif client_action["littleBlind"]
-      @game.update(little_blind: client_action["littleBlind"])
-    elsif client_action["bigBlind"]
-      @game.update(big_blind: client_action["bigBlind"])
     elsif client_action["startGame"]
       @game.update(started: true)
-
       # players = ActionCable.server.connections.map { |connection| connection.current_user.reset }
       # game.users = players
       @game.set_up_game
