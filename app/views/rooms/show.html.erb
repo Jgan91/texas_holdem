@@ -1,50 +1,50 @@
 <%= image_tag "felt.jpg", class: "background" %>
-<div class="pregame">
-  <form>
-    <div class="blind-dropdown">
-      <button class="btn">Little Blind</button>
-      <div class="blind-content little-blind" id="little">
-        <a href="#">10</a>
-        <a href="#">20</a>
-        <a href="#">30</a>
-        <a href="#">40</a>
-        <a href="#">50</a>
-        <a href="#">75</a>
-        <a href="#">100</a>
-        <a href="#">200</a>
+<% if !@game.started %>
+  <div class="pregame">
+    <form>
+      <div class="blind-dropdown">
+        <button class="btn">Little Blind</button>
+        <div class="blind-content little-blind" id="little">
+          <a href="#">10</a>
+          <a href="#">20</a>
+          <a href="#">30</a>
+          <a href="#">40</a>
+          <a href="#">50</a>
+          <a href="#">75</a>
+          <a href="#">100</a>
+          <a href="#">200</a>
+        </div>
       </div>
-    </div>
 
-    <div class="blind-dropdown">
-      <button class="btn">Big Blind</button>
-      <div class="blind-content big-blind" id="big">
-        <a href="#">20</a>
-        <a href="#">40</a>
-        <a href="#">60</a>
-        <a href="#">80</a>
-        <a href="#">100</a>
-        <a href="#">150</a>
-        <a href="#">200</a>
-        <a href="#">400</a>
+      <div class="blind-dropdown">
+        <button class="btn">Big Blind</button>
+        <div class="blind-content big-blind" id="big">
+          <a href="#">20</a>
+          <a href="#">40</a>
+          <a href="#">60</a>
+          <a href="#">80</a>
+          <a href="#">100</a>
+          <a href="#">150</a>
+          <a href="#">200</a>
+          <a href="#">400</a>
+        </div>
       </div>
-    </div>
 
-    <input id="add-ai-player" type="submit" value="Add AI Player" data-behavior="room_speaker" class="btn">
-    <input id="join" type="submit" value="Join" data-behavior="room_speaker" class="btn">
-    <input id="begin-game" type="submit" value="Play Poker" data-behavior="room_speaker" class="btn">
-  </form>
-</div>
+      <input id="add-ai-player" type="submit" value="Add AI Player" data-behavior="room_speaker" class="btn">
+      <input id="join" type="submit" value="Join" data-behavior="room_speaker" class="btn">
+      <input id="begin-game" type="submit" value="Play Poker" data-behavior="room_speaker" class="btn">
+    </form>
+  </div>
+<% end %>
+<%= button_to "Pocket", card_path(user_id: current_user.id), method: :get, id: :pocket, remote: true %>
 
 <div class="players">
   <h4>Players:</h4>
   <% display_players(@game).each do |player| %>
     <p><%= player.username %></p>
   <% end %>
-  <div class=" user-stats">
-    <h4>Cash: $<%= current_user.cash %></h4>
-    <% current_user.cards.each do |card| %>
-    <img class="pocket" src="<%= card.image %>">
-    <% end %></p>
+  <div id="cards">
+    <%= render @cards if @cards %>
   </div>
 </div>
 
