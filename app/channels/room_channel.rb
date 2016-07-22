@@ -7,22 +7,21 @@ class RoomChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
     if ActionCable.server.connections.none?(&:current_user)
-      Game.destroy_all
       Message.destroy_all
+      Game.delete(Game.first) if Game.count > 500
     end
   end
 
   def speak(data)
-    # ActionCable.server.broadcast "room_channel", message: data["message"]
-    #have access to current user here
-    # binding.pry
     client_action = data["message"]
-    @game = Game.find_by(started: false) # this should get replaced by a single game marked by id
+    @game = Game.find_by(started: false) || Game.last # this should get replaced by a single game marked by id
+    message = ""
     if client_action["join"]
       @game.users << current_user.reset
       #potentially have a method called add players
       # ActionCable.server.broadcast "room_channel", player: render_player(current_user)
       Message.create! content: "#{current_user.username}: has joined the game"
+      # message = "#{current_user.username}: has joined the game"
       # append user and cash to "players"
       if ActionCable.server.connections.map(&:current_user).count == @game.users.count
 
@@ -32,26 +31,40 @@ class RoomChannel < ApplicationCable::Channel
           ActionCable.server.broadcast "room_channel", player: render_player(player)
         end
 
+        # Message.create! content: "THE GAME HAS STARTED!"
         Message.create! content: "THE GAME HAS STARTED!"
+
+        action = @game.game_action
+        if action.class == User
+          #append buttons to the current user by rendering a partial
+          #highlight that user's name etc
+          message = "#{action.username}'s turn"
+        else
+          message = action
+        end
       end
     elsif client_action["add-ai-player"]
       ai_player = AiPlayer.order("random()").limit(1).reset.last
       @game.ai_players << ai_player
       # ActionCable.server.broadcast "room_channel", player: render_player(ai_player)
-      Message.create! content: "#{ai_player.username}: has joined the game"
-      # append ai player and cash to players
-    # elsif client_action["startGame"]
-    #   @game.update(started: true)
-      # players = ActionCable.server.connections.map { |connection| connection.current_user.reset }
-      # game.users = players
-      # @game.set_up_game
-      # flash[:ai_action] = game.ai_action
-      # start the game with the relevent stats
+      # Message.create! content: "#{ai_player.username}: has joined the game"
+      message = "#{ai_player.username}: has joined the game"
+    elsif @game.started
+      action = @game.game_action
+      if action.class == User
+        #append buttons to the current user by rendering a partial
+        #highlight that user's name etc
+        message = "#{action.user_name}'s turn"
+      else
+        message = action
+      end
+      ActionCable.server.broadcast "room_channel", pot: "Pot: $" + Game.last.pot.to_s
     else
-      Message.create! content: "#{current_user.username}: #{client_action}"
+      # Message.create! content: "#{current_user.username}: #{client_action}"
+      message = "#{current_user.username}: #{client_action}"
       # some sort of game action with the current user
     end
-    ActionCable.server.broadcast "room_channel", pot: "Pot: $" + Game.last.pot.to_s
+    Message.create! content: message
   end
 
   private

@@ -40,4 +40,10 @@ class Game < ApplicationRecord
       id.include?("a") ? AiPlayer.find(id[1..-1]) : User.find(id)
     end
   end
+
+  def game_action
+    if blinds
+      find_players[2 % players.length].take_action
+    end
+  end
 end

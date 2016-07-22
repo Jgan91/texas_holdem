@@ -18,4 +18,8 @@ class AiPlayer < ApplicationRecord
     update(total_bet: 0)
     self
   end
+
+  # def take_action
+  #
+  # end
 end
