@@ -23,6 +23,7 @@ class User < ApplicationRecord
   end
 
   def take_action
+    update(action: 1)
     self
   end
 end

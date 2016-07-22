@@ -52,4 +52,11 @@ RSpec.describe User, type: :model do
     expect(User.last.total_bet).to eq 0
     expect(User.last.cash).to eq 1100
   end
+
+  it "can take an action" do
+    user = User.create(username: "jones", password: "123", email: "j@gmail.com")
+    expect(user.action).to eq 0
+    user.take_action
+    expect(User.find(user.id).action).to eq 1
+  end
 end

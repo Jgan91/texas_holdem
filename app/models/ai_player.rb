@@ -20,7 +20,7 @@ class AiPlayer < ApplicationRecord
   end
 
   # def take_action
-  #   update(action: true)
+  # increment action by 1
   #   risk_factor = rand(1..10)
   #
   #   if bet_style == "conservative"
