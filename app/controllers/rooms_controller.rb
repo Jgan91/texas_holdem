@@ -2,8 +2,7 @@ class RoomsController < ApplicationController
   def show
     if current_user
       @messages = Message.all
-      @game = Game.create
-      # @game.users << current_user
+      @game = Game.last || Game.create
     else
       render file: "/public/404.html"
     end

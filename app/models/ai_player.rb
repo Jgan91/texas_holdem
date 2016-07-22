@@ -18,4 +18,17 @@ class AiPlayer < ApplicationRecord
     update(total_bet: 0)
     self
   end
+
+  # def take_action
+  # increment action by 1
+  #   risk_factor = rand(1..10)
+  #
+  #   if bet_style == "conservative"
+  #     bet_conservative(risk_factor)
+  #   elsif bet_style == "aggressive"
+  #     bet_aggressive(risk_factor)
+  #   else
+  #     normal_bet
+  #   end
+  # end
 end

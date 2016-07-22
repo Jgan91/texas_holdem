@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160720070004) do
+ActiveRecord::Schema.define(version: 20160722201641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 20160720070004) do
     t.integer  "game_id"
     t.integer  "cash",       default: 1000
     t.integer  "total_bet",  default: 0
+    t.integer  "action",     default: 0
+    t.string   "bet_style"
   end
 
   create_table "cards", force: :cascade do |t|
@@ -34,13 +36,15 @@ ActiveRecord::Schema.define(version: 20160720070004) do
   end
 
   create_table "games", force: :cascade do |t|
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.string   "ordered_players", default: [],                 array: true
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "ordered_players", default: [],                    array: true
     t.integer  "pot",             default: 0
     t.integer  "little_blind",    default: 50
     t.integer  "big_blind",       default: 100
     t.boolean  "started",         default: false
+    t.string   "stage",           default: "blinds"
+    t.text     "game_cards",      default: [],                    array: true
   end
 
   create_table "messages", force: :cascade do |t|
@@ -58,6 +62,7 @@ ActiveRecord::Schema.define(version: 20160720070004) do
     t.integer  "game_id"
     t.integer  "total_bet",       default: 0
     t.integer  "cash",            default: 2000
+    t.integer  "action",          default: 0
   end
 
 end

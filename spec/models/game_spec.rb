@@ -68,4 +68,14 @@ RSpec.describe Game, type: :model do
     expect(User.last.cards.count).to eq 2
     expect(AiPlayer.last.cards.count).to eq 2
   end
+
+  it "selects the third player to take an action in beginning of game" do
+    game = Game.create
+    jones = game.users.create(username: "jones", password: "123", email: "j@gmail.com")
+    jim = game.users.create(username: "jim", password: "123", email: "jim@gmail.com")
+    bob = game.users.create(username: "bob", password: "123", email: "bob@gmail.com")
+    game.update(ordered_players: [jones.id, jim.id, bob.id])
+    game.set_blinds
+    expect(game.game_action).to eq bob
+  end
 end

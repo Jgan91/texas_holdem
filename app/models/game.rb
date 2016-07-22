@@ -40,4 +40,53 @@ class Game < ApplicationRecord
       id.include?("a") ? AiPlayer.find(id[1..-1]) : User.find(id)
     end
   end
+
+  def game_action
+    # find first player who's action is lowest (0) and who hasn't folded
+    # if all players have taken an action or folded --> deal
+    #when all players have equal actions > than 0 -->
+      # if blinds --> deal flop
+      # if flop --> deal turn
+      # if turn --> deal river
+      # if river --> display winner
+    #when a player raises, all other player actions decrement
+    return deal if find_players.all? { |player| player.action >= 1}
+    if stage == "blinds"
+      all_players = find_players[1..-1] + find_players[0..1]
+      # find_players[2 % players.length].take_action
+      all_players.min_by(&:action).take_action
+    # elsif flop
+    # elsif turn
+    # elsif river
+    elsif winner
+      # show winner
+    else
+      find_players.min_by(&:action).take_action
+    end
+  end
+
+  def deal
+    cards.last.destroy
+    if stage == "blinds"
+      update(stage: "flop")
+      deal_flop
+    elsif stage == "flop"
+      update(stage: "turn")
+      deal_single_card
+    else stage == "turn"
+      update(stage: "river")
+      deal_single_card
+    end
+    find_players.each { |player| player.update(action: 0) }
+  end
+
+  def deal_flop
+    3.times do
+      deal_single_card
+    end
+  end
+
+  def deal_single_card
+    game_cards << cards.limit(1).pluck(:id)
+  end
 end

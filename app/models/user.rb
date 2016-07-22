@@ -21,4 +21,9 @@ class User < ApplicationRecord
     update(total_bet: 0)
     self
   end
+
+  def take_action
+    update(action: 1)
+    self
+  end
 end
