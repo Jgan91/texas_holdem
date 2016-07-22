@@ -5,7 +5,7 @@
 
       <li id="little-blind" class="game-stats">Little Blind: $ <%= @game.little_blind if @game %></li>
       <li class="game-stats">Big Blind: $<%= @game.big_blind if @game %></li>
-      <li class="game-stats">Pot: $<%= @game.pot if @game %></li>
+      <li class="game-stats" id="pot">Pot: $<%= @game.pot if @game %></li>
       <li class="game-stats" id="play"><%= link_to "Play", rooms_path %></li>
     <% #else %>
       <li id="create-account">Create Account</li>

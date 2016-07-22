@@ -17,7 +17,7 @@ class RoomChannel < ApplicationCable::Channel
     #have access to current user here
     # binding.pry
     client_action = data["message"]
-    @game = Game.find_by(started: false)
+    @game = Game.find_by(started: false) # this should get replaced by a single game marked by id
     if client_action["join"]
       @game.users << current_user.reset
       #potentially have a method called add players
@@ -31,6 +31,7 @@ class RoomChannel < ApplicationCable::Channel
         @game.find_players.each do |player|
           ActionCable.server.broadcast "room_channel", player: render_player(player)
         end
+
         Message.create! content: "THE GAME HAS STARTED!"
       end
     elsif client_action["add-ai-player"]
@@ -50,6 +51,7 @@ class RoomChannel < ApplicationCable::Channel
       Message.create! content: "#{current_user.username}: #{client_action}"
       # some sort of game action with the current user
     end
+    ActionCable.server.broadcast "room_channel", pot: "Pot: $" + Game.last.pot.to_s
   end
 
   private
