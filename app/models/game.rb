@@ -42,8 +42,17 @@ class Game < ApplicationRecord
   end
 
   def game_action
+    # find first player who's action is lowest (0) and who hasn't folded
+    # if all players have taken an action or folded --> deal
+    #when all players have equal actions > than 0 -->
+      # if blinds --> deal flop
+      # if flop --> deal turn
+      # if turn --> deal river
+      # if river --> display winner
+    #when a player raises, all other player actions decrement
     if blinds
       find_players[2 % players.length].take_action
+    elsif
     end
   end
 end
