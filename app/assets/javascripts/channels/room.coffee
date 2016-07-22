@@ -16,27 +16,27 @@ App.room = App.cable.subscriptions.create "RoomChannel",
 
 $(document).on "keypress", "[data-behavior~=room_speaker]", (event) ->
   if event.keyCode is 13 && $("#chat").val() isnt ""
-    App.room.speak event.target.value
+    App.room.speak {"chat": event.target.value}
     event.target.value = ""
     event.preventDefault()
 
 $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
   # if event.keyCode is 13 # return = send
   if event.target.id is "current-bet"
-    App.room.speak "Bet $#{$("#bet-amount").val()}"
+    App.room.speak {"user_action": {"bet": "#{$("#bet-amount").val()}"}}
     $("#bet-amount").value = ""
     event.preventDefault()
 
 
 $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
   if event.target.id is "check"
-    App.room.speak "Check"
+    App.room.speak {"user_action":"check"}
 
     event.preventDefault()
 
 $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
   if event.target.id is "fold"
-    App.room.speak "Fold"
+    App.room.speak {"user_action": "fold"}
 
     event.preventDefault()
 
