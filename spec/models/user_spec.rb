@@ -62,4 +62,14 @@ RSpec.describe User, type: :model do
     user.take_action
     expect(User.find(user.id).action).to eq 1
   end
+
+  xit "makes an action" do
+  end
+
+  it "can fold" do
+    user = User.create(username: "jones", password: "123", email: "j@gmail.com")
+    expect(user.action).to eq 0
+    user.fold
+    expect(User.find(user.id).action).to eq 2
+  end
 end

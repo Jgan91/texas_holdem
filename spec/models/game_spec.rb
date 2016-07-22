@@ -78,4 +78,48 @@ RSpec.describe Game, type: :model do
     game.set_blinds
     expect(game.game_action).to eq bob
   end
+
+  it "can deal based on stage" do
+    game = Game.create(stage: "flop")
+    game.load_deck
+    expect(Game.find(game.id).cards.count).to eq 52
+    expect(Game.find(game.id).game_cards).to eq []
+    Game.find(game.id).deal
+    expect(Game.find(game.id).game_cards.count).to eq 1
+    expect(Game.find(game.id).cards.count).to eq 50
+
+    Game.find(game.id).update(stage: "blinds", game_cards: [])
+    Game.find(game.id).deal
+    expect(Game.find(game.id).game_cards.count).to eq 3
+    expect(Game.find(game.id).cards.count).to eq 46
+  end
+
+  it "deals unique cards" do
+    game = Game.create
+    game.load_deck
+    game.deal
+    card = Game.find(game.id).game_cards.first
+    expect(Game.last.cards.include?(card)).to eq false
+  end
+
+  it "updates the stage of the game" do
+    game1 = Game.create(stage: "turn")
+    game1.update_stage
+    expect(Game.find(game1.id).stage).to eq "river"
+    game2 = Game.create(stage: "flop")
+    game2.update_stage
+    expect(Game.find(game2.id).stage).to eq "turn"
+    game3 = Game.create(stage: "blinds")
+    game3.update_stage
+    expect(Game.find(game3.id).stage).to eq "flop"
+  end
+
+  it "finds all the players in order" do
+    game = Game.create
+    user1 = game.users.create(username: "jones", password: "123", email: "j@gmail")
+    user2 = game.users.create(username: "bob", password: "123", email: "abc@gmail")
+    user3 = game.users.create(username: "jim", password: "123", email: "jim@gmail")
+    game.update(ordered_players: [user2.id, user3.id, user1.id])
+    expect(Game.find(game.id).find_players).to eq [user2, user3, user1]
+  end
 end
