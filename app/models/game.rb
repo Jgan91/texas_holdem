@@ -52,7 +52,6 @@ class Game < ApplicationRecord
     #when a player raises, all other player actions decrement
     if blinds
       find_players[2 % players.length].take_action
-    elsif
     end
   end
 end
