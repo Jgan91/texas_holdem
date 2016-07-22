@@ -50,7 +50,7 @@ class Game < ApplicationRecord
       # if turn --> deal river
       # if river --> display winner
     #when a player raises, all other player actions decrement
-    return deal if find_players.all? { |player| player.action >= 1}
+    deal if find_players.all? { |player| player.action >= 1}
     if stage == "blinds"
       all_players = find_players[2..-1] + find_players[0..1]
       # find_players[2 % players.length].take_action
