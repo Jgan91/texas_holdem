@@ -36,15 +36,18 @@ RSpec.describe AiPlayer, type: :model do
     ai_player = game.ai_players.create(username: "ai",
                             cash: 1100,
                             total_bet: 400,
+                            action: 1
                             )
     ai_player.cards << card
     expect(AiPlayer.last.cards.count).to eq 1
     expect(AiPlayer.last.total_bet).to eq 400
+    expect(AiPlayer.last.action).to eq 1
 
     ai_player.reset
     expect(AiPlayer.last.username).to eq "ai"
     expect(AiPlayer.last.cards.count).to eq 0
     expect(AiPlayer.last.total_bet).to eq 0
+    expect(AiPlayer.last.action).to eq 0
     expect(AiPlayer.last.cash).to eq 1100
   end
 end

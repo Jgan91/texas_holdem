@@ -50,15 +50,15 @@ class Game < ApplicationRecord
       # if turn --> deal river
       # if river --> display winner
     #when a player raises, all other player actions decrement
-    return deal if find_players.all? { |player| player.action >= 1}
+    deal if find_players.all? { |player| player.action >= 1}
     if stage == "blinds"
-      all_players = find_players[1..-1] + find_players[0..1]
+      all_players = find_players[2..-1] + find_players[0..1]
       # find_players[2 % players.length].take_action
       all_players.min_by(&:action).take_action
     # elsif flop
     # elsif turn
     # elsif river
-    elsif winner
+    # elsif winner
       # show winner
     else
       find_players.min_by(&:action).take_action
@@ -68,16 +68,13 @@ class Game < ApplicationRecord
   def deal
     cards.last.destroy
     if stage == "blinds"
-      update(stage: "flop")
       deal_flop
-    elsif stage == "flop"
-      update(stage: "turn")
-      deal_single_card
-    else stage == "turn"
-      update(stage: "river")
+    else
       deal_single_card
     end
+    update_stage
     find_players.each { |player| player.update(action: 0) }
+    Message.create! content: "#{stage}"
   end
 
   def deal_flop
@@ -87,6 +84,16 @@ class Game < ApplicationRecord
   end
 
   def deal_single_card
-    game_cards << cards.limit(1).pluck(:id)
+    game_cards << cards.first.delete.id
+  end
+
+  def update_stage
+    if stage == "blinds"
+      update(stage: "flop")
+    elsif stage == "flop"
+      update(stage: "turn")
+    elsif stage == "turn"
+      update(stage: "river")
+    end
   end
 end

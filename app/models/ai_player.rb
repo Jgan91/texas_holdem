@@ -16,6 +16,7 @@ class AiPlayer < ApplicationRecord
   def reset
     cards.delete_all
     update(total_bet: 0)
+    update(action: 0)
     self
   end
 

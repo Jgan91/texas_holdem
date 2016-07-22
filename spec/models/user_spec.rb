@@ -33,7 +33,7 @@ RSpec.describe User, type: :model do
     expect(user.cash).to eq 1950
   end
 
-  it "resets the player's cards and bets" do
+  it "resets the player's cards, actions, and bets" do
     game = Game.create(little_blind: 30, big_blind: 60)
     card = Card.create(suit: "Hearts", value: "8")
     user = game.users.create(username: "jones",
@@ -41,15 +41,18 @@ RSpec.describe User, type: :model do
                             email: "j@gmail.com",
                             cash: 1100,
                             total_bet: 400,
+                            action: 1
                             )
     user.cards << card
     expect(User.last.cards.count).to eq 1
     expect(User.last.total_bet).to eq 400
+    expect(User.last.action).to eq 1
 
     user.reset
     expect(User.last.username).to eq "jones"
     expect(User.last.cards.count).to eq 0
     expect(User.last.total_bet).to eq 0
+    expect(User.last.action).to eq 0
     expect(User.last.cash).to eq 1100
   end
 
@@ -58,5 +61,15 @@ RSpec.describe User, type: :model do
     expect(user.action).to eq 0
     user.take_action
     expect(User.find(user.id).action).to eq 1
+  end
+
+  xit "makes an action" do
+  end
+
+  it "can fold" do
+    user = User.create(username: "jones", password: "123", email: "j@gmail.com")
+    expect(user.action).to eq 0
+    user.fold
+    expect(User.find(user.id).action).to eq 2
   end
 end
