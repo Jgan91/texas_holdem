@@ -54,6 +54,7 @@ class RoomChannel < ApplicationCable::Channel
         ActionCable.server.broadcast "room_channel", player: render_player(player)
       end
       Message.create! content: "THE GAME HAS STARTED!"
-      game_play(game)
+      player = @game.find_players[2 % @game.players.length].take_action
+      Message.create! content: "#{player.username}'s turn'"
     end
 end

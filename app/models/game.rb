@@ -20,9 +20,6 @@ class Game < ApplicationRecord
   def set_blinds
     find_players[0].bet(little_blind)
     find_players[1].bet(big_blind)
-    find_players[0..1].each do |player|
-      player.update(action: 1)
-    end
   end
 
   def load_deck
@@ -69,17 +66,18 @@ class Game < ApplicationRecord
   end
 
   def deal
-    cards.pop
-    if game.stage == "blinds"
+    cards.last.destroy
+    if stage == "blinds"
       update(stage: "flop")
       deal_flop
-    elsif game.stage == "flop"
+    elsif stage == "flop"
       update(stage: "turn")
       deal_single_card
-    else game.stage == "turn"
+    else stage == "turn"
       update(stage: "river")
       deal_single_card
     end
+    find_players.each { |player| player.update(action: 0) }
   end
 
   def deal_flop
