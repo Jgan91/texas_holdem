@@ -21,18 +21,22 @@ class RoomChannel < ApplicationCable::Channel
     if client_action["join"]
       @game.users << current_user.reset
       #potentially have a method called add players
-      ActionCable.server.broadcast "room_channel", player: ApplicationController.renderer.render(partial: "players/player", locals: { player: current_user})
+      # ActionCable.server.broadcast "room_channel", player: render_player(current_user)
       Message.create! content: "#{current_user.username}: has joined the game"
       # append user and cash to "players"
       if ActionCable.server.connections.map(&:current_user).count == @game.users.count
 
         @game.update(started: true)
         @game.set_up_game
+        @game.find_players.each do |player|
+          ActionCable.server.broadcast "room_channel", player: render_player(player)
+        end
         Message.create! content: "THE GAME HAS STARTED!"
       end
     elsif client_action["add-ai-player"]
       ai_player = AiPlayer.order("random()").limit(1).reset.last
       @game.ai_players << ai_player
+      # ActionCable.server.broadcast "room_channel", player: render_player(ai_player)
       Message.create! content: "#{ai_player.username}: has joined the game"
       # append ai player and cash to players
     # elsif client_action["startGame"]
@@ -47,4 +51,9 @@ class RoomChannel < ApplicationCable::Channel
       # some sort of game action with the current user
     end
   end
+
+  private
+    def render_player(player)
+      ApplicationController.renderer.render(partial: "players/player", locals: { player: player})
+    end
 end
