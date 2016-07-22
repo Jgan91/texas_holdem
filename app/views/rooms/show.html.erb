@@ -3,15 +3,15 @@
   <div class="pregame">
     <button id="add-ai-player" value="Add AI Player" data-behavior="room_speaker" class="btn">Add AI Player</button>
     <button id="join" value="Join" data-behavior="room_speaker" class="btn">Join</button>
-    
+
   </div>
 <% end %>
 
 <div class="players">
   <h4>Players:</h4>
-  <% display_players(@game).each do |player| %>
-    <p><%= player.username %></p>
-  <% end %>
+  <div id="players">
+    <%= render @players if @players %>
+  </div>
   <div id="cards">
     <%= render @cards if @cards %>
   </div>

@@ -21,3 +21,8 @@
 .pocket-cards {
   display: inline-block;
 }
+
+#player {
+  font-size: 20px;
+  color: white;
+}
