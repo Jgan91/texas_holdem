@@ -1,10 +1,38 @@
-.players {
-  margin-left: 30%;
-  margin-right: 10%;
+#players {
   text-align: center;
   color: white;
-  float: right;
   font-family: sans-serif;
+  /*display: inline-block;*/
+  background-color: none;
+  float: right;
+}
+
+#player {
+  float: right;
+  font-family: Sans-serif;
+  /*display: inline-block;*/
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: none;
+}
+
+#cards {
+  margin: auto;
+  width: 400px;
+  display: block;
+}
+
+#game_card {
+  width: 125px;
+  float: right;
+}
+
+#game_cards {
+  display: inline;
+  float: right;
+  margin-right: -15%;
 }
 
 #pocket {

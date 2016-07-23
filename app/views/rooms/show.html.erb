@@ -1,52 +1,62 @@
 <%= image_tag "felt.jpg", class: "background" %>
+<div class="top-container">
 <% if !@game.started %>
   <div class="pregame">
     <button id="add-ai-player" value="Add AI Player" data-behavior="room_speaker" class="btn">Add AI Player</button>
     <button id="join" value="Join" data-behavior="room_speaker" class="btn">Join</button>
   </div>
 <% end %>
-
-<div class="players">
-  <h4>Players:</h4>
   <div id="players">
+    <div id="player">Players: </div>
     <%= render @players if @players %>
   </div>
-  <div id="cards">
-    <%= render @cards if @cards %>
+</div>
+
+<div class="container">
+  <div id="game_cards">
+    <%= render @game_cards if @game_cards %>
   </div>
 </div>
 
 
-<div class="history">
-  <h1>Table</h1>
-  <form>
-    <label>Say something:</label><br>
-    <input name="chat" id="chat" type="text" data-behavior="room_speaker">
+
+<div class="container-history">
+  <div class="history">
+    <h1>Table</h1>
+    <form>
+      <label>Say something:</label><br>
+      <input name="chat" id="chat" type="text" data-behavior="room_speaker">
+    </form>
+
+    <div id="messages">
+      <%= render @messages.reverse %>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-action">
+  <div><%= button_to "Pocket", card_path(user_id: current_user.id), method: :get, id: :pocket_cards, remote: true %></div>
+  <form class="bet-form">
+    <label class="current-bet">How much would you like to Bet</label><br>
+    <input type="text" data-behavior="room_speaker" class="current-bet" id="bet-amount"><br>
+    <input type="submit" data-behavior="room_speaker" value="Bet" class="current-bet" id="current-bet"><br>
   </form>
 
-  <div id="messages">
-    <%= render @messages.reverse %>
+  <div class="game-actions" id="<%= current_user.username %>">
+    <div class="check">
+      <button  data-behavior="room_speaker" value="Check" id="check" class="action">Check</button>
+    </div>
+
+    <div class="bet">
+      <button  value="Bet / Raise" id="bet" class="action">Bet</button>
+    </div>
+
+    <div class="fold">
+      <button data-behavior="room_speaker" value="Fold" id="fold" class="action">Fold</button>
+    </div>
   </div>
 </div>
-
-<div><%= button_to "Pocket", card_path(user_id: current_user.id), method: :get, id: :pocket_cards, remote: true %></div>
-
-<form class="bet-form">
-  <label class="current-bet">How much would you like to Bet</label><br>
-  <input type="text" data-behavior="room_speaker" class="current-bet" id="bet-amount"><br>
-  <input type="submit" data-behavior="room_speaker" value="Bet" class="current-bet" id="current-bet"><br>
-</form>
-
-<div class="game-actions" id="<%= current_user.username %>">
-  <div class="check">
-    <button  data-behavior="room_speaker" value="Check" id="check" class="action">Check</button>
-  </div>
-
-  <div class="bet">
-    <button  value="Bet / Raise" id="bet" class="action">Bet</button>
-  </div>
-
-  <div class="fold">
-    <button data-behavior="room_speaker" value="Fold" id="fold" class="action">Fold</button>
-  </div>
+<div id="cards">
+  <%= render @cards if @cards %>
 </div>

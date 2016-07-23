@@ -43,7 +43,7 @@
         null,
         null
       ],
-      "/Users/charlesellison/texas_holdem/app/jobs/message_broadcast_job.rb": [
+      "/Users/charlesellison/texas_holdem/app/jobs/game_card_job.rb": [
         1,
         1,
         null,
@@ -59,6 +59,34 @@
       ],
       "/Users/charlesellison/texas_holdem/app/jobs/application_job.rb": [
         1,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/jobs/message_broadcast_job.rb": [
+        1,
+        1,
+        null,
+        1,
+        0,
+        null,
+        null,
+        1,
+        1,
+        0,
+        null,
+        null
+      ],
+      "/Users/charlesellison/texas_holdem/app/jobs/render_player_job.rb": [
+        1,
+        1,
+        null,
+        1,
+        0,
+        null,
+        null,
+        1,
+        1,
+        0,
+        null,
         null
       ],
       "/Users/charlesellison/texas_holdem/app/models/ai_player.rb": [
@@ -118,6 +146,16 @@
         null,
         1,
         1,
+        null,
+        null,
+        1,
+        0,
+        0,
+        null,
+        0,
+        0,
+        null,
+        0,
         null,
         null,
         1,
@@ -197,6 +235,8 @@
         null,
         null,
         1,
+        7,
+        7,
         7,
         null,
         null,
@@ -418,25 +458,6 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
         0
       ],
       "/Users/charlesellison/texas_holdem/app/controllers/cards_controller.rb": [
@@ -458,6 +479,6 @@
         0
       ]
     },
-    "timestamp": 1469230785
+    "timestamp": 1469264124
   }
 }

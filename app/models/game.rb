@@ -7,6 +7,16 @@ class Game < ApplicationRecord
     users + ai_players
   end
 
+  def add_player(player)
+    if player.class == User
+      users << player.reset
+    else
+      player = AiPlayer.order("random()").last.reset
+      ai_players << player
+    end
+    Message.create! content: "#{player.username}: has joined the game"
+  end
+
   def set_up_game
     Message.destroy_all
     update(ordered_players: players.shuffle.map do |player|
@@ -73,7 +83,7 @@ class Game < ApplicationRecord
       deal_single_card
     end
     update_stage
-    find_players.each { |player| player.update(action: 0) }
+    find_players.each { |player| player.update(action: 0) if player.action == 1}
     Message.create! content: "#{stage}"
   end
 
@@ -84,7 +94,9 @@ class Game < ApplicationRecord
   end
 
   def deal_single_card
-    game_cards << cards.first.delete.id
+    card = self.cards.delete(Card.find(self.cards.first.id)).last
+    GameCardJob.perform_later card
+    game_cards << card.id
   end
 
   def update_stage
