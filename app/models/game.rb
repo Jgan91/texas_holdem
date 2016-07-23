@@ -73,7 +73,7 @@ class Game < ApplicationRecord
       deal_single_card
     end
     update_stage
-    find_players.each { |player| player.update(action: 0) }
+    find_players.each { |player| player.update(action: 0) if player.action == 1}
     Message.create! content: "#{stage}"
   end
 
@@ -84,7 +84,9 @@ class Game < ApplicationRecord
   end
 
   def deal_single_card
-    game_cards << cards.first.delete.id
+    # post.paragraphs.delete(Paragraph.find(paragraph_id))
+    card = self.cards.delete(Card.find(self.cards.first.id)).last
+    game_cards << card.id
   end
 
   def update_stage
