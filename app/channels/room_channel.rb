@@ -44,29 +44,12 @@ class RoomChannel < ApplicationCable::Channel
       ApplicationController.renderer.render(partial: "players/player", locals: { player: player})
     end
 
-    def render_game_cards(card)
-      ApplicationController.renderer.render(partial: "game_cards/game_card", locals: { game_card: card })
-    end
-
     def game_play(game)
       action = game.game_action
-      if action.class == User
-        Message.create! content: "#{action.username}'s turn"
-      # elsif action
-      # else
-        # Message.create! content: action
-      end
+      Message.create! content: "#{action.username}'s turn" if action.class == User
       pot
-      game.game_cards.each do |card|
-        ActionCable.server.broadcast "room_channel", game_card: render_game_cards(Card.find(card))
-      end
-      # append game cards to the dom if deal
     end
-
-    # def render_game_cards(card)
-    #   ApplicationController.renderer.render(partial: "cards/card", locals: { card: card})
-    # end
-
+    
     def start_game(game)
       @game.update(started: true)
       @game.set_up_game

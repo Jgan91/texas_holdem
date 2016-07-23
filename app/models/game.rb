@@ -83,9 +83,14 @@ class Game < ApplicationRecord
     end
   end
 
+  # def render_game_cards(card)
+  #   ApplicationController.renderer.render(partial: "game_cards/game_card", locals: { game_card: card })
+  # end
+
   def deal_single_card
-    # post.paragraphs.delete(Paragraph.find(paragraph_id))
     card = self.cards.delete(Card.find(self.cards.first.id)).last
+    GameCardJob.perform_later card
+    # ActionCable.server.broadcast "room_channel", game_card: render_game_cards(card)
     game_cards << card.id
   end
 
