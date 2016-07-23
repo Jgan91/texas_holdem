@@ -46,6 +46,7 @@ class User < ApplicationRecord
 
   def take_action
     update(action: 1)
+    # Message.create! content: "#{username}'s turn"
     self
   end
 end

@@ -37,6 +37,11 @@ class RoomChannel < ApplicationCable::Channel
 
     def game_play(game)
       action = game.game_action
+      # until action.class == User do
+      #   binding.pry
+      #   action = game.game_action
+      # end
+      game_play(game) if action.class == Message
       Message.create! content: "#{action.username}'s turn" if action.class == User
       pot
     end
@@ -48,8 +53,9 @@ class RoomChannel < ApplicationCable::Channel
         RenderPlayerJob.perform_later player
       end
       Message.create! content: "THE GAME HAS STARTED!"
-      player = @game.find_players[2 % @game.players.length].take_action
-      Message.create! content: "#{player.username}'s turn"
-      pot
+      # player = @game.find_players[2 % @game.players.length].take_action
+      # Message.create! content: "#{player.username}'s turn"
+      # pot
+      game_play(@game)
     end
 end
