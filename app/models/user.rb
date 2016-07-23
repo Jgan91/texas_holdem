@@ -18,6 +18,7 @@ class User < ApplicationRecord
 
   def fold
     update(action: 2)
+    update(total_bet: 0)
   end
 
   def call
@@ -30,13 +31,14 @@ class User < ApplicationRecord
     if action == "check"
       return call if game.highest_bet > total_bet
     elsif action["bet"]
-      # return "Error" if check_bet(amount[:current_bet])
+      amount = action["bet"].to_i
+      return error(amount) if amount < game.little_blind || amount > cash
       # update(raise_count: raise_count + 1)
       # call_amount = Game.find(id).highest_bet - Game.find(id).users.last.total_bet
       # user.bet(amount[:current_bet].to_i + call_amount)
       # game.find_players.reject { |player| player == self }
       #   .each { |player| player.update(action: (player.action -1)) }
-      bet(action["bet"].to_i)
+      bet(amount)
       return Message.create! content: "#{username}: Bet $#{action["bet"]}"
     elsif action == "fold"
       fold
@@ -53,7 +55,13 @@ class User < ApplicationRecord
 
   def take_action
     update(action: 1)
-    # Message.create! content: "#{username}'s turn"
     self
   end
+
+  private
+    def error(amount)
+      game.users.find(self.id).update(action: 0)
+      Message.create! content: "You cannot bet more than you have or less than the little blind."
+      self
+    end
 end

@@ -75,6 +75,7 @@ class AiPlayer < ApplicationRecord
     #   winner.take_winnings
     #   game.update(winner: "#{winner.id} #{winner.class}".downcase)
     # end
+    update(total_bet: 0)
     Message.create! content: "#{username}: Fold"
   end
 
@@ -88,17 +89,17 @@ class AiPlayer < ApplicationRecord
     Message.create! content: "#{username}: Check"
   end
 
-  def raise(amount)
-    return all_in if amount >= cash
-    # if game.raise_count == 3
-    #   normal_bet
-    # else
-      call = game.highest_bet - total_bet
-      bet(call + amount)
-      # game.update(raise_count: game.raise_count + 1)
-      Message.create! content: "#{username}: Raise $#{amount}"
-    # end
-  end
+  # def raise(amount)
+  #   return all_in if amount >= cash
+  #   # if game.raise_count == 3
+  #   #   normal_bet
+  #   # else
+  #     call = game.highest_bet - total_bet
+  #     bet(call + amount)
+  #     # game.update(raise_count: game.raise_count + 1)
+  #     Message.create! content: "#{username}: Raise $#{amount}"
+  #   # end
+  # end
 
   def all_in
     # remaining_cash = cash
