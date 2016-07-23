@@ -7,6 +7,16 @@ class Game < ApplicationRecord
     users + ai_players
   end
 
+  def add_player(player)
+    if player.class == User
+      users << player.reset
+    else
+      player = AiPlayer.order("random()").last.reset
+      ai_players << player
+    end
+    Message.create! content: "#{player.username}: has joined the game"
+  end
+
   def set_up_game
     Message.destroy_all
     update(ordered_players: players.shuffle.map do |player|
@@ -83,14 +93,9 @@ class Game < ApplicationRecord
     end
   end
 
-  # def render_game_cards(card)
-  #   ApplicationController.renderer.render(partial: "game_cards/game_card", locals: { game_card: card })
-  # end
-
   def deal_single_card
     card = self.cards.delete(Card.find(self.cards.first.id)).last
     GameCardJob.perform_later card
-    # ActionCable.server.broadcast "room_channel", game_card: render_game_cards(card)
     game_cards << card.id
   end
 

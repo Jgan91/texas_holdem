@@ -6,20 +6,18 @@
   </div>
 <% end %>
 
-<div class="players">
-  <h4>Players:</h4>
   <div id="players">
+    <div id="player">Players: </div>
     <%= render @players if @players %>
   </div>
+  <div id="game_cards">
+    <%= render @game_cards if @game_cards %>
+  </div>
+
+
   <div id="cards">
     <%= render @cards if @cards %>
   </div>
-</div>
-
-<div id="game_cards">
-  <h2>Card</h2>
-  <%= render @game_cards if @game_cards %>
-</div>
 
 <div class="history">
   <h1>Table</h1>
@@ -31,6 +29,10 @@
   <div id="messages">
     <%= render @messages.reverse %>
   </div>
+</div>
+
+<div id="this">
+  <h2>yo</h2>
 </div>
 
 <div><%= button_to "Pocket", card_path(user_id: current_user.id), method: :get, id: :pocket_cards, remote: true %></div>

@@ -1,10 +1,45 @@
-.players {
-  margin-left: 30%;
-  margin-right: 10%;
+#players {
   text-align: center;
   color: white;
-  float: right;
   font-family: sans-serif;
+  display: inline-block;
+  background-color: none;
+  float: right;
+}
+
+#player {
+  float: right;
+  font-family: Sans-serif;
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: none;
+}
+
+#cards {
+  /*text-align: center;*/
+  /*font-family: sans-serif;*/
+  /*display: inline-block;*/
+  /*background-color: none;*/
+  display: inline-block;
+  float: right;
+  margin-top: 50px;
+}
+
+#game_card {
+  display: inline;
+  /*margin: auto;*/
+  width: 75px;
+}
+
+#game_cards {
+  /*display: inline;*/
+  /*margin: auto;*/
+  /*width: 50%;*/
+
+  width: 300px;
 }
 
 #pocket {
@@ -24,5 +59,11 @@
 
 #player {
   font-size: 20px;
+  color: white;
+}
+
+#this {
+  width: 300px;
+  display: inline-block;
   color: white;
 }
