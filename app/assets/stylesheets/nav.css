@@ -15,6 +15,7 @@ li {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  height: 50px;
 }
 
 li a {
@@ -25,8 +26,8 @@ li a {
   cursor:default;
 }
 
-/* Change the link color to #111 (black) on hover */
-li:hover {
+ /*Change the link color to #111 (black) on hover */
+#sign-out:hover, #create-account:hover, #sign-in:hover {
   background-color: #111;
   cursor:default;
 }
