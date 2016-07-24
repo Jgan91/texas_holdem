@@ -33,7 +33,7 @@ class RoomChannel < ApplicationCable::Channel
 
   private
 
-    def pot
+    def update_pot
       ActionCable.server.broadcast "room_channel", pot: "Pot: $" + Game.last.pot.to_s
     end
 
@@ -43,23 +43,32 @@ class RoomChannel < ApplicationCable::Channel
       #   binding.pry
       #   action = game.game_action
       # end
+      update_players(game)
       game_play(game) if action.class == Message
-      Message.create! content: "#{action.username}'s turn" if action.class == User
-      pot
+      if action.class == User
+        Message.create! content: "#{action.username}'s turn"
+        sleep 0.05
+        ActionCable.server.broadcast "room_channel", turn: "#{action.id}"
+      end
+      update_pot
     end
 
     def start_game(game)
       game.update(started: true)
       game.set_up_game
-      game.find_players.each do |player|
-        RenderPlayerJob.perform_later player
-      end
-      ActionCable.server.broadcast "room_channel", start_game: "starg_game"
-      # render pocket cards button
+      # game.find_players.each do |player|
+      #   RenderPlayerJob.perform_later player
+      # end
+      update_players(game)
+      ActionCable.server.broadcast "room_channel", start_game: "start_game"
       Message.create! content: "THE GAME HAS STARTED!"
       # player = @game.find_players[2 % @game.players.length].take_action
       # Message.create! content: "#{player.username}'s turn"
       # pot
       game_play(game)
+    end
+
+    def update_players(game)
+      RenderPlayerJob.perform_later game
     end
 end

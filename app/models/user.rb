@@ -13,7 +13,8 @@ class User < ApplicationRecord
     update(total_bet: total_bet + amount.to_i)
     new_amount = cash - amount.to_i
     update(cash: new_amount)
-    game.update(pot: game.pot + amount.to_i)
+    current_game = Game.find(game.id)
+    current_game.update(pot: (current_game.pot + amount.to_i))
   end
 
   def fold

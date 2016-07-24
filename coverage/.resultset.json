@@ -39,7 +39,7 @@
         1,
         null,
         1,
-        7,
+        20,
         null,
         null
       ],
@@ -381,6 +381,7 @@
         0,
         null,
         null,
+        null,
         0,
         null,
         0,
@@ -563,6 +564,10 @@
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        0,
         0
       ],
       "/Users/charlesellison/texas_holdem/app/controllers/cards_controller.rb": [
@@ -584,6 +589,6 @@
         0
       ]
     },
-    "timestamp": 1469316022
+    "timestamp": 1469338890
   }
 }

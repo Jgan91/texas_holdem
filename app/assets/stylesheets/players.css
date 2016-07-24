@@ -2,20 +2,22 @@
   text-align: center;
   color: white;
   font-family: sans-serif;
-  /*display: inline-block;*/
   background-color: none;
   float: right;
 }
 
-#player {
+.player {
   float: right;
   font-family: Sans-serif;
-  /*display: inline-block;*/
   color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
   background-color: none;
+}
+
+.highlight {
+  color: red;
 }
 
 #cards {
@@ -32,7 +34,7 @@
 #game_cards {
   display: inline-block;
   float: right;
-  margin-right: -15%;
+  margin-right: -10%;
   margin-top: 5%;
 }
 

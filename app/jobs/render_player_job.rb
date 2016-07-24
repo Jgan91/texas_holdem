@@ -1,12 +1,12 @@
 class RenderPlayerJob < ApplicationJob
   queue_as :default
 
-  def perform(player)
-    ActionCable.server.broadcast "room_channel", player: render_player(player)
+  def perform(game)
+    ActionCable.server.broadcast "room_channel", player: render_players(game)
   end
 
   private
-    def render_player(player)
-      ApplicationController.renderer.render(partial: "players/player", locals: { player: player})
+    def render_players(game)
+      ApplicationController.renderer.render(partial: "players/player", locals: { game: game})
     end
 end
