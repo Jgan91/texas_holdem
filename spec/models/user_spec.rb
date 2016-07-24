@@ -31,6 +31,7 @@ RSpec.describe User, type: :model do
     user.bet(50)
     expect(user.total_bet).to eq 50
     expect(user.cash).to eq 1950
+    expect(game.pot).to eq 50
   end
 
   it "resets the player's cards, actions, and bets" do
@@ -59,11 +60,7 @@ RSpec.describe User, type: :model do
   it "can take an action" do
     user = User.create(username: "jones", password: "123", email: "j@gmail.com")
     expect(user.action).to eq 0
-    user.take_action
-    expect(User.find(user.id).action).to eq 1
-  end
-
-  xit "makes an action" do
+    expect(user.take_action).to eq user
   end
 
   it "can fold" do
@@ -71,5 +68,63 @@ RSpec.describe User, type: :model do
     expect(user.action).to eq 0
     user.fold
     expect(User.find(user.id).action).to eq 2
+  end
+
+  it "can call" do
+    game = Game.create
+    user = game.users.create(username: "jones",
+                             password: "123",
+                             email: "j@gmail.com",
+                             total_bet: 100,
+                             cash: 1000)
+    user2 = game.users.create(username: "bob",
+                              password: "123",
+                              email: "b@gmail.com",
+                              total_bet: 200,
+                              cash: 1000)
+    game.update(ordered_players: [user.id, user2.id])
+    expect(User.pluck(:cash)).to eq [1000, 1000]
+    user.call
+    expect(user.cash).to eq 900
+  end
+
+  it "makes an action" do
+    game = Game.create
+    user = game.users.create(username: "jones",
+                             password: "123",
+                             email: "j@gmail.com",
+                             total_bet: 100,
+                             cash: 1000)
+    user2 = game.users.create(username: "bob",
+                              password: "123",
+                              email: "b@gmail.com",
+                              total_bet: 100,
+                              cash: 1000)
+    game.update(ordered_players: [user.id, user2.id])
+    expect(User.pluck(:cash)).to eq [1000, 1000]
+    user.user_action("check")
+    expect(user.cash).to eq 1000
+  end
+
+  it "will not update the user action if bet is invalid" do
+    game = Game.create(little_blind: 50)
+    user = game.users.create(username: "jones",
+                             password: "123",
+                             email: "j@gmail.com",
+                             total_bet: 100,
+                             cash: 1000)
+    game.update(ordered_players: [user.id])
+
+    error_message = "You cannot bet more than you have or less than the little blind."
+
+    user.user_action("bet" => "40")
+    expect(Message.last.content).to eq error_message
+    user = User.find(user.id)
+    expect(user.cash).to eq 1000
+
+    user.user_action("bet" => "1150")
+    expect(Message.last.content).to eq error_message
+    user = User.find(user.id)
+    expect(user.cash).to eq 1000
   end
 end

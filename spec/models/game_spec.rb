@@ -122,4 +122,13 @@ RSpec.describe Game, type: :model do
     game.update(ordered_players: [user2.id, user3.id, user1.id])
     expect(Game.find(game.id).find_players).to eq [user2, user3, user1]
   end
+
+  it "finds the player with the highest bet" do
+    game = Game.create
+    user1 = game.users.create(username: "jones", password: "123", email: "j@gmail", total_bet: 150)
+    user2 = game.users.create(username: "bob", password: "123", email: "b@gmail", total_bet: 200)
+    ai_player = game.ai_players.create(username: "ai", total_bet: 100)
+    game.update(ordered_players: [user1.id, user2.id, "a" + ai_player.id.to_s])
+    expect(Game.find(game.id).highest_bet).to eq 200
+  end
 end

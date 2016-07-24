@@ -108,4 +108,8 @@ class Game < ApplicationRecord
       update(stage: "river")
     end
   end
+
+  def highest_bet
+    find_players.max_by(&:total_bet).total_bet
+  end
 end
