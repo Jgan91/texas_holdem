@@ -54,6 +54,7 @@ class RoomChannel < ApplicationCable::Channel
       game.find_players.each do |player|
         RenderPlayerJob.perform_later player
       end
+      # render pocket cards button
       Message.create! content: "THE GAME HAS STARTED!"
       # player = @game.find_players[2 % @game.players.length].take_action
       # Message.create! content: "#{player.username}'s turn"

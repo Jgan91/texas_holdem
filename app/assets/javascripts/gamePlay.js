@@ -1,6 +1,6 @@
 
 function hideGamePlayButtons(){
-  $("#begin-game").on("click", function() {
+  $("#start-game").on("click", function() {
     $(".pregame").fadeOut()
   });
 };

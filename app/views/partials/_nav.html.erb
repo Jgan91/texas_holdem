@@ -1,15 +1,20 @@
 <div class="nav">
   <ul>
-    <% #if current_user %>
-      <li id="sign-out"><%= link_to "Sign Out", logout_path, method: :delete %></li>
-
+    <% if Game.last %>
       <li id="little-blind" class="game-stats">Little Blind: $ <%= @game.little_blind if @game %></li>
       <li class="game-stats">Big Blind: $<%= @game.big_blind if @game %></li>
-      <li class="game-stats" id="pot"></li>
-      <li class="game-stats" id="play"><%= link_to "Play", rooms_path %></li>
-    <% #else %>
-      <li id="create-account">Create Account</li>
-      <li id="sign-in">Sign In</li>
-    <% #end %>
+    <div class="pregame">
+      <button id="add-ai-player" value="Add AI Player" data-behavior="room_speaker" class="btn">Add AI Player</button>
+      <button id="join" value="Join" data-behavior="room_speaker" class="btn">Join</button>
+      <button id="start-game" value="Start Game" data-behavior="room_speaker" class="btn">Start Game</button>
+    </div>
+    <li class="game-stats" id="pot"></li>
+    <% end %>
+    <% if current_user %>
+      <li id="sign-out"><%= link_to "Sign Out", logout_path, method: :delete %></li>
+    <% else %>
+    <li id="create-account">Create Account</li>
+    <li id="sign-in">Sign In</li>
+    <% end %>
   </ul>
 </div>

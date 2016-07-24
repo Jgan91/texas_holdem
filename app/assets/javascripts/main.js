@@ -4,6 +4,7 @@ $(document).ready(function() {
   hideGamePlayButtons();
   hideButtonById("join")
   hideButtonById("pocket_cards")
+  hideButtonById("play")
   initiateBet();
   makeBet();
 });

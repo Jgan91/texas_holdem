@@ -84,7 +84,7 @@ class Game < ApplicationRecord
     end
     update_stage
     find_players.each { |player| player.update(action: 0) if player.action == 1}
-    Message.create! content: "#{stage}"
+    Message.create! content: "#{stage.upcase}"
   end
 
   def deal_flop
