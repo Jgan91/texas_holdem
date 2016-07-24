@@ -54,8 +54,7 @@ $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
     event.preventDefault()
 
 $(document).on "click", "[data-behavior~=room_speaker]", (event) ->
-  if event.target.id is "begin-game"
-    gameInfo = {"startGame": 1}
-    App.room.speak gameInfo
+  if event.target.id is "start-game"
+    App.room.speak "start-game"
 
     event.preventDefault()

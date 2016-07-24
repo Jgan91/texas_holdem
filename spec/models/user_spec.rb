@@ -60,8 +60,7 @@ RSpec.describe User, type: :model do
   it "can take an action" do
     user = User.create(username: "jones", password: "123", email: "j@gmail.com")
     expect(user.action).to eq 0
-    user.take_action
-    expect(User.find(user.id).action).to eq 1
+    expect(user.take_action).to eq user
   end
 
   it "can fold" do
@@ -118,11 +117,13 @@ RSpec.describe User, type: :model do
 
     error_message = "You cannot bet more than you have or less than the little blind."
 
-    expect(user.user_action("bet" => "40").content).to eq error_message
+    user.user_action("bet" => "40")
+    expect(Message.last.content).to eq error_message
     user = User.find(user.id)
     expect(user.cash).to eq 1000
 
-    expect(user.user_action("bet" => "1150").content).to eq error_message
+    user.user_action("bet" => "1150")
+    expect(Message.last.content).to eq error_message
     user = User.find(user.id)
     expect(user.cash).to eq 1000
   end

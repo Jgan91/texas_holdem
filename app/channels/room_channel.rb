@@ -22,8 +22,10 @@ class RoomChannel < ApplicationCable::Channel
     if client_action["join"] || client_action["add-ai-player"]
       player = client_action["add-ai-player"] || current_user
       @game.add_player(player)
-      start_game(@game) if ActionCable.server.connections.map(&:current_user)
-        .count == @game.users.count
+      # start_game(@game) if ActionCable.server.connections.map(&:current_user)
+      #   .count == @game.users.count
+    elsif client_action["start-game"]
+      start_game(@game)
     elsif @game.started
       game_play(@game)
     end
@@ -47,15 +49,15 @@ class RoomChannel < ApplicationCable::Channel
     end
 
     def start_game(game)
-      @game.update(started: true)
-      @game.set_up_game
-      @game.find_players.each do |player|
+      game.update(started: true)
+      game.set_up_game
+      game.find_players.each do |player|
         RenderPlayerJob.perform_later player
       end
       Message.create! content: "THE GAME HAS STARTED!"
       # player = @game.find_players[2 % @game.players.length].take_action
       # Message.create! content: "#{player.username}'s turn"
       # pot
-      game_play(@game)
+      game_play(game)
     end
 end
