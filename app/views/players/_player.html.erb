@@ -1,1 +1,3 @@
-<div id="player"><%= player.username %>: $<%= player.cash %></div>
+<% game.find_players.each do |player| %>
+  <div class="player" id="<%= player.id %>"><%= player.username %>: $<%= player.cash %></div>
+<% end %>
