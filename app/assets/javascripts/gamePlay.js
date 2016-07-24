@@ -1,10 +1,3 @@
-
-function hideGamePlayButtons(){
-  $("#start-game").on("click", function() {
-    $(".pregame").fadeOut()
-  });
-};
-
 function initiateBet() {
   $("#current-bet").on("click", function() {
     $(".bet-form").fadeOut();
