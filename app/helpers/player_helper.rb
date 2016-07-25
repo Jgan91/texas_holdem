@@ -9,6 +9,7 @@ module PlayerHelper
     player.update(cash: new_amount)
     current_game = Game.find(player.game.id)
     current_game.update(pot: (current_game.pot + amount.to_i))
+    Message.create! content: "#{username}: bet #{amount}" if player.class == AiPlayer
   end
 
   def reset(player)
@@ -21,5 +22,10 @@ module PlayerHelper
     Game.find(player.game.id).highest_bet - Game.find(player.game.id).find_players.detect do |game_player|
       game_player == player
     end.total_bet
+  end
+
+  def fold(player)
+    Game.find(game.id).users.find(self.id).update(action: 2, total_bet: 0)
+    Message.create! content: "#{username}: Fold" if player.class == AiPlayer
   end
 end

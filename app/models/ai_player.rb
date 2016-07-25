@@ -3,17 +3,18 @@ class AiPlayer < ApplicationRecord
   validates_uniqueness_of :username
   belongs_to :game, required: false
   has_many :cards
+  include PlayerHelper
 
-  def bet(amount)
-    amount = cash if amount.to_i > cash
-    # update(current_bet: amount.to_i)
-    update(total_bet: (Game.find(game.id).ai_players.find(self.id).total_bet + amount.to_i))
-    new_amount = cash - amount.to_i
-    update(cash: new_amount)
-    game.update(pot: game.pot + amount.to_i)
-    current_game = Game.find(game.id)
-    current_game.update(pot: (current_game.pot + amount.to_i))
-  end
+  # def bet(amount)
+  #   amount = cash if amount.to_i > cash
+  #   # update(current_bet: amount.to_i)
+  #   update(total_bet: (Game.find(game.id).ai_players.find(self.id).total_bet + amount.to_i))
+  #   new_amount = cash - amount.to_i
+  #   update(cash: new_amount)
+  #   game.update(pot: game.pot + amount.to_i)
+  #   current_game = Game.find(game.id)
+  #   current_game.update(pot: (current_game.pot + amount.to_i))
+  # end
 
   # def reset
   #   cards.delete_all
@@ -68,20 +69,20 @@ class AiPlayer < ApplicationRecord
     # end
   end
 
-  def fold
-    # still_playing = game.find_players.reject { |player| player.folded || player.out }
-    # if still_playing.count == 1
-    #   winner = still_playing.last
-    #   winner.take_winnings
-    #   game.update(winner: "#{winner.id} #{winner.class}".downcase)
-    # end
-    Game.find(game.id).ai_players.find(self.id).update(action: 2, total_bet: 0)
-    Message.create! content: "#{username}: Fold"
-  end
+  # def fold
+  #   # still_playing = game.find_players.reject { |player| player.folded || player.out }
+  #   # if still_playing.count == 1
+  #   #   winner = still_playing.last
+  #   #   winner.take_winnings
+  #   #   game.update(winner: "#{winner.id} #{winner.class}".downcase)
+  #   # end
+  #   Game.find(game.id).ai_players.find(self.id).update(action: 2, total_bet: 0)
+  #   Message.create! content: "#{username}: Fold"
+  # end
 
   def call
     return all_in if amount >= cash
-    bet(call_amount(self))
+    bet(self, call_amount(self))
     Message.create! content: "#{username}: Call"
   end
 
@@ -104,6 +105,6 @@ class AiPlayer < ApplicationRecord
   def all_in
     # remaining_cash = cash
     Message.create! content: "#{username}: All In ($#{cash})!"
-    bet(cash)
+    bet(self, cash)
   end
 end

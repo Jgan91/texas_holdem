@@ -18,9 +18,9 @@ class User < ApplicationRecord
   #   current_game.update(pot: (current_game.pot + amount.to_i))
   # end
 
-  def fold
-    Game.find(game.id).users.find(self.id).update(action: 2, total_bet: 0)
-  end
+  # def fold
+  #   Game.find(game.id).users.find(self.id).update(action: 2, total_bet: 0)
+  # end
 
   def call
     Message.create! content: "#{username}: Call"
@@ -48,7 +48,7 @@ class User < ApplicationRecord
       # return Message.create! content: "#{username}: Bet $#{amount}"
       action = "Bet $ #{amount}"
     elsif action == "fold"
-      fold
+      fold(self)
     end
     Message.create! content: "#{username}: #{action}"
   end
