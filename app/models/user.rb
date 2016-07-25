@@ -43,23 +43,23 @@ class User < ApplicationRecord
       # game.find_players.reject { |player| player == self }
       #   .each { |player| player.update(action: (player.action -1)) }
       bet(self, amount)
-      update_actions
+      update_actions(self)
 
       # return Message.create! content: "#{username}: Bet $#{amount}"
-      action = "Bet $ #{amount}"
+      action = "Raise: $#{amount}"
     elsif action == "fold"
       fold(self)
     end
     Message.create! content: "#{username}: #{action}"
   end
 
-  def update_actions
-    Game.find(game.id).find_players.reject { |player| player == self }
-      .each do |player|
-      action_count = player.action
-      player.update(action: (action_count - 1))
-    end
-  end
+  # def update_actions
+  #   Game.find(game.id).find_players.reject { |player| player == self }
+  #     .each do |player|
+  #     action_count = player.action
+  #     player.update(action: (action_count - 1))
+  #   end
+  # end
 
   # def reset
   #   cards.delete_all
@@ -68,7 +68,7 @@ class User < ApplicationRecord
   # end
 
   def take_action
-    update(action: 1)
+    Game.find(game.id).users.find(self.id).update(action: 1)
     self
   end
 
