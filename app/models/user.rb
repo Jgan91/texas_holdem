@@ -18,8 +18,7 @@ class User < ApplicationRecord
   end
 
   def fold
-    update(action: 2)
-    update(total_bet: 0)
+    Game.find(game.id).users.find(self.id).update(action: 2, total_bet: 0)
   end
 
   def call
@@ -63,8 +62,7 @@ class User < ApplicationRecord
 
   def reset
     cards.delete_all
-    update(total_bet: 0)
-    update(action: 0)
+    update(total_bet: 0, action: 0)
     self
   end
 
