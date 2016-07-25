@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include PlayerHelper
   has_secure_password
 
   validates_presence_of :username, :email
@@ -7,15 +8,15 @@ class User < ApplicationRecord
   belongs_to :game, required: false
   has_many :cards
 
-  def bet(amount)
-    amount = cash if amount > cash
-    # update(current_bet: amount)
-    update(total_bet: (Game.find(game.id).users.find(self.id).total_bet + amount.to_i))
-    new_amount = cash - amount.to_i
-    update(cash: new_amount)
-    current_game = Game.find(game.id)
-    current_game.update(pot: (current_game.pot + amount.to_i))
-  end
+  # def bet(amount)
+  #   amount = cash if amount > cash
+  #   # update(current_bet: amount)
+  #   update(total_bet: (Game.find(game.id).users.find(self.id).total_bet + amount.to_i))
+  #   new_amount = cash - amount.to_i
+  #   update(cash: new_amount)
+  #   current_game = Game.find(game.id)
+  #   current_game.update(pot: (current_game.pot + amount.to_i))
+  # end
 
   def fold
     Game.find(game.id).users.find(self.id).update(action: 2, total_bet: 0)
@@ -23,16 +24,16 @@ class User < ApplicationRecord
 
   def call
     Message.create! content: "#{username}: Call"
-    bet(call_amount)
+    bet(self, call_amount(self))
   end
 
-  def call_amount
-    Game.find(game.id).highest_bet - Game.find(game.id).users.find(self.id).total_bet
-  end
+  # def call_amount
+  #   Game.find(game.id).highest_bet - Game.find(game.id).users.find(self.id).total_bet
+  # end
 
   def user_action(action)
     if action == "check"
-      return call if call_amount > 0
+      return call if call_amount(self) > 0
     elsif action["bet"]
       amount = action["bet"].to_i
       return error(amount) if amount < game.little_blind || amount > cash
@@ -41,7 +42,7 @@ class User < ApplicationRecord
       # user.bet(amount[:current_bet].to_i + call_amount)
       # game.find_players.reject { |player| player == self }
       #   .each { |player| player.update(action: (player.action -1)) }
-      bet(amount)
+      bet(self, amount)
       update_actions
 
       # return Message.create! content: "#{username}: Bet $#{amount}"
@@ -60,11 +61,11 @@ class User < ApplicationRecord
     end
   end
 
-  def reset
-    cards.delete_all
-    update(total_bet: 0, action: 0)
-    self
-  end
+  # def reset
+  #   cards.delete_all
+  #   update(total_bet: 0, action: 0)
+  #   self
+  # end
 
   def take_action
     update(action: 1)

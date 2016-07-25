@@ -2,6 +2,7 @@ class Game < ApplicationRecord
   has_many :ai_players
   has_many :users
   has_many :cards
+  include PlayerHelper
 
   def players
     users + ai_players
@@ -9,9 +10,9 @@ class Game < ApplicationRecord
 
   def add_player(player)
     if player.class == User
-      users << player.reset
+      users << reset(player)
     else
-      player = AiPlayer.order("random()").last.reset
+      player = reset(AiPlayer.order("random()").last)
       ai_players << player
     end
     Message.create! content: "#{player.username}: has joined the game"
@@ -28,8 +29,8 @@ class Game < ApplicationRecord
   end
 
   def set_blinds
-    find_players[0].bet(little_blind)
-    find_players[1].bet(big_blind)
+    bet(find_players[0], little_blind)
+    bet(find_players[1], big_blind)
   end
 
   def load_deck

@@ -7,18 +7,19 @@ class AiPlayer < ApplicationRecord
   def bet(amount)
     amount = cash if amount.to_i > cash
     # update(current_bet: amount.to_i)
-    update(total_bet: total_bet + amount)
+    update(total_bet: (Game.find(game.id).ai_players.find(self.id).total_bet + amount.to_i))
     new_amount = cash - amount.to_i
     update(cash: new_amount)
     game.update(pot: game.pot + amount.to_i)
+    current_game = Game.find(game.id)
+    current_game.update(pot: (current_game.pot + amount.to_i))
   end
 
-  def reset
-    cards.delete_all
-    update(total_bet: 0)
-    update(action: 0)
-    self
-  end
+  # def reset
+  #   cards.delete_all
+  #   update(total_bet: 0, action: 0)
+  #   self
+  # end
 
   def take_action
     update(action: 1)
@@ -68,20 +69,19 @@ class AiPlayer < ApplicationRecord
   end
 
   def fold
-    update(action: 2)
     # still_playing = game.find_players.reject { |player| player.folded || player.out }
     # if still_playing.count == 1
     #   winner = still_playing.last
     #   winner.take_winnings
     #   game.update(winner: "#{winner.id} #{winner.class}".downcase)
     # end
-    update(total_bet: 0)
+    Game.find(game.id).ai_players.find(self.id).update(action: 2, total_bet: 0)
     Message.create! content: "#{username}: Fold"
   end
 
-  def call(amount)
+  def call
     return all_in if amount >= cash
-    bet(amount)
+    bet(call_amount(self))
     Message.create! content: "#{username}: Call"
   end
 
