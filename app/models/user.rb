@@ -43,10 +43,7 @@ class User < ApplicationRecord
       # game.find_players.reject { |player| player == self }
       #   .each { |player| player.update(action: (player.action -1)) }
       bet(amount)
-      Game.find(game.id).find_players.each do |player|
-        action_count = player.action
-        Game.find(game.id).users.find(player.id).update(action: (action_count - 1))
-      end
+      update_actions
 
       # return Message.create! content: "#{username}: Bet $#{amount}"
       action = "Bet $ #{amount}"
@@ -54,6 +51,14 @@ class User < ApplicationRecord
       fold
     end
     Message.create! content: "#{username}: #{action}"
+  end
+
+  def update_actions
+    Game.find(game.id).find_players.reject { |player| player == self }
+      .each do |player|
+      action_count = player.action
+      player.update(action: (action_count - 1))
+    end
   end
 
   def reset
