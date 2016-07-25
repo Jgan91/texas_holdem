@@ -107,6 +107,8 @@ class Game < ApplicationRecord
     elsif stage == "turn"
       update(stage: "river")
     end
+    find_players.reject { |player| player.action == 0 }
+      .each { |player| player.update(action: 0) }
   end
 
   def highest_bet

@@ -1,3 +1,7 @@
-<% game.find_players.each do |player| %>
+<div class="player" id="<%= game.find_players.first.id %>">Little:
+  <%= game.find_players.first.username %>: $<%= game.find_players.first.cash %></div>
+<div class="player" id="<%= game.find_players[1].id %>">Big:
+  <%= game.find_players[1].username %>: $<%= game.find_players[1].cash %></div>
+<% game.find_players[2..-1].each do |player| %>
   <div class="player" id="<%= player.id %>"><%= player.username %>: $<%= player.cash %></div>
 <% end %>

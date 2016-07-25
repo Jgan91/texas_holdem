@@ -10,7 +10,7 @@ class User < ApplicationRecord
   def bet(amount)
     amount = cash if amount > cash
     # update(current_bet: amount)
-    update(total_bet: total_bet + amount.to_i)
+    update(total_bet: (Game.find(game.id).users.find(self.id).total_bet + amount.to_i))
     new_amount = cash - amount.to_i
     update(cash: new_amount)
     current_game = Game.find(game.id)
@@ -23,14 +23,17 @@ class User < ApplicationRecord
   end
 
   def call
-    call_amount = Game.find(game.id).highest_bet - total_bet
     Message.create! content: "#{username}: Call"
     bet(call_amount)
   end
 
+  def call_amount
+    Game.find(game.id).highest_bet - Game.find(game.id).users.find(self.id).total_bet
+  end
+
   def user_action(action)
     if action == "check"
-      return call if Game.find(game.id).highest_bet > total_bet
+      return call if call_amount > 0
     elsif action["bet"]
       amount = action["bet"].to_i
       return error(amount) if amount < game.little_blind || amount > cash
@@ -40,9 +43,9 @@ class User < ApplicationRecord
       # game.find_players.reject { |player| player == self }
       #   .each { |player| player.update(action: (player.action -1)) }
       bet(amount)
-      game.find_players.each do |player|
+      Game.find(game.id).find_players.each do |player|
         action_count = player.action
-        player.update(action: (action_count - 1))
+        Game.find(game.id).users.find(player.id).update(action: (action_count - 1))
       end
 
       # return Message.create! content: "#{username}: Bet $#{amount}"
