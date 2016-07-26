@@ -170,17 +170,16 @@ class CardAnalyzer
       .detect(&:match?)
   end
 
-  # def determine_winner(player_hands)
-  #   all_players = player_hands.map do |player, hand|
-  #     [player, make_card_objects(hand)]
-  #   end.sort_by do |player_hand|
-  #     HANDS.index(find_hand(player_hand.last).class)
-  #   end
-  #   hands = all_players.select do |player_hand|
-  #     index_hand(player_hand.last) == index_hand(all_players.first.last)
-  #   end
-  #   best_hand(hands)
-  # end
+  def determine_winner(players)
+    players.sort_by do |player|
+      HANDS.index(find_hand(player.cards).class)
+    end.first
+    
+    # hands = all_players.select do |player_hand|
+    #   index_hand(player_hand.last) == index_hand(all_players.first.last)
+    # end
+    # best_hand(hands)
+  end
   #
   # def best_hand(hands)
   #   if hands.size == 1
