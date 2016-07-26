@@ -2,6 +2,7 @@ class Game < ApplicationRecord
   has_many :ai_players
   has_many :users
   has_many :cards
+  include PlayerHelper
 
   def players
     users + ai_players
@@ -9,9 +10,9 @@ class Game < ApplicationRecord
 
   def add_player(player)
     if player.class == User
-      users << player.reset
+      users << reset(player)
     else
-      player = AiPlayer.order("random()").last.reset
+      player = reset(AiPlayer.order("random()").last)
       ai_players << player
     end
     Message.create! content: "#{player.username}: has joined the game"
@@ -28,8 +29,8 @@ class Game < ApplicationRecord
   end
 
   def set_blinds
-    find_players[0].bet(little_blind)
-    find_players[1].bet(big_blind)
+    bet(find_players[0], little_blind)
+    bet(find_players[1], big_blind)
   end
 
   def load_deck
@@ -61,18 +62,19 @@ class Game < ApplicationRecord
       # if river --> display winner
     #when a player raises, all other player actions decrement
     deal if find_players.all? { |player| player.action >= 1}
-    if stage == "blinds"
-      all_players = find_players[2..-1] + find_players[0..1]
+    all_players = find_players
+
+    all_players = find_players[2..-1] + find_players[0..1] if stage == "blinds"
       # find_players[2 % players.length].take_action
-      all_players.min_by(&:action).take_action
+      # all_players.reject { |player| player.action == 2 }.min_by(&:action).take_action
     # elsif flop
     # elsif turn
     # elsif river
     # elsif winner
       # show winner
-    else
-      find_players.min_by(&:action).take_action
-    end
+    # else
+    all_players.reject { |player| player.action == 2 }.min_by(&:action).take_action
+    # end
   end
 
   def deal
@@ -83,7 +85,7 @@ class Game < ApplicationRecord
       deal_single_card
     end
     update_stage
-    find_players.each { |player| player.update(action: 0) if player.action == 1}
+    # find_players.each { |player| player.update(action: 0) if player.action < 2}
     Message.create! content: "#{stage.upcase}"
   end
 
@@ -107,6 +109,9 @@ class Game < ApplicationRecord
     elsif stage == "turn"
       update(stage: "river")
     end
+    find_players.each { |player| player.update(action: 0) if player.action < 2}
+    # find_players.reject { |player| player.action == 2 }
+    #   .each { |player| player.update(action: 0) }
   end
 
   def highest_bet
