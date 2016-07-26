@@ -42,4 +42,11 @@ module PlayerHelper
     end.update(action: 2, total_bet: 0)
     Message.create! content: "#{username}: Fold" if player.class == AiPlayer
   end
+
+  def take_pot(player)
+    game = Game.find(player.game.id)
+    pot = game.pot
+    game.find_players.detect { |current_player| current_player == player }
+      .update(cash: (player.cash + pot))
+  end
 end

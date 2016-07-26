@@ -53,28 +53,12 @@ class Game < ApplicationRecord
   end
 
   def game_action
-    # find first player who's action is lowest (0) and who hasn't folded
-    # if all players have taken an action or folded --> deal
-    #when all players have equal actions > than 0 -->
-      # if blinds --> deal flop
-      # if flop --> deal turn
-      # if turn --> deal river
-      # if river --> display winner
-    #when a player raises, all other player actions decrement
+    return reset_game if stage == "winner"
     deal if find_players.all? { |player| player.action >= 1}
     all_players = find_players
 
     all_players = find_players[2..-1] + find_players[0..1] if stage == "blinds"
-      # find_players[2 % players.length].take_action
-      # all_players.reject { |player| player.action == 2 }.min_by(&:action).take_action
-    # elsif flop
-    # elsif turn
-    # elsif river
-    # elsif winner
-      # show winner
-    # else
     all_players.reject { |player| player.action == 2 }.min_by(&:action).take_action
-    # end
   end
 
   def deal
@@ -102,19 +86,36 @@ class Game < ApplicationRecord
   end
 
   def update_stage
-    if stage == "blinds"
-      update(stage: "flop")
-    elsif stage == "flop"
-      update(stage: "turn")
-    elsif stage == "turn"
-      update(stage: "river")
-    end
-    find_players.each { |player| player.update(action: 0) if player.action < 2}
-    # find_players.reject { |player| player.action == 2 }
-    #   .each { |player| player.update(action: 0) }
+    return declare_winner if stage == "river"
+    update(stage: "river") if stage == "turn"
+    update(stage: "turn") if stage == "flop"
+    update(stage: "flop") if stage == "blinds"
+    find_players.each { |player| player.update(action: 0) if player.action < 2 }
   end
 
   def highest_bet
     find_players.max_by(&:total_bet).total_bet
+  end
+
+  def declare_winner
+    players = find_players.select { |player| player.action < 2 }
+      players.each do |player|
+        player.cards += game_cards.map { |id| Card.find(id) }
+      end
+    winner = CardAnalyzer.new.determine_winner(players)
+    hand = CardAnalyzer.new.find_hand(winner.cards).class.to_s.underscore.humanize
+
+    take_pot(winner)
+    Message.create! content: "#{winner.username} WINS with a #{hand}!"
+    update(stage: "winner")
+  end
+
+  def reset_game
+    update(ordered_players: (ordered_players.rotate(-1)),
+            pot: 0,
+            stage: "blinds",
+            game_cards: [])
+    players.each { |player| reset(player) }
+    self
   end
 end

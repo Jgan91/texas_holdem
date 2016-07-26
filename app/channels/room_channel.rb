@@ -39,15 +39,13 @@ class RoomChannel < ApplicationCable::Channel
 
     def game_play(game)
       action = game.game_action
-      # until action.class == User do
-      #   binding.pry
-      #   action = game.game_action
-      # end
-      update_players(game)
+      # if action == Game... reset game properties on dom
+      # sleep 0.3 if action.class == Game
+      update_players(game) #pass the updated game in
       game_play(game) if action.class == Message
       if action.class == User
         Message.create! content: "#{action.username}'s turn"
-        sleep 0.05
+        sleep 0.07
         ActionCable.server.broadcast "room_channel", turn: "#{action.id}"
       end
       update_pot
@@ -56,15 +54,11 @@ class RoomChannel < ApplicationCable::Channel
     def start_game(game)
       game.update(started: true)
       game.set_up_game
-      # game.find_players.each do |player|
-      #   RenderPlayerJob.perform_later player
-      # end
+
       update_players(game)
       ActionCable.server.broadcast "room_channel", start_game: "start_game"
       Message.create! content: "THE GAME HAS STARTED!"
-      # player = @game.find_players[2 % @game.players.length].take_action
-      # Message.create! content: "#{player.username}'s turn"
-      # pot
+      
       game_play(game)
     end
 
