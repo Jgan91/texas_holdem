@@ -26,9 +26,10 @@ RSpec.describe User, type: :model do
   it "can bet" do
     game = Game.create
     user = game.users.create(username: "jones", password: "password", email: "j@gmail.com")
+    game.update(ordered_players: [user.id])
     expect(user.total_bet).to eq 0
     expect(user.cash).to eq 2000
-    user.bet(50)
+    user.bet(user, 50)
     expect(user.total_bet).to eq 50
     expect(user.cash).to eq 1950
     expect(Game.find(game.id).pot).to eq 50
@@ -49,7 +50,7 @@ RSpec.describe User, type: :model do
     expect(User.last.total_bet).to eq 400
     expect(User.last.action).to eq 1
 
-    user.reset
+    user.reset(user)
     expect(User.last.username).to eq "jones"
     expect(User.last.cards.count).to eq 0
     expect(User.last.total_bet).to eq 0
@@ -58,7 +59,8 @@ RSpec.describe User, type: :model do
   end
 
   it "can take an action" do
-    user = User.create(username: "jones", password: "123", email: "j@gmail.com")
+    game = Game.create
+    user = game.users.create(username: "jones", password: "123", email: "j@gmail.com")
     expect(user.action).to eq 0
     expect(user.take_action).to eq user
   end
@@ -66,8 +68,9 @@ RSpec.describe User, type: :model do
   it "can fold" do
     game = Game.create
     user = game.users.create(username: "jones", password: "123", email: "j@gmail.com")
+    game.update(ordered_players: [user.id])
     expect(user.action).to eq 0
-    user.fold
+    user.fold(user)
     expect(User.find(user.id).action).to eq 2
   end
 
