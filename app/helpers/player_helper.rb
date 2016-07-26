@@ -17,7 +17,7 @@ module PlayerHelper
   end
 
   def update_actions(current_player)
-    Game.find(game.id).find_players.reject { |player| player == current_player && player.action == 2 }
+    Game.find(game.id).find_players.reject { |player| player == current_player || player.action == 2 }
       .each do |player|
       action_count = player.action
       player.update(action: (action_count - 1))
