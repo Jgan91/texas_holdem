@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe AiPlayer, type: :model do
   it "should validate the presence of username" do
-    expect(AiPlayer.create).not_to be_valid
     expect(AiPlayer.create(username: "frank")).to be_valid
   end
 
@@ -22,10 +21,11 @@ RSpec.describe AiPlayer, type: :model do
 
   it "can bet" do
     game = Game.create
-    ai = game.ai_players.create
+    ai = game.ai_players.create(username: "ai")
+    game.update(ordered_players: ["a" + ai.id.to_s])
     expect(ai.total_bet).to eq 0
     expect(ai.cash).to eq 1000
-    ai.bet(200)
+    ai.bet(ai, 200)
     expect(ai.total_bet).to eq 200
     expect(ai.cash).to eq 800
   end
@@ -43,7 +43,7 @@ RSpec.describe AiPlayer, type: :model do
     expect(AiPlayer.last.total_bet).to eq 400
     expect(AiPlayer.last.action).to eq 1
 
-    ai_player.reset
+    ai_player.reset(ai_player)
     expect(AiPlayer.last.username).to eq "ai"
     expect(AiPlayer.last.cards.count).to eq 0
     expect(AiPlayer.last.total_bet).to eq 0

@@ -18,7 +18,6 @@ RSpec.feature "user can select game settings" do
 
     expect(current_path).to eq rooms_path
 
-    expect(page).to have_content "Players"
     expect(page).to have_content "Little Blind: $"
     expect(page).to have_content "Big Blind: $"
   end
