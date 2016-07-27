@@ -4,6 +4,9 @@
   font-family: sans-serif;
   background-color: none;
   float: right;
+  width: 70%;
+  height: 30px;
+  display: inline;
 }
 
 .player {
@@ -38,8 +41,9 @@
 #game_cards {
   display: inline-block;
   float: right;
-  margin-right: -10%;
   margin-top: 5%;
+  width: 60%;
+  margin-right: 5%;
 }
 
 #pocket {

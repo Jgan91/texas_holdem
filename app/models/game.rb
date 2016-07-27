@@ -20,12 +20,21 @@ class Game < ApplicationRecord
 
   def set_up_game
     Message.destroy_all
-    update(ordered_players: players.shuffle.map do |player|
-      player.class == AiPlayer ? "a" + player.id.to_s : player.id.to_s
-    end)
+    find_order
     set_blinds
     load_deck
     deal_pocket_cards
+  end
+
+  def find_order
+    if ordered_players == []
+      current_order = players.shuffle.map do |player|
+        player.class == AiPlayer ? "a" + player.id.to_s : player.id.to_s
+      end
+    else
+      current_order = ordered_players.rotate(-1)
+    end
+    update(ordered_players: current_order)
   end
 
   def set_blinds
@@ -53,12 +62,15 @@ class Game < ApplicationRecord
   end
 
   def game_action
-    return reset_game if stage == "winner"
-    deal if find_players.all? { |player| player.action >= 1}
+    deal if players_updated?
     all_players = find_players
 
     all_players = find_players[2..-1] + find_players[0..1] if stage == "blinds"
     all_players.reject { |player| player.action == 2 }.min_by(&:action).take_action
+  end
+
+  def players_updated?
+    find_players.all? { |player| player.action >= 1}
   end
 
   def deal
@@ -69,7 +81,6 @@ class Game < ApplicationRecord
       deal_single_card
     end
     update_stage
-    # find_players.each { |player| player.update(action: 0) if player.action < 2}
     Message.create! content: "#{stage.upcase}"
   end
 
@@ -86,7 +97,6 @@ class Game < ApplicationRecord
   end
 
   def update_stage
-    return declare_winner if stage == "river"
     update(stage: "river") if stage == "turn"
     update(stage: "turn") if stage == "flop"
     update(stage: "flop") if stage == "blinds"
@@ -108,13 +118,11 @@ class Game < ApplicationRecord
     take_pot(winner)
     Message.create! content: "#{winner.username} WINS with a #{hand}!"
     update(stage: "winner")
+    reset_game
   end
 
   def reset_game
-    update(ordered_players: (ordered_players.rotate(-1)),
-            pot: 0,
-            stage: "blinds",
-            game_cards: [])
+    update(pot: 0, stage: "blinds", game_cards: [])
     players.each { |player| reset(player) }
     self
   end

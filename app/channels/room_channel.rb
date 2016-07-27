@@ -22,33 +22,47 @@ class RoomChannel < ApplicationCable::Channel
     if client_action["join"] || client_action["add-ai-player"]
       player = client_action["add-ai-player"] || current_user
       @game.add_player(player)
-      # start_game(@game) if ActionCable.server.connections.map(&:current_user)
-      #   .count == @game.users.count
     elsif client_action["start-game"]
       start_game(@game)
     elsif @game.started
+      @game = Game.find(@game.id)
       game_play(@game)
     end
   end
 
   private
 
-    def update_pot
-      ActionCable.server.broadcast "room_channel", pot: "Pot: $" + Game.last.pot.to_s
+    def broadcast(message)
+      ActionCable.server.broadcast "room_channel", message
     end
 
+    def update_pot
+      broadcast pot: "Pot: $" + Game.last.pot.to_s
+    end
+
+
     def game_play(game)
+      reset_table(game) if game.stage == "river" && game.players_updated?
       action = game.game_action
-      # if action == Game... reset game properties on dom
-      # sleep 0.3 if action.class == Game
-      update_players(game) #pass the updated game in
+      update_players(game)
       game_play(game) if action.class == Message
       if action.class == User
         Message.create! content: "#{action.username}'s turn"
         sleep 0.07
-        ActionCable.server.broadcast "room_channel", turn: "#{action.id}"
+        broadcast
+        broadcast turn: "#{action.id}"
       end
       update_pot
+    end
+
+    def reset_table(game)
+      game.declare_winner
+      sleep 3
+      game.reset_game
+      broadcast clear_table: "clear_table"
+      game.set_up_game
+      update_players(game)
+      broadcast start_game: "start_game"
     end
 
     def start_game(game)
@@ -56,9 +70,8 @@ class RoomChannel < ApplicationCable::Channel
       game.set_up_game
 
       update_players(game)
-      ActionCable.server.broadcast "room_channel", start_game: "start_game"
+      broadcast start_game: "start_game"
       Message.create! content: "THE GAME HAS STARTED!"
-      
       game_play(game)
     end
 

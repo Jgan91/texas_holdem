@@ -12,9 +12,16 @@ App.room = App.cable.subscriptions.create "RoomChannel",
     $("#game_cards").append data["game_card"]
     $("#pot").text data["pot"]
     $("##{data["turn"]}").addClass("highlight")
+
     if data["start_game"]
+      console.log("start")
       $("#pocket_cards").fadeIn()
       $(".pregame").fadeOut()
+
+    if data["clear_table"]
+      console.log("hi")
+      $(".pocket-cards").fadeOut()
+      $(".game-cards").fadeOut()
 
   speak: (message) ->
     @perform 'speak', message: message

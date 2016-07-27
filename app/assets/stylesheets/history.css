@@ -6,7 +6,7 @@
   padding: 15px;
   height: 746px;
   color: white;
-  overflow: scroll;
+  overflow: auto;
   font-family: Sans-serif;
   display: inline-block;
 }
