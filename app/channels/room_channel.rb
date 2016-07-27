@@ -27,6 +27,8 @@ class RoomChannel < ApplicationCable::Channel
     elsif client_action["start-game"]
       start_game(@game)
     elsif @game.started
+      @game = Game.find(@game.id)
+      # binding.pry
       game_play(@game)
     end
   end
@@ -38,6 +40,12 @@ class RoomChannel < ApplicationCable::Channel
     end
 
     def game_play(game)
+      if game.stage == "river" && game.find_players.all? { |player| player.action >= 1}
+        return game.declare_winner
+        binding.pry
+        # game.reset_game
+        #adjust dom
+      end
       action = game.game_action
       # if action == Game... reset game properties on dom
       # brodacast to remove cards

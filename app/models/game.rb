@@ -53,7 +53,6 @@ class Game < ApplicationRecord
   end
 
   def game_action
-    return reset_game if stage == "winner"
     deal if find_players.all? { |player| player.action >= 1}
     all_players = find_players
 
@@ -62,7 +61,6 @@ class Game < ApplicationRecord
   end
 
   def deal
-    return declare_winner if stage == "river"
     cards.last.destroy
     if stage == "blinds"
       deal_flop
@@ -108,6 +106,7 @@ class Game < ApplicationRecord
     take_pot(winner)
     Message.create! content: "#{winner.username} WINS with a #{hand}!"
     update(stage: "winner")
+    reset_game
   end
 
   def reset_game
