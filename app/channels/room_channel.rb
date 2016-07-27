@@ -40,6 +40,7 @@ class RoomChannel < ApplicationCable::Channel
     def game_play(game)
       action = game.game_action
       # if action == Game... reset game properties on dom
+      # brodacast to remove cards
       # sleep 0.3 if action.class == Game
       update_players(game) #pass the updated game in
       game_play(game) if action.class == Message
@@ -58,7 +59,7 @@ class RoomChannel < ApplicationCable::Channel
       update_players(game)
       ActionCable.server.broadcast "room_channel", start_game: "start_game"
       Message.create! content: "THE GAME HAS STARTED!"
-      
+
       game_play(game)
     end
 

@@ -53,7 +53,7 @@ class Game < ApplicationRecord
   end
 
   def game_action
-    return reset_game if stage == "winner"
+    return reset_game if Game.find(id).stage == "winner"
     deal if find_players.all? { |player| player.action >= 1}
     all_players = find_players
 
@@ -62,15 +62,16 @@ class Game < ApplicationRecord
   end
 
   def deal
+    return declare_winner if Game.find(id).stage == "river"
     cards.last.destroy
     if stage == "blinds"
       deal_flop
     else
       deal_single_card
     end
-    update_stage
+    Game.find(id).update_stage
     # find_players.each { |player| player.update(action: 0) if player.action < 2}
-    Message.create! content: "#{stage.upcase}"
+    Message.create! content: "#{Game.find(id).stage.upcase}"
   end
 
   def deal_flop
@@ -82,11 +83,10 @@ class Game < ApplicationRecord
   def deal_single_card
     card = self.cards.delete(Card.find(self.cards.first.id)).last
     GameCardJob.perform_later card
-    game_cards << card.id
+    Game.find(id).game_cards << card.id
   end
 
   def update_stage
-    return declare_winner if stage == "river"
     update(stage: "river") if stage == "turn"
     update(stage: "turn") if stage == "flop"
     update(stage: "flop") if stage == "blinds"
@@ -107,7 +107,7 @@ class Game < ApplicationRecord
 
     take_pot(winner)
     Message.create! content: "#{winner.username} WINS with a #{hand}!"
-    update(stage: "winner")
+    Game.find(id).update(stage: "winner")
   end
 
   def reset_game

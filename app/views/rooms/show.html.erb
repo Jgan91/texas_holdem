@@ -8,16 +8,14 @@
     <!-- </div> -->
   <% end %>
   <div id="players">
-    <%= render @players if @players %>
-  </div>
-</div>
-<div class="container">
-  <div id="game_cards">
-    <%= render @game_cards if @game_cards %>
+    <%= render @players if @players%>
   </div>
 </div>
 
-<div class="container-history">
+<div id="game_cards">
+  <%= render @game_cards %>
+</div>
+
   <div class="history">
     <h1>Table</h1>
     <form>
@@ -29,8 +27,6 @@
       <%= render @messages.reverse %>
     </div>
   </div>
-</div>
-
 
 <div class="container-action">
   <form class="bet-form">
@@ -58,5 +54,5 @@
   </div>
 </div>
 <div id="cards">
-  <%= render @cards if @cards %>
+  <%= render @cards %>
 </div>
