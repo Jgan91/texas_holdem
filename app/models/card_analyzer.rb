@@ -67,7 +67,6 @@ class RoyalFlush
       cards.size
     end.map(&:value)
 
-    # ["Ace", "King", "Queen", "Jack", "10"].all? do |value|
     ["ACE", "KING", "QUEEN", "JACK", "10"].all? do |value|
       cards.include?(value)
     end
@@ -174,7 +173,7 @@ class CardAnalyzer
     players.sort_by do |player|
       HANDS.index(find_hand(player.cards).class)
     end.first
-    
+
     # hands = all_players.select do |player_hand|
     #   index_hand(player_hand.last) == index_hand(all_players.first.last)
     # end

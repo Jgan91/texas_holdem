@@ -75,11 +75,7 @@ class Game < ApplicationRecord
 
   def deal
     cards.last.destroy
-    if stage == "blinds"
-      deal_flop
-    else
-      deal_single_card
-    end
+    stage == "blinds" ? deal_flop : deal_single_card
     update_stage
     Message.create! content: "#{stage.upcase}"
   end
@@ -107,18 +103,19 @@ class Game < ApplicationRecord
     find_players.max_by(&:total_bet).total_bet
   end
 
-  def declare_winner
+  def declare_winner(winner = find_winner)
+    take_pot(winner)
+    return Message.create! content: "#{winner.username} WINS!" if winner.cards.empty?
+    hand = CardAnalyzer.new.find_hand(winner.cards).class.to_s.underscore.humanize
+    Message.create! content: "#{winner.username} WINS with a #{hand}!"
+  end
+
+  def find_winner
     players = find_players.select { |player| player.action < 2 }
       players.each do |player|
         player.cards += game_cards.map { |id| Card.find(id) }
       end
-    winner = CardAnalyzer.new.determine_winner(players)
-    hand = CardAnalyzer.new.find_hand(winner.cards).class.to_s.underscore.humanize
-
-    take_pot(winner)
-    Message.create! content: "#{winner.username} WINS with a #{hand}!"
-    update(stage: "winner")
-    reset_game
+    CardAnalyzer.new.determine_winner(players)
   end
 
   def reset_game
