@@ -24,7 +24,7 @@ class User < ApplicationRecord
       # user.bet(amount[:current_bet].to_i + call_amount)
       # game.find_players.reject { |player| player == self }
       #   .each { |player| player.update(action: (player.action -1)) }
-      bet(self, amount)
+      bet(self, amount + call_amount(self))
       update_actions(self)
 
       # return Message.create! content: "#{username}: Bet $#{amount}"

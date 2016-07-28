@@ -45,7 +45,8 @@ class Game < ApplicationRecord
   end
 
   def zero_cash
-    players.detect { |player| player.cash == 0 }.id.to_s
+    player_with_zero_cash = players.detect { |player| player.cash <= 0 }
+    player_with_zero_cash.id.to_s if player_with_zero_cash
   end
 
   def set_blinds
@@ -107,6 +108,7 @@ class Game < ApplicationRecord
     update(stage: "river") if stage == "turn"
     update(stage: "turn") if stage == "flop"
     update(stage: "flop") if stage == "blinds"
+    players.each { |player| player.update(total_bet: 0)}
     find_players.each { |player| player.update(action: 0) if player.action < 2 }
   end
 
@@ -116,7 +118,9 @@ class Game < ApplicationRecord
 
   def declare_winner(winner = find_winner)
     take_pot(winner)
-    return Message.create! content: "#{winner.username} WINS!" if players.one? { |player| player.action != 2 }
+    if players.one? { |player| player.action != 2 } || winner.cards.empty?
+      return Message.create! content: "#{winner.username} WINS!"
+    end
     hand = CardAnalyzer.new.find_hand(winner.cards).class.to_s.underscore.humanize
     Message.create! content: "#{winner.username} WINS with a #{hand}!"
   end
