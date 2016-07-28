@@ -12,7 +12,6 @@ App.room = App.cable.subscriptions.create "RoomChannel",
     $("#game_cards").append data["game_card"]
     $("#pot").text data["pot"]
     $("##{data["turn"]}").addClass("highlight")
-    # $("#user-#{data["user_id"]}").fadeIn()
     $("#user-#{data["user_id"]}").fadeIn()
 
     if data["start_game"]
