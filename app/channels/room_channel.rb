@@ -47,9 +47,9 @@ class RoomChannel < ApplicationCable::Channel
       update_players(game)
       game_play(game) if action.class == Message
       if action.class == User
+        broadcast user_id: action.id
         Message.create! content: "#{action.username}'s turn"
         sleep 0.07
-        broadcast
         broadcast turn: "#{action.id}"
       end
       update_pot

@@ -2,6 +2,7 @@ function initiateBet() {
   $("#current-bet").on("click", function() {
     $(".bet-form").fadeOut();
     $(".action").fadeIn();
+    $(".container-action").fadeOut()
   });
 }
 
@@ -21,5 +22,17 @@ function makeBet() {
 function hideButtonById(id) {
   $("#" + id).on("click", function() {
     $("#" + id).fadeOut()
+  })
+}
+
+function hideFold() {
+  $("#fold").on("click", function() {
+    $(".container-action").fadeOut()
+  })
+}
+
+function hideCheck() {
+  $("#check").on("click", function() {
+    $(".container-action").fadeOut()
   })
 }
