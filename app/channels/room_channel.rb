@@ -46,8 +46,8 @@ class RoomChannel < ApplicationCable::Channel
       action = game.game_action
 
       update_players(game)
-      game_play(game) if action.class == Message
-      if action.class == User
+      game_play(game) if action.is_a? Message
+      if action.is_a? User
         broadcast user_id: action.id
         Message.create! content: "#{action.username}'s turn"
         sleep 0.07

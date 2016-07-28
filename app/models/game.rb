@@ -9,13 +9,19 @@ class Game < ApplicationRecord
   end
 
   def add_player(player)
-    if player.class == User
+    if player.is_a? User
       users << reset(player)
     else
-      player = reset(AiPlayer.order("random()").last)
+      player = add_ai_player
       ai_players << player
     end
     Message.create! content: "#{player.username}: has joined the game"
+  end
+
+  def add_ai_player
+    player = reset(AiPlayer.order("random()").last)
+    add_ai_player if players.include?(player)
+    player
   end
 
   def set_up_game
@@ -28,13 +34,18 @@ class Game < ApplicationRecord
 
   def find_order
     if ordered_players == []
-      current_order = players.shuffle.map do |player|
+      new_order = players.shuffle.map do |player|
         player.class == AiPlayer ? "a" + player.id.to_s : player.id.to_s
       end
     else
-      current_order = ordered_players.rotate(-1)
+      new_order = ordered_players.reject { |id| id.sub("a", "") == zero_cash }.rotate(-1)
+      new_order = new_order.rotate(-1) if new_order[1] == ordered_players[1]
     end
-    update(ordered_players: current_order)
+    update(ordered_players: new_order)
+  end
+
+  def zero_cash
+    players.detect { |player| player.cash == 0 }.id.to_s
   end
 
   def set_blinds
@@ -105,7 +116,7 @@ class Game < ApplicationRecord
 
   def declare_winner(winner = find_winner)
     take_pot(winner)
-    return Message.create! content: "#{winner.username} WINS!" if winner.cards.empty?
+    return Message.create! content: "#{winner.username} WINS!" if players.one? { |player| player.action != 2 }
     hand = CardAnalyzer.new.find_hand(winner.cards).class.to_s.underscore.humanize
     Message.create! content: "#{winner.username} WINS with a #{hand}!"
   end
