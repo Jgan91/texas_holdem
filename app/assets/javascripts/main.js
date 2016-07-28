@@ -7,4 +7,6 @@ $(document).ready(function() {
   hideButtonById("play")
   initiateBet();
   makeBet();
+  hideFold();
+  hideCheck();
 });

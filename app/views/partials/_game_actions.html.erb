@@ -1,0 +1,25 @@
+<div id="user-<%= current_user.id %>" class="container-action hidden">
+  <form class="bet-form">
+    <label class="current-bet">How much would you like to Bet</label><br>
+    <input type="text" data-behavior="room_speaker" class="current-bet" id="bet-amount"><br>
+    <input type="submit" data-behavior="room_speaker" value="Bet" class="current-bet" id="current-bet"><br>
+  </form>
+
+  <div class="game-actions" id="<%= current_user.username %>">
+    <div class="fold">
+      <button data-behavior="room_speaker" value="Fold" id="fold" class="action">Fold</button>
+    </div>
+
+    <div class="bet">
+      <button  value="Bet / Raise" id="bet" class="action">Bet</button>
+    </div>
+
+    <div class="check">
+      <button  data-behavior="room_speaker" value="Check" id="check" class="action">Check / Call</button>
+    </div>
+  </div>
+
+  <div id="pocket">
+    <%= button_to "Pocket Cards", card_path(user_id: current_user.id), method: :get, id: :pocket_cards, remote: true %>
+  </div>
+</div>
