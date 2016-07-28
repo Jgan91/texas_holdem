@@ -42,8 +42,9 @@ class RoomChannel < ApplicationCable::Channel
 
 
     def game_play(game)
-      reset_table(game) if game.stage == "river" && game.players_updated?
+      check_winner(game)
       action = game.game_action
+
       update_players(game)
       game_play(game) if action.class == Message
       if action.class == User
@@ -55,9 +56,19 @@ class RoomChannel < ApplicationCable::Channel
       update_pot
     end
 
+    def check_winner(game)
+      if game.stage == "river" && game.players_updated?
+        game.declare_winner
+        reset_table(game)
+      end
+      if Game.find(game.id).players.one? { |player| player.action != 2 }
+        game.declare_winner(game.players.detect { |player| player.action != 2})
+        reset_table(game)
+      end
+    end
+
     def reset_table(game)
-      game.declare_winner
-      sleep 3
+      sleep 3.5
       game.reset_game
       broadcast clear_table: "clear_table"
       game.set_up_game

@@ -5,15 +5,15 @@ module PlayerHelper
     # if player.class == User
     #   player.update(total_bet: (Game.find(player.game.id).users.find(player.id).total_bet + amount.to_i))
     # end
+    raise_amount = amount.to_i + call_amount(player)
     player.update(total_bet:
       (Game.find(player.game.id).find_players.detect do |game_player|
         game_player == player
-      end.total_bet + amount.to_i))
-    new_amount = player.cash - amount.to_i
+      end.total_bet + raise_amount))
+    new_amount = player.cash - raise_amount
     player.update(cash: new_amount)
     current_game = Game.find(player.game.id)
-    current_game.update(pot: (current_game.pot + amount.to_i))
-    # Message.create! content: "#{player.username}: bet #{amount}" if player.class == AiPlayer
+    current_game.update(pot: (current_game.pot + raise_amount))
   end
 
   def update_actions(current_player)
