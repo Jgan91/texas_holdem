@@ -18,8 +18,7 @@
       <button  data-behavior="room_speaker" value="Check" id="check" class="action">Check / Call</button>
     </div>
   </div>
-
-  <div id="pocket">
+  <div id="pocket-button">
     <%= button_to "Pocket Cards", card_path(user_id: current_user.id), method: :get, id: :pocket_cards, remote: true %>
   </div>
 </div>
