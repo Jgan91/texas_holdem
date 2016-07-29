@@ -62,13 +62,12 @@ class RoyalFlush
 
   def match?
     potential_royal = cards.group_by(&:suit)
-
-    cards = potential_royal.values.max_by do |cards|
+    suited_cards = potential_royal.values.max_by do |cards|
       cards.size
     end.map(&:value)
 
     ["ACE", "KING", "QUEEN", "JACK", "10"].all? do |value|
-      cards.include?(value)
+      suited_cards.include?(value)
     end
   end
 end
@@ -83,7 +82,9 @@ class StraightFlush
   end
 
   def match?
-    sorted_values = card_converter(cards).sort_by(&:value)
+    # sorted_values = card_converter(cards).sort_by(&:value)
+    sorted_values = sorted_card_values(cards)
+
     all_cards = [sorted_values[0..4], sorted_values[1..5], sorted_values[2..6]]
     all_cards.any? do |five_cards|
       [Flush.new(five_cards), Straight.new(five_cards)].all?(&:match?)
@@ -170,43 +171,33 @@ class CardAnalyzer
   end
 
   def determine_winner(players)
-    players.sort_by do |player|
+    top_hand = players.min_by do |player|
       HANDS.index(find_hand(player.cards).class)
-    end.first
-
-    # hands = all_players.select do |player_hand|
-    #   index_hand(player_hand.last) == index_hand(all_players.first.last)
-    # end
-    # best_hand(hands)
+    end.cards
+    players_with_top_hands = players.select do |player|
+      find_hand(player.cards).class == find_hand(top_hand).class
+    end
+    best_hand(players_with_top_hands)
   end
-  #
-  # def best_hand(hands)
-  #   if hands.size == 1
-  #     hands.first.first.take_winnings
-  #   else
-  #     winner = hands.map do |player_hand|
-  #       [player_hand.first, find_best(player_hand.last)]
-  #     end.sort_by do |best_cards|
-  #       best_cards.last.map(&:value)
-  #     end
-  #     check_tie(winner)
-  #   end
-  # end
-  #
-  # def check_tie(winner)
-  #   final_winner = winner.select do |hands|
-  #     hands.last.map(&:value) == winner.last.last.map(&:value)
-  #   end
-  #   if final_winner.size == 1
-  #     final_winner.last.first.take_winnings
-  #   else
-  #     final_winner.map do |player|
-  #       player.first.split_pot(final_winner.count)
-  #     end.join(", ")
-  #   end
-  # end
-  #
-  # def index_hand(cards)
-  #   HANDS.index(find_hand(cards).class)
-  # end
+
+  def best_hand(players)
+    if players.size == 1
+      players.first
+    else
+      players_best_five_cards = players.map { |player| [player, find_best(player.cards)] }
+        .sort_by do |player_hand|
+        player_hand.last.map { |card| card.value.to_i }
+      end
+      check_tie(players_best_five_cards)
+    end
+  end
+
+  def check_tie(players_with_hands)
+    return players_with_hands.last.first if players_with_hands.one? do |player|
+      player.last.map(&:value) == players_with_hands.last.last.map(&:value)
+    end
+    players_with_hands.select do |player|
+      player.last.map(&:value) == players_with_hands.last.last.map(&:value)
+    end.map(&:first)
+  end
 end
