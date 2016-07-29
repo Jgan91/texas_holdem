@@ -22,7 +22,7 @@
   </div>
 </div>
 <div id="cards">
-  <%= render @cards %>
+  <%= render @cards if @game.started %>
 </div>
 
 <%= render partial: "partials/game_actions" %>
