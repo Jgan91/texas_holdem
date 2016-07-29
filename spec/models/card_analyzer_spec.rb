@@ -190,521 +190,464 @@ RSpec.describe CardAnalyzer do
     expect(winner).to eq frank
   end
 
-  # it "determines a winner between multiple two of a kind hands" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "5", suit: "Clubs"],
-  #     [value: "5", suit: "Hearts"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "QUEEN", suit: "Clubs"],
-  #     [value: "5", suit: "spades"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   player3_cards = [
-  #     [value: "KING", suit: "Clubs"],
-  #     [value: "3", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #   pair_winner = CardAnalyzer.new
-  #   winner = pair_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{jannet.id} ai_player").to eq winner
-  # end
-  #
-  # it "determines a winner between multiple two pair hands" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "2", suit: "Clubs"],
-  #     [value: "3", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "QUEEN", suit: "Clubs"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   player3_cards = [
-  #     [value: "7", suit: "Clubs"],
-  #     [value: "3", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #   two_pair_winner = CardAnalyzer.new
-  #   winner = two_pair_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{jannet.id} ai_player").to eq winner
-  # end
+  it "determines a winner between multiple two of a kind hands" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+    game.update(ordered_players: [frank.id, jannet.id, bob.id])
 
-  # it "determines the winner between same two pair" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "QUEEN", suit: "Hearts"],
-  #     [value: "3", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "9", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "QUEEN", suit: "Clubs"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "QUEEN", suit: "Spades"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   player3_cards = [
-  #     [value: "7", suit: "Clubs"],
-  #     [value: "3", suit: "Diamonds"],
-  #     [value: "5", suit: "Diamonds"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   two_pair_winner = CardAnalyzer.new
-  #   winner = two_pair_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{jannet.id} ai_player").to eq winner
-  # end
-  #
-  # it "determines a winner between multiple three of a kind hands" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "2", suit: "Clubs"],
-  #     [value: "3", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "ACE", suit: "Clubs"],
-  #     [value: "3", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   player3_cards = [
-  #     [value: "9", suit: "Spades"],
-  #     [value: "9", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #   high_card_winner = CardAnalyzer.new
-  #   winner = high_card_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{bob.id} ai_player").to eq winner
-  # end
-  #
-  # it "determines a winner between multiple of the same three of a kind hand" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "ACE", suit: "Clubs"],
-  #     [value: "3", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "2", suit: "Clubs"],
-  #     [value: "3", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   three_of_a_kind_winner = CardAnalyzer.new
-  #   winner = three_of_a_kind_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards
-  #     })
-  #   expect("#{frank.id} ai_player").to eq winner
-  # end
-  #
-  # it "determines a winner between multiple of the same high three of a kind hand" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "KING", suit: "Clubs"],
-  #     [value: "KING", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "ACE", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "ACE", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "KING", suit: "Clubs"],
-  #     [value: "ACE", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "ACE", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "ACE", suit: "Hearts"]
-  #   ]
-  #   player3_cards = [
-  #     [value: "2", suit: "Clubs"],
-  #     [value: "ACE", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "ACE", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "ACE", suit: "Hearts"]
-  #   ]
-  #
-  #   three_of_a_kind_winner = CardAnalyzer.new
-  #   winner = three_of_a_kind_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{jannet.id} ai_player").to eq winner
-  # end
-  #
-  # it "determines a winner between straights" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "7", suit: "Clubs"],
-  #     [value: "8", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "ACE", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "JACK", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "KING", suit: "Clubs"],
-  #     [value: "JACK", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "8", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "JACK", suit: "Hearts"]
-  #   ]
-  #   player3_cards = [
-  #     [value: "2", suit: "Clubs"],
-  #     [value: "ACE", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "5", suit: "Hearts"],
-  #     [value: "4", suit: "Hearts"]
-  #   ]
-  #
-  #   straight_winner = CardAnalyzer.new
-  #   winner = straight_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{jannet.id} ai_player").to eq winner
-  # end
-  #
-  # it "determines a winner between flushes" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "6", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"],
-  #     [value: "QUEEN", suit: "Hearts"],
-  #     [value: "ACE", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "9", suit: "Hearts"],
-  #     [value: "JACK", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "KING", suit: "Diamonds"],
-  #     [value: "10", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "8", suit: "Spades"],
-  #     [value: "10", suit: "Diamonds"],
-  #     [value: "9", suit: "Diamonds"],
-  #     [value: "6", suit: "Hearts"]
-  #   ]
-  #   player3_cards = [
-  #     [value: "2", suit: "Clubs"],
-  #     [value: "ACE", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "6", suit: "Clubs"],
-  #     [value: "4", suit: "Clubs"]
-  #   ]
-  #
-  #   flush_winner = CardAnalyzer.new
-  #   winner = flush_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{bob.id} ai_player").to eq winner
-  # end
-  #
-  # it "determines a winner between full houses" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "6", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"],
-  #     [value: "QUEEN", suit: "Hearts"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "6", suit: "Clubs"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "2", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "8", suit: "Spades"],
-  #     [value: "2", suit: "Clubs"],
-  #     [value: "9", suit: "Diamonds"],
-  #     [value: "2", suit: "Hearts"]
-  #   ]
-  #   player3_cards = [
-  #     [value: "9", suit: "Clubs"],
-  #     [value: "ACE", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "9", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "10", suit: "Hearts"],
-  #     [value: "10", suit: "Spades"]
-  #   ]
-  #
-  #   full_house_winner = CardAnalyzer.new
-  #   winner = full_house_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{jannet.id} ai_player").to eq winner
-  # end
-  #
-  # it "determines a winner between multiple four of a kind hands" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "6", suit: "Hearts"],
-  #     [value: "6", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Hearts"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "6", suit: "Spades"],
-  #     [value: "6", suit: "Clubs"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "2", suit: "Diamonds"],
-  #     [value: "QUEEN", suit: "Clubs"],
-  #     [value: "8", suit: "Spades"],
-  #     [value: "2", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Spades"],
-  #     [value: "QUEEN", suit: "Hearts"]
-  #   ]
-  #   player3_cards = [
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "ACE", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "9", suit: "Spades"],
-  #     [value: "10", suit: "Diamonds"],
-  #     [value: "10", suit: "Hearts"],
-  #     [value: "10", suit: "Spades"]
-  #   ]
-  #
-  #   four_of_kind_winner = CardAnalyzer.new
-  #   winner = four_of_kind_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{jannet.id} ai_player").to eq winner
-  # end
-  #
-  # it "determines a winner between straight flushes" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "6", suit: "Hearts"],
-  #     [value: "5", suit: "Hearts"],
-  #     [value: "QUEEN", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"],
-  #     [value: "4", suit: "Hearts"],
-  #     [value: "ACE", suit: "Hearts"],
-  #     [value: "2", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "QUEEN", suit: "Clubs"],
-  #     [value: "2", suit: "Diamonds"],
-  #     [value: "JACK", suit: "Clubs"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Clubs"],
-  #     [value: "9", suit: "Clubs"],
-  #     [value: "8", suit: "Clubs"]
-  #   ]
-  #   player3_cards = [
-  #     [value: "10", suit: "Spades"],
-  #     [value: "9", suit: "Spades"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "8", suit: "Spades"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Hearts"],
-  #     [value: "6", suit: "Spades"]
-  #   ]
-  #
-  #   straight_flush_winner = CardAnalyzer.new
-  #   winner = straight_flush_winner.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{jannet.id} ai_player").to eq winner
-  # end
-  #
-  # it "handles a tie game" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #   bob = game.ai_players.create(username: "bob")
-  #
-  #   player1_cards = [
-  #     [value: "6", suit: "Hearts"],
-  #     [value: "5", suit: "Hearts"],
-  #     [value: "QUEEN", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"],
-  #     [value: "4", suit: "Hearts"],
-  #     [value: "ACE", suit: "Hearts"],
-  #     [value: "2", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "6", suit: "Clubs"],
-  #     [value: "5", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Clubs"],
-  #     [value: "3", suit: "Clubs"],
-  #     [value: "4", suit: "Clubs"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Clubs"]
-  #   ]
-  #   player3_cards = [
-  #     [value: "2", suit: "Spades"],
-  #     [value: "4", suit: "Spades"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "9", suit: "Spades"],
-  #     [value: "5", suit: "Spades"],
-  #     [value: "3", suit: "Spades"],
-  #     [value: "6", suit: "Spades"]
-  #   ]
-  #   tie = CardAnalyzer.new
-  #   winner = tie.determine_winner({
-  #     frank => player1_cards,
-  #     jannet => player2_cards,
-  #     bob => player3_cards
-  #     })
-  #   expect("#{frank.id} ai_player, #{jannet.id} ai_player, #{bob.id} ai_player").to eq winner
-  # end
+    frank.cards = [
+      Card.create(value: "5", suit: "Clubs"),
+      Card.create(value: "5", suit: "Hearts"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "QUEEN", suit: "Clubs"),
+      Card.create(value: "5", suit: "spades"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    bob.cards = [
+      Card.create(value: "KING", suit: "Clubs"),
+      Card.create(value: "3", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    pair_winner = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(pair_winner).to eq jannet
+  end
+
+  it "determines a winner between multiple two pair hands" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "2", suit: "Clubs"),
+      Card.create(value: "3", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "QUEEN", suit: "Clubs"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    bob.cards = [
+      Card.create(value: "7", suit: "Clubs"),
+      Card.create(value: "3", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+    two_pair_winner = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(two_pair_winner).to eq jannet
+  end
+
+  it "determines the winner between same two pair" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "QUEEN", suit: "Hearts"),
+      Card.create(value: "3", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "9", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "QUEEN", suit: "Clubs"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "QUEEN", suit: "Spades"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    bob.cards = [
+      Card.create(value: "7", suit: "Clubs"),
+      Card.create(value: "3", suit: "Diamonds"),
+      Card.create(value: "5", suit: "Diamonds"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    two_pair_winner = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(two_pair_winner).to eq jannet
+  end
+
+  it "determines a winner between multiple three of a kind hands" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "2", suit: "Clubs"),
+      Card.create(value: "3", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "ACE", suit: "Clubs"),
+      Card.create(value: "3", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    bob.cards = [
+      Card.create(value: "9", suit: "Spades"),
+      Card.create(value: "9", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+    three_of_a_kind_winner = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(three_of_a_kind_winner).to eq bob
+  end
+
+  it "determines a winner between multiple of the same three of a kind hand" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "ACE", suit: "Clubs"),
+      Card.create(value: "3", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "2", suit: "Clubs"),
+      Card.create(value: "3", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    three_of_a_kind_winner = CardAnalyzer.new.determine_winner([frank, jannet])
+    expect(three_of_a_kind_winner).to eq frank
+  end
+
+  it "determines a winner between multiple of the same high three of a kind hand" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "KING", suit: "Clubs"),
+      Card.create(value: "KING", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "ACE", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "ACE", suit: "Hearts")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "KING", suit: "Clubs"),
+      Card.create(value: "ACE", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "ACE", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "ACE", suit: "Hearts")
+    ]
+    bob.cards = [
+      Card.create(value: "2", suit: "Clubs"),
+      Card.create(value: "ACE", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "ACE", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "ACE", suit: "Hearts")
+    ]
+
+    three_of_a_kind_winner = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(three_of_a_kind_winner).to eq jannet
+  end
+
+  it "determines a winner between straights" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "7", suit: "Clubs"),
+      Card.create(value: "8", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "ACE", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "JACK", suit: "Hearts")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "KING", suit: "Clubs"),
+      Card.create(value: "JACK", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "8", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "JACK", suit: "Hearts")
+    ]
+    bob.cards = [
+      Card.create(value: "2", suit: "Clubs"),
+      Card.create(value: "ACE", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "5", suit: "Hearts"),
+      Card.create(value: "4", suit: "Hearts")
+    ]
+
+    straight_winner = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(straight_winner).to eq jannet
+  end
+
+  it "determines a winner between flushes" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "6", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts"),
+      Card.create(value: "QUEEN", suit: "Hearts"),
+      Card.create(value: "ACE", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "9", suit: "Hearts"),
+      Card.create(value: "JACK", suit: "Hearts")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "KING", suit: "Diamonds"),
+      Card.create(value: "10", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "8", suit: "Spades"),
+      Card.create(value: "10", suit: "Diamonds"),
+      Card.create(value: "9", suit: "Diamonds"),
+      Card.create(value: "6", suit: "Hearts")
+    ]
+    bob.cards = [
+      Card.create(value: "2", suit: "Clubs"),
+      Card.create(value: "ACE", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "6", suit: "Clubs"),
+      Card.create(value: "4", suit: "Clubs")
+    ]
+
+    flush_winner = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(flush_winner).to eq bob
+  end
+
+  it "determines a winner between full houses" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "6", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts"),
+      Card.create(value: "QUEEN", suit: "Hearts"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "6", suit: "Clubs")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "2", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "8", suit: "Spades"),
+      Card.create(value: "2", suit: "Clubs"),
+      Card.create(value: "9", suit: "Diamonds"),
+      Card.create(value: "2", suit: "Hearts")
+    ]
+    bob.cards = [
+      Card.create(value: "9", suit: "Clubs"),
+      Card.create(value: "ACE", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "9", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "10", suit: "Hearts"),
+      Card.create(value: "10", suit: "Spades")
+    ]
+
+    full_house_winner = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(full_house_winner).to eq jannet
+  end
+
+  it "determines a winner between multiple four of a kind hands" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "6", suit: "Hearts"),
+      Card.create(value: "6", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Hearts"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "6", suit: "Spades"),
+      Card.create(value: "6", suit: "Clubs")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "2", suit: "Diamonds"),
+      Card.create(value: "QUEEN", suit: "Clubs"),
+      Card.create(value: "8", suit: "Spades"),
+      Card.create(value: "2", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Spades"),
+      Card.create(value: "QUEEN", suit: "Hearts")
+    ]
+    bob.cards = [
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "ACE", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "9", suit: "Spades"),
+      Card.create(value: "10", suit: "Diamonds"),
+      Card.create(value: "10", suit: "Hearts"),
+      Card.create(value: "10", suit: "Spades")
+    ]
+
+    four_of_kind_winner = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(four_of_kind_winner).to eq jannet
+  end
+
+  it "determines a winner between straight flushes" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "6", suit: "Hearts"),
+      Card.create(value: "5", suit: "Hearts"),
+      Card.create(value: "QUEEN", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts"),
+      Card.create(value: "4", suit: "Hearts"),
+      Card.create(value: "ACE", suit: "Hearts"),
+      Card.create(value: "2", suit: "Hearts")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "QUEEN", suit: "Clubs"),
+      Card.create(value: "2", suit: "Diamonds"),
+      Card.create(value: "JACK", suit: "Clubs"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Clubs"),
+      Card.create(value: "9", suit: "Clubs"),
+      Card.create(value: "8", suit: "Clubs")
+    ]
+    bob.cards = [
+      Card.create(value: "10", suit: "Spades"),
+      Card.create(value: "9", suit: "Spades"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "8", suit: "Spades"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Hearts"),
+      Card.create(value: "6", suit: "Spades")
+    ]
+
+    straight_flush_winner = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(straight_flush_winner).to eq jannet
+  end
+
+  it "handles a tie game" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    bob = game.ai_players.create(username: "bob")
+
+    frank.cards = [
+      Card.create(value: "6", suit: "Hearts"),
+      Card.create(value: "5", suit: "Hearts"),
+      Card.create(value: "QUEEN", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts"),
+      Card.create(value: "4", suit: "Hearts"),
+      Card.create(value: "ACE", suit: "Hearts"),
+      Card.create(value: "2", suit: "Hearts")
+    ]
+
+    jannet.cards = [
+      Card.create(value: "6", suit: "Clubs"),
+      Card.create(value: "5", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Clubs"),
+      Card.create(value: "3", suit: "Clubs"),
+      Card.create(value: "4", suit: "Clubs"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Clubs")
+    ]
+    bob.cards = [
+      Card.create(value: "2", suit: "Spades"),
+      Card.create(value: "4", suit: "Spades"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "9", suit: "Spades"),
+      Card.create(value: "5", suit: "Spades"),
+      Card.create(value: "3", suit: "Spades"),
+      Card.create(value: "6", suit: "Spades")
+    ]
+    tie = CardAnalyzer.new.determine_winner([frank, jannet, bob])
+    expect(tie).to eq [frank, jannet, bob]
+  end
 end

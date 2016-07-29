@@ -62,13 +62,12 @@ class RoyalFlush
 
   def match?
     potential_royal = cards.group_by(&:suit)
-
-    cards = potential_royal.values.max_by do |cards|
+    suited_cards = potential_royal.values.max_by do |cards|
       cards.size
     end.map(&:value)
 
     ["ACE", "KING", "QUEEN", "JACK", "10"].all? do |value|
-      cards.include?(value)
+      suited_cards.include?(value)
     end
   end
 end
@@ -83,7 +82,9 @@ class StraightFlush
   end
 
   def match?
-    sorted_values = card_converter(cards).sort_by(&:value)
+    # sorted_values = card_converter(cards).sort_by(&:value)
+    sorted_values = sorted_card_values(cards)
+
     all_cards = [sorted_values[0..4], sorted_values[1..5], sorted_values[2..6]]
     all_cards.any? do |five_cards|
       [Flush.new(five_cards), Straight.new(five_cards)].all?(&:match?)
@@ -185,12 +186,8 @@ class CardAnalyzer
     else
       players_best_five_cards = players.map { |player| [player, find_best(player.cards)] }
         .sort_by do |player_hand|
-        # player_best = find_best(player.cards)
-        # [player, [c, c, c, c]]
         player_hand.last.map { |card| card.value.to_i }
-        # player_best.map { |card| card.value.to_i }
       end
-
       check_tie(players_best_five_cards)
     end
   end
@@ -199,37 +196,8 @@ class CardAnalyzer
     return players_with_hands.last.first if players_with_hands.one? do |player|
       player.last.map(&:value) == players_with_hands.last.last.map(&:value)
     end
-    # winner = winner.select do |hands|
-    #   hands.last.map(&:value) == winner.last.last.map(&:value)
-    # end
-    # if winner.size == 1
-    #   winner.last.first.take_winnings
-    # else
-    #   winner.map do |player|
-    #     player.first.split_pot(winner.count)
-    #   end.join(", ")
-    # end
-  end
-
-  def find_best(cards)
-    sorted_cards = card_converter(cards).sort_by do |card|
-      card.value.to_i
-    end
-
-    hand = find_hand(cards).class
-    return sorted_cards.reverse[0..4] if hand == HighCard
-    # best_cards = []
-    # place_holder = 0
-    # sorted_cards.each do |card|
-    #   if find_hand(sorted_cards.reject { |match| match == card }).class != hand
-    #     best_cards << card
-    #   else
-    #     sorted_cards[sorted_cards.index(card)] = Card.new(place_holder, place_holder)
-    #   end
-    #   place_holder -= 1
-    # end
-    # sorted_cards = card_converter(cards).sort_by(&:value)
-    # remaining = sorted_cards.reject { |card| best_cards.map(&:value).include?(card.value)}.reverse
-    # (best_cards.reverse + remaining)[0..4]
+    players_with_hands.select do |player|
+      player.last.map(&:value) == players_with_hands.last.last.map(&:value)
+    end.map(&:first)
   end
 end
