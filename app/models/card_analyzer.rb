@@ -170,43 +170,66 @@ class CardAnalyzer
   end
 
   def determine_winner(players)
-    players.sort_by do |player|
+    top_hand = players.min_by do |player|
       HANDS.index(find_hand(player.cards).class)
-    end.first
-
-    # hands = all_players.select do |player_hand|
-    #   index_hand(player_hand.last) == index_hand(all_players.first.last)
-    # end
-    # best_hand(hands)
+    end.cards
+    players_with_top_hands = players.select do |player|
+      find_hand(player.cards).class == find_hand(top_hand).class
+    end
+    best_hand(players_with_top_hands)
   end
-  #
-  # def best_hand(hands)
-  #   if hands.size == 1
-  #     hands.first.first.take_winnings
-  #   else
-  #     winner = hands.map do |player_hand|
-  #       [player_hand.first, find_best(player_hand.last)]
-  #     end.sort_by do |best_cards|
-  #       best_cards.last.map(&:value)
-  #     end
-  #     check_tie(winner)
-  #   end
-  # end
-  #
-  # def check_tie(winner)
-  #   final_winner = winner.select do |hands|
-  #     hands.last.map(&:value) == winner.last.last.map(&:value)
-  #   end
-  #   if final_winner.size == 1
-  #     final_winner.last.first.take_winnings
-  #   else
-  #     final_winner.map do |player|
-  #       player.first.split_pot(final_winner.count)
-  #     end.join(", ")
-  #   end
-  # end
-  #
-  # def index_hand(cards)
-  #   HANDS.index(find_hand(cards).class)
-  # end
+
+  def best_hand(players)
+    if players.size == 1
+      players.first
+    else
+      players_best_five_cards = players.map { |player| [player, find_best(player.cards)] }
+        .sort_by do |player_hand|
+        # player_best = find_best(player.cards)
+        # [player, [c, c, c, c]]
+        player_hand.last.map { |card| card.value.to_i }
+        # player_best.map { |card| card.value.to_i }
+      end
+
+      check_tie(players_best_five_cards)
+    end
+  end
+
+  def check_tie(players_with_hands)
+    return players_with_hands.last.first if players_with_hands.one? do |player|
+      player.last.map(&:value) == players_with_hands.last.last.map(&:value)
+    end
+    # winner = winner.select do |hands|
+    #   hands.last.map(&:value) == winner.last.last.map(&:value)
+    # end
+    # if winner.size == 1
+    #   winner.last.first.take_winnings
+    # else
+    #   winner.map do |player|
+    #     player.first.split_pot(winner.count)
+    #   end.join(", ")
+    # end
+  end
+
+  def find_best(cards)
+    sorted_cards = card_converter(cards).sort_by do |card|
+      card.value.to_i
+    end
+
+    hand = find_hand(cards).class
+    return sorted_cards.reverse[0..4] if hand == HighCard
+    # best_cards = []
+    # place_holder = 0
+    # sorted_cards.each do |card|
+    #   if find_hand(sorted_cards.reject { |match| match == card }).class != hand
+    #     best_cards << card
+    #   else
+    #     sorted_cards[sorted_cards.index(card)] = Card.new(place_holder, place_holder)
+    #   end
+    #   place_holder -= 1
+    # end
+    # sorted_cards = card_converter(cards).sort_by(&:value)
+    # remaining = sorted_cards.reject { |card| best_cards.map(&:value).include?(card.value)}.reverse
+    # (best_cards.reverse + remaining)[0..4]
+  end
 end

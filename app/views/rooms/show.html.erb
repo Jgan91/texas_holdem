@@ -9,19 +9,19 @@
   <%= render @game_cards %>
 </div>
 
-  <div class="history">
-    <h1>Table</h1>
-    <form>
-      <label>Say something:</label><br>
-      <input name="chat" id="chat" type="text" data-behavior="room_speaker">
-    </form>
+<div class="history">
+  <h1>Table</h1>
+  <form>
+    <label>Say something:</label><br>
+    <input name="chat" id="chat" type="text" data-behavior="room_speaker">
+  </form>
 
-    <div id="messages">
-      <%= render @messages.reverse %>
-    </div>
+  <div id="messages">
+    <%= render @messages.reverse %>
   </div>
+</div>
 
-  <%= render partial: "partials/game_actions" %>
+<%= render partial: "partials/game_actions" %>
 
 <div id="cards">
   <%= render @cards %>

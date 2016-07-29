@@ -126,11 +126,11 @@ class Game < ApplicationRecord
   end
 
   def find_winner
-    players = find_players.select { |player| player.action < 2 }
-      players.each do |player|
+    active_players = players.select { |player| player.action < 2 }
+      active_players.each do |player|
         player.cards += game_cards.map { |id| Card.find(id) }
       end
-    CardAnalyzer.new.determine_winner(players)
+    CardAnalyzer.new.determine_winner(active_players)
   end
 
   def reset_game

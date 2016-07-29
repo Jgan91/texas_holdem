@@ -160,33 +160,35 @@ RSpec.describe CardAnalyzer do
     expect(CardAnalyzer.new.find_hand(cards).class).to eq RoyalFlush
   end
 
-  # it "determines a winner between two high card hands" do
-  #   game = Game.create
-  #   frank = game.ai_players.create(username: "Frank")
-  #   jannet = game.ai_players.create(username: "Jannet")
-  #
-  #   player1_cards = [
-  #     [value: "5", suit: "Clubs"],
-  #     [value: "4", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #
-  #   player2_cards = [
-  #     [value: "KING", suit: "Clubs"],
-  #     [value: "5", suit: "Clubs"],
-  #     [value: "QUEEN", suit: "Diamonds"],
-  #     [value: "7", suit: "Spades"],
-  #     [value: "10", suit: "Clubs"],
-  #     [value: "2", suit: "Hearts"],
-  #     [value: "3", suit: "Hearts"]
-  #   ]
-  #   high_card_winner = CardAnalyzer.new
-  #   expect("#{jannet.id} ai_player").to eq high_card_winner.determine_winner({ frank => player1_cards, jannet => player2_cards })
-  # end
+  it "determines a winner between two high card hands" do
+    game = Game.create
+    frank = game.ai_players.create(username: "Frank")
+    jannet = game.ai_players.create(username: "Jannet")
+    game.update(ordered_players: [frank.id, jannet.id])
+
+
+    jannet.cards = [
+      Card.create(value: "5", suit: "Clubs"),
+      Card.create(value: "4", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+
+    frank.cards = [
+      Card.create(value: "KING", suit: "Clubs"),
+      Card.create(value: "5", suit: "Clubs"),
+      Card.create(value: "QUEEN", suit: "Diamonds"),
+      Card.create(value: "7", suit: "Spades"),
+      Card.create(value: "10", suit: "Clubs"),
+      Card.create(value: "2", suit: "Hearts"),
+      Card.create(value: "3", suit: "Hearts")
+    ]
+    winner = CardAnalyzer.new.determine_winner([jannet, frank])
+    expect(winner).to eq frank
+  end
 
   # it "determines a winner between multiple two of a kind hands" do
   #   game = Game.create
