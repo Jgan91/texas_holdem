@@ -117,12 +117,12 @@ class Game < ApplicationRecord
   end
 
   def declare_winner(winner = find_winner)
+    return tie_game(winner) if winner.is_a? Array
     take_pot(winner)
     if players.one? { |player| player.action != 2 } || winner.cards.empty?
       return Message.create! content: "#{winner.username} WINS!"
     end
-    hand = CardAnalyzer.new.find_hand(winner.cards).class.to_s.underscore.humanize
-    Message.create! content: "#{winner.username} WINS with a #{hand}!"
+    Message.create! content: "#{winner.username} WINS with a #{display_hand(winner.cards)}!"
   end
 
   def find_winner
@@ -131,6 +131,12 @@ class Game < ApplicationRecord
         player.cards += game_cards.map { |id| Card.find(id) }
       end
     CardAnalyzer.new.determine_winner(active_players)
+  end
+
+  def tie_game(winners)
+    split_pot(winners)
+    Message.create! content: "#{winners.map(&:username).join(", ")} split the
+      pot with #{display_hand(winners.first.cards).pluralize}"
   end
 
   def reset_game

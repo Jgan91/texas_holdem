@@ -49,4 +49,8 @@ module PlayerHelper
     game.find_players.detect { |current_player| current_player == player }
       .update(cash: (player.cash + pot))
   end
+
+  def display_hand(cards)
+    CardAnalyzer.new.find_hand(cards).class.to_s.underscore.humanize
+  end
 end
