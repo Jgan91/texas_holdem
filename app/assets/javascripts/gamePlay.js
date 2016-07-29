@@ -1,21 +1,17 @@
-function initiateBet() {
+function makeBet() {
   $("#current-bet").on("click", function() {
     $(".bet-form").fadeOut();
     $(".action").fadeIn();
     $(".container-action").fadeOut()
+    $("img").removeClass("transparent")
   });
 }
 
-function makeBet() {
+function initiateBet() {
   $("#bet").on("click", function() {
     $(".action").fadeOut()
+    $("img").addClass("transparent")
     $(".bet-form").fadeIn()
-  })
-  $("#bet").keypress(function(event) {
-    if (event.which == 13) {
-      $(".action").fadeOut()
-      $(".bet-form").fadeIn()
-    }
   })
 }
 

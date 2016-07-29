@@ -13,7 +13,7 @@
 
 .bet-form {
   display: none;
-  width: 47%;
+  width: 40%;
   margin-left: 40%;
   border: 1px solid black;
   text-align: center;
@@ -21,6 +21,7 @@
   background-color: white;
   padding: 10px;
   font-family: Sans-serif;
+  position: fixed;
 }
 
 .current-bet {

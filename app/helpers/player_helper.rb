@@ -1,11 +1,6 @@
 module PlayerHelper
   def bet(player, amount)
     amount = player.cash if amount > player.cash
-    # update(current_bet: amount)
-    # if player.class == User
-    #   player.update(total_bet: (Game.find(player.game.id).users.find(player.id).total_bet + amount.to_i))
-    # end
-    # amount.to_i = amount.to_i + call_amount(player)
     player.update(total_bet:
       (Game.find(player.game.id).find_players.detect do |game_player|
         game_player == player
@@ -48,6 +43,13 @@ module PlayerHelper
     pot = game.pot
     game.find_players.detect { |current_player| current_player == player }
       .update(cash: (player.cash + pot))
+  end
+
+  def split_pot(winners)
+    winners.each do |winner|
+      cash_amount = winner.cash + winner.game.pot.to_i / winners.size
+      winner.update(cash: cash_amount)
+    end
   end
 
   def display_hand(cards)

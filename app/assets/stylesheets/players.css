@@ -35,6 +35,10 @@
   margin-top: -25%;
 }
 
+.transparent {
+  opacity: 0.5;
+}
+
 #game_card {
   width: 125px;
   float: right;
