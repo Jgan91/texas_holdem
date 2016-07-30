@@ -55,4 +55,11 @@ module PlayerHelper
   def display_hand(cards)
     CardAnalyzer.new.find_hand(cards).class.to_s.underscore.humanize
   end
+
+  def display_cards(winner)
+    table_cards = Card.where(id: winner.game.game_cards)
+    winner_cards = winner.cards.map { |card| "#{card.value} of #{card.suit}" }
+    table_cards = table_cards.map { |card| "#{card.value} of #{card.suit}" }
+    (winner_cards - table_cards).join(" and ")
+  end
 end

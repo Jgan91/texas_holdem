@@ -122,7 +122,8 @@ class Game < ApplicationRecord
     if players.one? { |player| player.action != 2 } || winner.cards.empty?
       return Message.create! content: "#{winner.username} WINS!"
     end
-    Message.create! content: "#{winner.username} WINS with a #{display_hand(winner.cards)}!"
+    Message.create! content: "#{winner.username} WINS: #{display_hand(winner.cards)}!
+    \n#{display_cards(winner)}"
   end
 
   def find_winner
