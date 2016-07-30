@@ -11,6 +11,14 @@ body {
   height: 800px;
 }
 
+.banner {
+  font-family: sans-serif;
+  color: white;
+  margin-left: 41%;
+  position: fixed;
+}
+
+
 .create-account, .sign-in {
   display: none;
   width: 40%;
