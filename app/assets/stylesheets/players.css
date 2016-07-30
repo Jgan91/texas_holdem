@@ -30,7 +30,13 @@
 #cards {
   margin: auto;
   width: 400px;
-  display: block;
+  display: inline;
+  float: right;
+  margin-top: -25%;
+}
+
+.transparent {
+  opacity: 0.5;
 }
 
 #game_card {
@@ -48,8 +54,15 @@
 
 #pocket {
   width: 110px;
-  float: right;
   margin-top: 5%;
+  margin-right: 30.8%;
+  display: inline-block;
+}
+
+#pocket-button {
+  width: 110px;
+  float: right;
+  margin-top: -25%;
   margin-right: 30.8%;
 }
 

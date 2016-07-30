@@ -50,7 +50,7 @@ class RoomChannel < ApplicationCable::Channel
       if action.is_a? User
         broadcast user_id: action.id
         Message.create! content: "#{action.username}'s turn"
-        sleep 0.07
+        sleep 0.05
         broadcast turn: "#{action.id}"
       end
       update_pot

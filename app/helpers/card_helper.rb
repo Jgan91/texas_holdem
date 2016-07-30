@@ -33,7 +33,7 @@ module CardHelper
   def find_best(cards)
     hand = find_hand(cards).class
     return sorted_card_values(cards).reverse[0..4] if hand == HighCard
-    
+
     remaining = sorted_card_values(cards).reject do |card|
       essential_cards(cards, hand).map(&:value).include?(card.value)
     end.reverse
