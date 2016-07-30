@@ -19,3 +19,9 @@ function submit() {
     $("img").removeClass("transparent")
   })
 }
+
+function flash() {
+  $(".error").delay(1000).fadeIn('normal', function() {
+     $(this).delay(2000).fadeOut(1000);
+  });
+}

@@ -200,4 +200,8 @@ class CardAnalyzer
       player.last.map(&:value) == players_with_hands.last.last.map(&:value)
     end.map(&:first)
   end
+
+  def index_hand(cards)
+    HANDS.index(find_hand(cards).class)
+  end
 end

@@ -19,15 +19,9 @@ class User < ApplicationRecord
     elsif action["bet"]
       amount = action["bet"].to_i
       return error(amount) if amount < game.little_blind || amount > cash
-      # update(raise_count: raise_count + 1)
-      # call_amount = Game.find(id).highest_bet - Game.find(id).users.last.total_bet
-      # user.bet(amount[:current_bet].to_i + call_amount)
-      # game.find_players.reject { |player| player == self }
-      #   .each { |player| player.update(action: (player.action -1)) }
       bet(self, amount + call_amount(self))
       update_actions(self)
-
-      # return Message.create! content: "#{username}: Bet $#{amount}"
+      game.update(raise_count: (game.raise_count + 1))
       action = "Raise: $#{amount}"
     elsif action == "fold"
       fold(self)
