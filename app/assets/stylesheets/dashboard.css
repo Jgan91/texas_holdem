@@ -1,0 +1,27 @@
+.dashboard {
+  font-family: sans-serif;
+  color: white;
+  text-align: center;
+}
+
+#play {
+  background-color: #b30000;
+  color: white;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  margin-top: 20%;
+  font-family: Sans-serif;
+  margin-left: 43.5%;
+  height: 50px;
+  width: 200px;
+  display: inline-block;
+}
+
+#play:hover:not(.active) {
+  background-color: #cc0000;
+}
+
+#play:active {
+  transform: translateY(2px);
+}
