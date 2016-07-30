@@ -89,6 +89,7 @@ class Game < ApplicationRecord
     cards.last.destroy
     stage == "blinds" ? deal_flop : deal_single_card
     update_stage
+    update(raise_count: 0)
     Message.create! content: "#{stage.upcase}"
   end
 
@@ -141,7 +142,7 @@ class Game < ApplicationRecord
   end
 
   def reset_game
-    update(pot: 0, stage: "blinds", game_cards: [])
+    update(pot: 0, stage: "blinds", game_cards: [], raise_count: 0)
     players.each { |player| reset(player) }
     self
   end
