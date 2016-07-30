@@ -14,10 +14,19 @@ body {
 .banner {
   font-family: sans-serif;
   color: white;
-  margin-left: 41%;
+  margin-left: 42%;
   position: fixed;
 }
 
+.error {
+  color: red;
+  font-family: sans-serif;
+  font-size: 30px;
+  position: fixed;
+  margin-top: 15%;
+  margin-left: 41%;
+  width: 30%;
+}
 
 .create-account, .sign-in {
   display: none;

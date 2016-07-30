@@ -9,7 +9,7 @@ class AiPlayer < ApplicationRecord
   def take_action
     Game.find(game.id).ai_players.find(self.id).update(action: 1)
     risk_factor = rand(1..10)
-    sleep risk_factor / 2
+    sleep 1
     if bet_style == "conservative"
       bet_conservative(risk_factor)
     else
@@ -56,7 +56,7 @@ class AiPlayer < ApplicationRecord
   def bet_aggressive(risk_factor)
     return all_in if risk_factor > 7 && hand > 5 && !game.stage == "blinds"
     if game.highest_bet > total_bet && hand < 1
-      risk_factor > 5 ? fold : normal_bet
+      risk_factor > 5 ? fold(self) : normal_bet
     elsif game.highest_bet > total_bet && hand > 2
       risk_factor > 5 ? raise((game.highest_bet - total_bet) + game.little_blind) : normal_bet
     elsif game.highest_bet == total_bet && hand > 1
