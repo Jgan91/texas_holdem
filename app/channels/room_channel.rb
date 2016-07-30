@@ -23,6 +23,7 @@ class RoomChannel < ApplicationCable::Channel
       player = client_action["add-ai-player"] || current_user
       @game.add_player(player)
     elsif client_action["start-game"]
+      return Message.create! content: "There must be at least 2 players to start" if @game.players.count < 2
       start_game(@game)
     elsif @game.started
       @game = Game.find(@game.id)
