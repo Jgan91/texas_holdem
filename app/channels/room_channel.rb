@@ -43,6 +43,7 @@ class RoomChannel < ApplicationCable::Channel
 
     def game_play(game)
       check_winner(game)
+      return champion(game) if champion(game)
       action = game.game_action
 
       update_players(game)
@@ -59,11 +60,21 @@ class RoomChannel < ApplicationCable::Channel
     def check_winner(game)
       if game.stage == "river" && game.players_updated?
         game.declare_winner
+        # possible need to grab updated game out of db
         reset_table(game)
+        # champion(game)
       end
       if Game.find(game.id).players.one? { |player| player.action != 2 }
         game.declare_winner(game.players.detect { |player| player.action != 2})
         reset_table(game)
+      end
+    end
+
+    def champion(game)
+      if game.players.one? { |player| player.cash > 0 }
+        game.update(started: false)
+        champion = game.players.detect { |player| player.cash > 0 }
+        Message.create! content: "#{champion.username} is the winner!"
       end
     end
 

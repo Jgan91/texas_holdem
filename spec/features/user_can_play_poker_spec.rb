@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.feature "user can play poker" do
-  xscenario "user sees results of the game" do
+  scenario "user sees results of the game" do
     ai = AiPlayer.create(username: "Rosco", cash: 1000)
     user = User.create(username: "jones", password: "123", email: "j@gmail.com")
     visit root_path
@@ -9,33 +9,25 @@ RSpec.feature "user can play poker" do
     within(".sign-in") do
       fill_in "Username", with: "jones"
       fill_in "Password", with: "123"
-
       click_on "Sign in"
     end
-
-
     click_on "Play"
-
 
     expect(current_path).to eq rooms_path
 
-    click_on "Play Poker"
-
-    expect(page).to have_content "Players: "
-    expect(page).to have_content "jones"
-    expect(page).to have_content "Rosco"
-    expect(page).to have_content "Little Blind: Jones Smith, $50.00"
-    expect(page).to have_content "Cash: $1950.00"
-
+    click_on "Add AI Player"
+    click_on "Join"
+    click_on "Start Game"
+    Game.update(ordered_players: ["a" + ai.id.to_s, user.id])
     expect(page).to have_button "Bet / Raise"
-    expect(page).to have_button "Call"
+    expect(page).to have_button "Check / Call"
     expect(page).to have_button "Fold"
-    click_on "Call"
-    expect(page).to have_content "Cash: $1900.00"
-    expect(page).to have_content "Rosco Checks"
-    click_on "Deal Flop"
 
-    game = Game.last
+    click_on "Check / Call"
+    click_on "Fold"
+
+    expect(Game.last.stage).to eq "blinds"
+    expect(Game.last.find_players).to eq [ai, user]
     # user = User.last
     # expect(page).to have_content "Flop:"
     #
