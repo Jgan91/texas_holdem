@@ -23,13 +23,11 @@ li a {
   color: white;
   text-align: center;
   text-decoration: none;
-  cursor:default;
 }
 
  /*Change the link color to #111 (black) on hover */
 #sign-out:hover, #create-account:hover, #sign-in:hover {
   background-color: #111;
-  cursor:default;
 }
 
 .game-stats {

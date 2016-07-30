@@ -13,8 +13,8 @@
     <% if current_user %>
       <li id="sign-out"><%= link_to "Sign Out", logout_path, method: :delete %></li>
     <% else %>
-    <li id="create-account">Create Account</li>
-    <li id="sign-in">Sign In</li>
+    <li id="create-account"><%= link_to "Create Account", "#" %></li>
+    <li id="sign-in"><%= link_to "Sign In", "#" %></li>
     <% end %>
   </ul>
 </div>

@@ -16,7 +16,7 @@ RSpec.feature "user can login" do
     expect(current_path).to eq user_path(user.id)
   end
 
-  scenario "user sees login fields again" do
+  scenario "user sees error" do
 
     visit root_path
     within(".sign-in") do
@@ -25,7 +25,7 @@ RSpec.feature "user can login" do
     end
 
     click_on "Sign in"
-
+    expect(page).to have_content "Invalid credentials"
     expect(current_path).to eq root_path
   end
 end
