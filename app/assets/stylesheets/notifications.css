@@ -1,0 +1,27 @@
+#notifications {
+  color: white;
+  position: fixed;
+  font-family: sans-serif;
+  font-size: 40px;
+  margin-top: 3%;
+  margin-left: 30%;
+  display: inline-block;
+}
+
+#winning_cards {
+  width: 75px;
+  display: inline;
+  padding-right: 5px;
+}
+
+.winning-cards {
+  float: right;
+  margin-top: 5%;
+}
+
+
+#winning_card {
+  width: 75px;
+  display: inline;
+  padding-right: 5px;
+}

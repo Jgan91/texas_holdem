@@ -5,10 +5,13 @@
   </div>
 </div>
 
-<%= flash[:champion] %>
-
 <div id="game_cards">
   <%= render @game_cards %>
+</div>
+
+<div id="notifications"></div>
+<div id="winning-cards">
+  <%= render @winning_cards if @winning_cards %>
 </div>
 
 <div class="history">

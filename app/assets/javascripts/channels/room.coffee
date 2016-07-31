@@ -7,6 +7,8 @@ App.room = App.cable.subscriptions.create "RoomChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
+    $("#winning-cards").append data["winning_card"]
+    $("#notifications").html data["notification"]
     $("#messages").prepend data["message"]
     $("#players").html data["player"]
     $("#game_cards").append data["game_card"]
@@ -14,12 +16,10 @@ App.room = App.cable.subscriptions.create "RoomChannel",
     $("##{data["turn"]}").addClass("highlight")
     $("#user-#{data["user_id"]}").fadeIn()
     if data["new_game"]
-      console.log("hi")
       $(".pocket-cards").fadeOut()
       $(".game-cards").fadeOut()
       $(".pregame").fadeIn()
       $("#join").fadeIn()
-      # append buttons to play again or quit
 
     if data["start_game"]
       $("#pocket_cards").fadeIn()
@@ -28,6 +28,8 @@ App.room = App.cable.subscriptions.create "RoomChannel",
     if data["clear_table"]
       $(".pocket-cards").fadeOut()
       $(".game-cards").fadeOut()
+      $(".winning-cards").fadeOut()
+      $(".winner").fadeOut()
 
   speak: (message) ->
     @perform 'speak', message: message

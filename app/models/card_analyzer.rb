@@ -61,6 +61,7 @@ class RoyalFlush
   end
 
   def match?
+    return false if cards.size < 5
     potential_royal = cards.group_by(&:suit)
     suited_cards = potential_royal.values.max_by do |cards|
       cards.size
@@ -82,7 +83,7 @@ class StraightFlush
   end
 
   def match?
-    # sorted_values = card_converter(cards).sort_by(&:value)
+    return false if cards.size < 5
     sorted_values = sorted_card_values(cards)
 
     all_cards = [sorted_values[0..4], sorted_values[1..5], sorted_values[2..6]]
@@ -101,6 +102,7 @@ class Straight
   end
 
   def match?
+    return false if cards.size < 5
     straight = []
     sorted_values = card_converter(cards).sort_by do |card|
       card.value.to_i
