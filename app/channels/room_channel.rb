@@ -40,7 +40,6 @@ class RoomChannel < ApplicationCable::Channel
       broadcast pot: "Pot: $" + Game.last.pot.to_s
     end
 
-
     def game_play(game)
       return declare_champion(game) if champion?(game)
       reset_table(game) if check_winner(game)
@@ -68,8 +67,8 @@ class RoomChannel < ApplicationCable::Channel
       winner = game.find_winner
       return false if winner.is_a? Array
       (game.find_players - [winner]).all? { |player| player.cash <= 0 } &&
-        game.stage == "river" && game.players_updated? ||
-        (game.find_players - [winner]).all? { |player| player.action == 2 }
+        [game.stage == "river" && game.players_updated?,
+        (game.find_players - [winner]).all? { |player| player.action == 2 }].any?
     end
 
     def declare_champion(game)
@@ -83,7 +82,6 @@ class RoomChannel < ApplicationCable::Channel
       game.users.delete(users_with_zero)
       broadcast new_game: "new_game"
       broadcast notification: "#{champion.username} is the winner!"
-      Message.create! content: "#{champion.username} is the winner!"
     end
 
     def reset_table(game)

@@ -7,9 +7,6 @@ App.room = App.cable.subscriptions.create "RoomChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    if data["winning_card"]
-      console.log(data["winning_card"])
-
     $("#winning-cards").append data["winning_card"]
     $("#notifications").html data["notification"]
     $("#messages").prepend data["message"]

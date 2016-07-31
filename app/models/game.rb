@@ -122,8 +122,7 @@ class Game < ApplicationRecord
     return tie_game(winner) if winner.is_a? Array
     take_pot(winner)
     if players.one? { |player| player.action != 2 } || winner.cards.empty?
-      # return Message.create! content: "#{winner.username} WINS!"
-      return ActionCable.server.broadcast "room_channel", notification: "#{winner.username} WINS!"
+      return ActionCable.server.broadcast "room_channel", notification: "<div class='winner'>#{winner.username} WINS!</div>"
     end
     ActionCable.server.broadcast "room_channel", notification: "<div class='winner'>#{winner.username} WINS: #{display_hand(winner.cards)}!</div>"
     display_cards(winner).each do |card|
