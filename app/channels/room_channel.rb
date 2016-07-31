@@ -82,11 +82,12 @@ class RoomChannel < ApplicationCable::Channel
       users_with_zero = game.users.where(cash: 0)
       game.users.delete(users_with_zero)
       broadcast new_game: "new_game"
+      broadcast notification: "#{champion.username} is the winner!"
       Message.create! content: "#{champion.username} is the winner!"
     end
 
     def reset_table(game)
-      sleep 4
+      sleep 4.5
       game.reset_game
       broadcast clear_table: "clear_table"
       game.set_up_game

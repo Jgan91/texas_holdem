@@ -64,8 +64,11 @@ module PlayerHelper
 
   def display_cards(winner)
     table_cards = Card.where(id: winner.game.game_cards)
-    winner_cards = winner.cards.map { |card| "#{card.value} of #{card.suit}" }
-    table_cards = table_cards.map { |card| "#{card.value} of #{card.suit}" }
-    (winner_cards - table_cards).join(" and ")
+    winner_cards = winner.cards.reject do |card|
+      table_cards.any? { |table_card| card.value == table_card.value && card.suit == table_card.suit }
+      # table_cards.each { |table_card| card.value == table_card.value && card.suit == table_card.suit }
+    end
+    #   { |card| "#{card.value} of #{card.suit}" }
+    # table_cards = table_cards.map { |card| "#{card.value} of #{card.suit}" }
   end
 end

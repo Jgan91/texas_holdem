@@ -122,10 +122,13 @@ class Game < ApplicationRecord
     return tie_game(winner) if winner.is_a? Array
     take_pot(winner)
     if players.one? { |player| player.action != 2 } || winner.cards.empty?
-      return Message.create! content: "#{winner.username} WINS!"
+      # return Message.create! content: "#{winner.username} WINS!"
+      return ActionCable.server.broadcast "room_channel", notification: "#{winner.username} WINS!"
     end
-    Message.create! content: "#{winner.username} WINS: #{display_hand(winner.cards)}!
-    \n#{display_cards(winner)}"
+    ActionCable.server.broadcast "room_channel", notification: "<div class='winner'>#{winner.username} WINS: #{display_hand(winner.cards)}!</div>"
+    display_cards(winner).each do |card|
+      WinningCardsJob.perform_later card
+    end
   end
 
   def find_winner
@@ -138,7 +141,7 @@ class Game < ApplicationRecord
 
   def tie_game(winners)
     split_pot(winners)
-    Message.create! content: "#{winners.map(&:username).join(", ")} split the
+    ActionCable.server.broadcast "room_channel", notification: "#{winners.map(&:username).join(", ")} split the
       pot with #{display_hand(winners.first.cards).pluralize}"
   end
 
