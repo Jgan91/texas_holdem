@@ -140,8 +140,8 @@ class Game < ApplicationRecord
 
   def tie_game(winners)
     split_pot(winners)
-    ActionCable.server.broadcast "room_channel", notification: "#{winners.map(&:username).join(", ")} split the
-      pot with #{display_hand(winners.first.cards).pluralize}"
+    ActionCable.server.broadcast "room_channel", notification: "<div class='winner'>#{winners.map(&:username).join(", ")} split the
+      pot with #{display_hand(winners.first.cards).pluralize}</div>"
   end
 
   def reset_game
