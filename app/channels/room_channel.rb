@@ -15,7 +15,7 @@ class RoomChannel < ApplicationCable::Channel
   def speak(data)
     client_action = data["message"]
     return Message.create! content: "#{current_user.username}: #{client_action["chat"]}" if client_action["chat"]
-    @game = Game.find_by(started: false) || Game.last # this should get replaced by a single game marked by id
+    @game = Game.find_by(started: false) || Game.find(current_user.game.id)
 
     current_user.user_action(client_action["user_action"]) if client_action["user_action"]
 
@@ -23,7 +23,6 @@ class RoomChannel < ApplicationCable::Channel
       player = client_action["add-ai-player"] || current_user
       @game.add_player(player)
     elsif client_action["start-game"]
-      return Message.create! content: "There must be at least 2 players to start" if @game.players.count < 2
       start_game(@game)
     elsif @game.started
       @game = Game.find(@game.id)
@@ -77,9 +76,11 @@ class RoomChannel < ApplicationCable::Channel
       check_winner(game)
       game.update(started: false)
       champion = game.players.detect { |player| player.cash > 0 }
+      game.reset_game
       game.update(ordered_players: [])
-      game.users.destroy_all
-      game.ai_players.destroy_all
+      game.ai_players = []
+      users_with_zero = game.users.where(cash: 0)
+      game.users.delete(users_with_zero)
       broadcast new_game: "new_game"
       Message.create! content: "#{champion.username} is the winner!"
     end
@@ -94,6 +95,7 @@ class RoomChannel < ApplicationCable::Channel
     end
 
     def start_game(game)
+      return Message.create! content: "There must be at least 2 players to start" if Game.find(game.id).players.count < 2
       game.update(started: true)
       game.set_up_game
 

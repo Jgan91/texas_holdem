@@ -10,6 +10,7 @@ class Game < ApplicationRecord
 
   def add_player(player)
     if player.is_a? User
+      return Message.create! content: "You must have cash to play" if player.cash <= 0
       users << reset(player)
     else
       player = add_ai_player
