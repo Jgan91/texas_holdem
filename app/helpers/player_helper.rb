@@ -1,5 +1,6 @@
 module PlayerHelper
   def bet(player, amount)
+    player = player.game.find_player(player)
     amount = player.cash if amount > player.cash
     player.update(total_bet:
       (Game.find(player.game.id).find_players.detect do |game_player|
@@ -9,6 +10,10 @@ module PlayerHelper
     player.update(cash: new_amount)
     current_game = Game.find(player.game.id)
     current_game.update(pot: (current_game.pot + amount.to_i))
+  end
+
+  def find_player(player)
+    player.class == User ? User.find(player.id) : AiPlayer.find(player.id)
   end
 
   def update_actions(current_player)
@@ -43,6 +48,7 @@ module PlayerHelper
     pot = game.pot
     game.find_players.detect { |current_player| current_player == player }
       .update(cash: (player.cash + pot))
+    player.update(cash: (player.cash + pot))
   end
 
   def split_pot(winners)

@@ -15,7 +15,7 @@ class RoomChannel < ApplicationCable::Channel
   def speak(data)
     client_action = data["message"]
     return Message.create! content: "#{current_user.username}: #{client_action["chat"]}" if client_action["chat"]
-    @game = Game.find_by(started: false) || Game.last # this should get replaced by a single game marked by id
+    @game = Game.find_by(started: false) || Game.find(current_user.game.id)
 
     current_user.user_action(client_action["user_action"]) if client_action["user_action"]
 
@@ -42,7 +42,8 @@ class RoomChannel < ApplicationCable::Channel
 
 
     def game_play(game)
-      check_winner(game)
+      return declare_champion(game) if champion?(game)
+      reset_table(game) if check_winner(game)
       action = game.game_action
 
       update_players(game)
@@ -57,14 +58,31 @@ class RoomChannel < ApplicationCable::Channel
     end
 
     def check_winner(game)
-      if game.stage == "river" && game.players_updated?
-        game.declare_winner
-        reset_table(game)
-      end
       if Game.find(game.id).players.one? { |player| player.action != 2 }
         game.declare_winner(game.players.detect { |player| player.action != 2})
-        reset_table(game)
       end
+      game.declare_winner if game.stage == "river" && game.players_updated?
+    end
+
+    def champion?(game)
+      winner = game.find_winner
+      return false if winner.is_a? Array
+      (game.find_players - [winner]).all? { |player| player.cash <= 0 } &&
+        game.stage == "river" && game.players_updated? ||
+        (game.find_players - [winner]).all? { |player| player.action == 2 }
+    end
+
+    def declare_champion(game)
+      check_winner(game)
+      game.update(started: false)
+      champion = game.players.detect { |player| player.cash > 0 }
+      game.reset_game
+      game.update(ordered_players: [])
+      game.ai_players = []
+      users_with_zero = game.users.where(cash: 0)
+      game.users.delete(users_with_zero)
+      broadcast new_game: "new_game"
+      Message.create! content: "#{champion.username} is the winner!"
     end
 
     def reset_table(game)
@@ -77,6 +95,7 @@ class RoomChannel < ApplicationCable::Channel
     end
 
     def start_game(game)
+      return Message.create! content: "There must be at least 2 players to start" if Game.find(game.id).players.count < 2
       game.update(started: true)
       game.set_up_game
 

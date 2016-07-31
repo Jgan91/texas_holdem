@@ -13,6 +13,13 @@ App.room = App.cable.subscriptions.create "RoomChannel",
     $("#pot").text data["pot"]
     $("##{data["turn"]}").addClass("highlight")
     $("#user-#{data["user_id"]}").fadeIn()
+    if data["new_game"]
+      console.log("hi")
+      $(".pocket-cards").fadeOut()
+      $(".game-cards").fadeOut()
+      $(".pregame").fadeIn()
+      $("#join").fadeIn()
+      # append buttons to play again or quit
 
     if data["start_game"]
       $("#pocket_cards").fadeIn()
