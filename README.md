@@ -4,7 +4,7 @@
 One of the defining features of Rails Five is Action Cable. Action Cable allows one to integrate web sockets into a rails app for realtime updates. Most examples of Action Cable that I came across were chat applications. I wondered what it would be like to build a real-time Texas Holdem application. Texas Holdem requires several components that are available to all players (i.e. the flop, turn, river, blinds, pot, etc.) as well as components that are unique to each particular user(i.e. the pocket cards). See this blog post for
 more details: [Rails 5 Action Cable]("http://chadellison.github.io/").
 
-Users can play with other users, Ai Players, or both-- users can even just watch Ai Players play. Feature testing was very difficult and I was not able to find very many resources for feature testing with sockets.
+Users can play with other users, Ai Players, or both-- users can even just watch Ai Players play. Feature testing was very difficult and I was not able to find very many resources for feature testing with sockets. This application does not use any libraries for the hand analysis / game logic; however, the game logic is well tested.
 
 ### Game Play
 [Texas Holdem Rules]("http://www.pokerlistings.com/poker-rules-texas-holdem")
