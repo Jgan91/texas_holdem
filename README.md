@@ -28,3 +28,8 @@ At the end of each showdown the winner and the winner's hand is revealed:
 
 * How to run the test suite
   Run rspec for the test suite
+
+Unfinished features
+* The Game does not have side pots for players who go all in.
+
+Please Report any bugs
