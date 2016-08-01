@@ -44,7 +44,6 @@ class RoomChannel < ApplicationCable::Channel
       return declare_champion(game) if champion?(game)
       reset_table(game) if check_winner(game)
       action = game.game_action
-
       update_players(game)
       game_play(game) if action.is_a? Message
       if action.is_a? User
@@ -85,7 +84,7 @@ class RoomChannel < ApplicationCable::Channel
     end
 
     def reset_table(game)
-      sleep 4.5
+      sleep 5
       game.reset_game
       broadcast clear_table: "clear_table"
       game.set_up_game
