@@ -24,6 +24,7 @@ App.room = App.cable.subscriptions.create "RoomChannel",
     if data["start_game"]
       $("#pocket_cards").fadeIn()
       $(".pregame").fadeOut()
+      $(".winner").fadeOut()
 
     if data["clear_table"]
       $(".pocket-cards").fadeOut()

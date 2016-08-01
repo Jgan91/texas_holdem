@@ -44,7 +44,6 @@ class RoomChannel < ApplicationCable::Channel
       return declare_champion(game) if champion?(game)
       reset_table(game) if check_winner(game)
       action = game.game_action
-
       update_players(game)
       game_play(game) if action.is_a? Message
       if action.is_a? User
@@ -81,11 +80,11 @@ class RoomChannel < ApplicationCable::Channel
       users_with_zero = game.users.where(cash: 0)
       game.users.delete(users_with_zero)
       broadcast new_game: "new_game"
-      broadcast notification: "#{champion.username} is the winner!"
+      broadcast notification: "<div class='winner'>#{champion.username} is the winner!</div>"
     end
 
     def reset_table(game)
-      sleep 4.5
+      sleep 5
       game.reset_game
       broadcast clear_table: "clear_table"
       game.set_up_game
