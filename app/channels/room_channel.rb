@@ -8,8 +8,8 @@ class RoomChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
     if ActionCable.server.connections.none?(&:current_user)
       Message.destroy_all
-      Game.delete(Game.first) if Game.count > 100
     end
+    Game.delete(Game.first) if Game.count > 100
   end
 
   def speak(data)
@@ -57,7 +57,7 @@ class RoomChannel < ApplicationCable::Channel
 
     def check_winner(game)
       if Game.find(game.id).players.one? { |player| player.action != 2 }
-        game.declare_winner(game.players.detect { |player| player.action != 2})
+        return game.declare_winner(game.players.detect { |player| player.action != 2})
       end
       game.declare_winner if game.stage == "river" && game.players_updated?
     end
@@ -84,7 +84,7 @@ class RoomChannel < ApplicationCable::Channel
     end
 
     def reset_table(game)
-      sleep 5
+      sleep 7
       game.reset_game
       broadcast clear_table: "clear_table"
       game.set_up_game
