@@ -8,7 +8,7 @@ class RoomChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
     if ActionCable.server.connections.none?(&:current_user)
       Message.destroy_all
-      Game.delete(Game.first) if Game.count > 500
+      Game.delete(Game.first) if Game.count > 100
     end
   end
 
