@@ -30,8 +30,8 @@ RSpec.describe User, type: :model do
     expect(user.total_bet).to eq 0
     expect(user.cash).to eq 2000
     user.bet(user, 50)
-    expect(user.total_bet).to eq 50
-    expect(user.cash).to eq 1950
+    expect(game.users.find(user.id).total_bet).to eq 50
+    expect(game.users.find(user.id).cash).to eq 1950
     expect(Game.find(game.id).pot).to eq 50
   end
 
@@ -89,7 +89,7 @@ RSpec.describe User, type: :model do
     game.update(ordered_players: [user.id, user2.id])
     expect(User.pluck(:cash)).to eq [1000, 1000]
     user.call
-    expect(user.cash).to eq 900
+    expect(game.users.find(user.id).cash).to eq 900
   end
 
   it "makes an action" do

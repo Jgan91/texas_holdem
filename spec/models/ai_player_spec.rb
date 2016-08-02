@@ -25,9 +25,9 @@ RSpec.describe AiPlayer, type: :model do
     game.update(ordered_players: ["a" + ai.id.to_s])
     expect(ai.total_bet).to eq 0
     expect(ai.cash).to eq 1000
-    ai.bet(ai, 200)
-    expect(ai.total_bet).to eq 200
-    expect(ai.cash).to eq 800
+    game.ai_players.find(ai.id).bet(ai, 200)
+    expect(game.ai_players.find(ai.id).total_bet).to eq 200
+    expect(game.ai_players.find(ai.id).cash).to eq 800
   end
 
   it "resets the ai player's cards and bets" do
