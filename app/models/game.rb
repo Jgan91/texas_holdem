@@ -39,6 +39,7 @@ class Game < ApplicationRecord
         player.class == AiPlayer ? "a" + player.id.to_s : player.id.to_s
       end
     else
+      players.select { |player| player.cash == 0 }.each { |player| player.update(action: 2) }
       new_order = ordered_players.reject { |id| id.sub("a", "") == zero_cash }.rotate(-1)
       new_order = new_order.rotate(-1) if new_order[1] == ordered_players[1]
     end

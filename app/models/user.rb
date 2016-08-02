@@ -18,7 +18,7 @@ class User < ApplicationRecord
       return call if call_amount(self) > 0
     elsif action["bet"]
       amount = action["bet"].to_i
-      return error(amount) if amount < game.little_blind || amount > cash
+      return error(amount) if amount < game.little_blind || amount > Game.find(game.id).users.find(id).cash
       bet(self, amount + call_amount(self))
       update_actions(self)
       game.update(raise_count: (game.raise_count + 1))
