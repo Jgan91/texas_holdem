@@ -84,7 +84,7 @@ class RoomChannel < ApplicationCable::Channel
     end
 
     def reset_table(game)
-      sleep 5
+      sleep 7
       game.reset_game
       broadcast clear_table: "clear_table"
       game.set_up_game
