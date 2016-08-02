@@ -59,7 +59,7 @@ class Game < ApplicationRecord
   def load_deck
     deck = CardsService.new.deck_of_cards_hash.map do |card|
       Card.find_or_create_by(value: card[:value], suit: card[:suit], image: card[:image])
-    end
+    end.shuffle
     self.cards = deck
   end
 
@@ -102,7 +102,7 @@ class Game < ApplicationRecord
   end
 
   def deal_single_card
-    card = self.cards.delete(Card.find(self.cards.first.id)).last
+    card = self.cards.delete(cards.order("random()").limit(1)).last
     GameCardJob.perform_later card
     game_cards << card.id
   end
