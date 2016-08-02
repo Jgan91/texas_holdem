@@ -10,6 +10,7 @@ Users can play with other users, Ai Players, or both-- users can even just watch
 [Texas Holdem Rules]("http://www.pokerlistings.com/poker-rules-texas-holdem")
 Each player sees their own pocket cards, while all players see the game cards (flop, turn, and river). Action buttons appear only for the player whose turn it is, and the player's name is highlighted in red. After each winning round, the blinds rotate clockwise. A chat box on to the left announces the stage of the game and player actions. It also allows the players to speak with one another. Here is an example:
 
+![Example Game](https://raw.githubusercontent.com/chadellison/texas_holdem/master/app/assets/images/holdem.gif)
 ![Example Game](https://raw.githubusercontent.com/chadellison/texas_holdem/master/app/assets/images/game_play.png)
 
 When a player initiates a bet, a box opens like so:
