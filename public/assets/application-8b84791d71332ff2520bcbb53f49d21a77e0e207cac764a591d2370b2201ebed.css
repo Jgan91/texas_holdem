@@ -1,0 +1,478 @@
+.dashboard {
+  font-family: sans-serif;
+  color: white;
+  text-align: center;
+}
+
+#play {
+  background-color: #b30000;
+  color: white;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  margin-top: 20%;
+  font-family: Sans-serif;
+  margin-left: 43.5%;
+  height: 50px;
+  width: 200px;
+  display: inline-block;
+}
+
+#play:hover:not(.active) {
+  background-color: #cc0000;
+}
+
+#play:active {
+  transform: translateY(2px);
+}
+.game-actions {
+  width: 100%;
+  clear: both;
+  height: 50px;
+  display: inline-block;
+}
+
+.bet {
+  width: 20%;
+  display: inline-block;
+  float: right;
+}
+
+.bet-form {
+  display: none;
+  width: 40%;
+  margin-left: 40%;
+  border: 1px solid black;
+  text-align: center;
+  margin-bottom: 40px;
+  background-color: white;
+  padding: 10px;
+  font-family: Sans-serif;
+  position: fixed;
+}
+
+.current-bet {
+  width: 90%;
+  font-size: 20px;
+  margin: 10px;
+}
+
+#bet-amount {
+  width: 89%;
+}
+
+#current-bet {
+  background-color: #b30000;
+  color: white;
+  font-size: 15px;
+  border: none;
+  outline: none;
+  margin-top: 5px;
+  font-family: Sans-serif;
+  height: 30px;
+
+}
+
+#current-bet:hover:not(.active) {
+  background-color: #cc0000;
+}
+
+#current-bet:active {
+  transform: translateY(2px);
+}
+
+.check {
+  width: 20%;
+  display: inline-block;
+  float: right;
+  font-family: Sans-serif;
+}
+
+.fold {
+  width: 20%;
+  display: inline-block;
+  float: right;
+  font-family: Sans-serif;
+}
+
+.action {
+  float: left;
+  background-color: #b30000;
+  color: white;
+  font-size: 15px;
+  border: none;
+  outline: none;
+  margin-top: 5px;
+  font-family: Sans-serif;
+  height: 30px;
+  width: 100px;
+  display: inline-block;
+}
+
+.action:hover:not(.active) {
+  background-color: #cc0000;
+}
+
+.action:active {
+  transform: translateY(2px);
+}
+
+.container-action {
+  width: 90%;
+  margin-top: -30%;
+}
+
+.background {
+  width: 98.9%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+}
+.history {
+  width: 20%;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  background-color: #333;
+  padding: 15px;
+  height: 833px;
+  color: white;
+  overflow: auto;
+  font-family: Sans-serif;
+  display: inline-block;
+}
+
+#messages {
+  width: 100%;
+  display: inline-block;
+}
+
+#chat {
+  width: 90%;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  height: 30%;
+  font-family: Sans-serif;
+  display: inline-block;
+}
+.hidden {
+  display: none;
+}
+
+body {
+  background-color: gray;
+}
+
+#slide {
+  width: 100%;
+  height: 800px;
+}
+
+.banner {
+  font-family: sans-serif;
+  color: white;
+  margin-left: 42%;
+  position: fixed;
+}
+
+.error {
+  color: red;
+  font-family: sans-serif;
+  font-size: 30px;
+  position: fixed;
+  margin-top: 15%;
+  margin-left: 41%;
+  width: 30%;
+}
+
+.create-account, .sign-in {
+  display: none;
+  width: 40%;
+  margin-left: 28%;
+  border: 1px solid black;
+  text-align: center;
+  margin-bottom: 40px;
+  background-color: white;
+  padding: 10px;
+  font-family: Sans-serif;
+  position: fixed;
+  margin-top: 20%;
+  z-index: 1;
+}
+
+.label {
+  font-size: 20px;
+  margin: 10px;
+  width: 89%;
+  color: gray
+}
+
+.input {
+  width: 97%;
+  height: 20px;
+  margin: 4px;
+  border: 2px solid #333
+}
+
+.submit {
+  background-color: #333;
+  color: white;
+  font-size: 15px;
+  border: none;
+  outline: none;
+  margin-top: 5px;
+  font-family: Sans-serif;
+  height: 30px;
+  width: 98%;
+  padding: 3px;
+}
+
+.submit:hover:not(.active) {
+  background-color: black;
+}
+
+.submit:active {
+  transform: translateY(2px);
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  height: 50px;
+}
+
+li {
+  float: right;
+  font-family: Sans-serif;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  height: 50px;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+ /*Change the link color to #111 (black) on hover */
+#sign-out:hover, #create-account:hover, #sign-in:hover {
+  background-color: #111;
+}
+
+.game-stats {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  float: left;
+  font-family: Sans-serif;
+}
+#notifications {
+  color: white;
+  position: fixed;
+  font-family: sans-serif;
+  font-size: 40px;
+  margin-top: 3%;
+  margin-left: 30%;
+  display: inline-block;
+}
+
+#winning_cards {
+  width: 75px;
+  display: inline;
+  padding-right: 5px;
+}
+
+.winning-cards {
+  float: right;
+  margin-top: 5%;
+}
+
+
+#winning_card {
+  width: 75px;
+  display: inline;
+  padding-right: 5px;
+}
+#players {
+  text-align: center;
+  color: white;
+  font-family: sans-serif;
+  background-color: none;
+  float: right;
+  width: 70%;
+  height: 30px;
+  display: inline;
+}
+
+.player {
+  float: right;
+  font-family: Sans-serif;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: none;
+}
+
+.highlight {
+  color: red;
+}
+
+.fold {
+  color: gray;
+}
+
+#cards {
+  margin: auto;
+  width: 400px;
+  display: inline;
+  float: right;
+  margin-top: -25%;
+  margin-right: 2.7%;
+}
+
+.transparent {
+  opacity: 0.5;
+}
+
+#game_card {
+  width: 125px;
+  float: right;
+}
+
+#game_cards {
+  display: inline-block;
+  float: right;
+  margin-top: 5%;
+  width: 60%;
+  margin-right: 5%;
+}
+
+#pocket {
+  width: 110px;
+  margin-top: 5%;
+  margin-right: 30.8%;
+  display: inline-block;
+}
+
+#pocket-button {
+  width: 110px;
+  float: right;
+  margin-top: -25%;
+  margin-right: 31.7%;
+}
+
+#pocket_cards {
+  background-color: black;
+  width: 110px;
+  padding: 2px;
+  height: 30px;
+  color: white;
+  font-family: sans-serif;
+  font-size: 15px;
+  border: none;
+  outline: none;
+}
+
+#pocket_cards:hover {
+  background-color: #3e8e41;
+}
+
+#pocket_cards:active {
+  transform: translateY(2px);
+}
+
+#pocket_cards {
+  float: right;
+  margin-right: 10%;
+  margin-top: -10%;
+}
+
+.pocket-cards {
+  display: inline-block;
+}
+
+#player {
+  font-size: 20px;
+  color: white;
+}
+/* Style The Dropdown Button */
+
+.btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  font-family: Sans-serif;
+  width: 155px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.blind-dropdown {
+  position: relative;
+  display: inline-block;
+  font-family: Sans-serif;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.blind-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* Links inside the dropdown */
+.blind-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.blind-content a:hover {
+  background-color: #f1f1f1
+}
+
+/* Show the dropdown menu on hover */
+.blind-dropdown:hover .blind-content {
+  display: block;
+}
+
+.pregame {
+  /*width: 30%;*/
+  /*float: right;*/
+  display: inline-block;
+}
+
+.btn:hover {
+  background-color: #3e8e41;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+
+
+ */
+
