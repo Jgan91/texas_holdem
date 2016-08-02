@@ -57,7 +57,7 @@ class RoomChannel < ApplicationCable::Channel
 
     def check_winner(game)
       if Game.find(game.id).players.one? { |player| player.action != 2 }
-        game.declare_winner(game.players.detect { |player| player.action != 2})
+        return game.declare_winner(game.players.detect { |player| player.action != 2})
       end
       game.declare_winner if game.stage == "river" && game.players_updated?
     end
