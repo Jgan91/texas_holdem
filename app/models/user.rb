@@ -34,13 +34,13 @@ class User < ApplicationRecord
     self
   end
 
-  # def remove_from_game
-  #   if game
-  #     user_action("fold")
-  #     game.users.delete(self)
-  #     game_id = nil
-  #   end
-  # end
+  def remove_from_game
+    if game
+      user_action("fold")
+      game.users.delete(self)
+      game_id = nil
+    end
+  end
 
   private
     def error(amount)

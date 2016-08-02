@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    # current_user.remove_from_game
+    current_user.remove_from_game
     session.clear
     redirect_to root_path
   end
