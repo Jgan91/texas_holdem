@@ -96,9 +96,7 @@ class Game < ApplicationRecord
   end
 
   def deal_flop
-    3.times do
-      deal_single_card
-    end
+    3.times { deal_single_card }
   end
 
   def deal_single_card
@@ -111,8 +109,11 @@ class Game < ApplicationRecord
     update(stage: "river") if stage == "turn"
     update(stage: "turn") if stage == "flop"
     update(stage: "flop") if stage == "blinds"
-    players.each { |player| player.update(total_bet: 0)}
-    find_players.each { |player| player.update(action: 0) if player.action < 2 }
+    find_players.each do |player|
+      player.update(total_bet: 0)
+      player.update(action: 0) if player.action < 2
+    end
+    # find_players.each { |player| player.update(action: 0) if player.action < 2 }
   end
 
   def highest_bet

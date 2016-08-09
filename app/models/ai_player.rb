@@ -93,6 +93,7 @@ class AiPlayer < ApplicationRecord
   def all_in
     remaining_cash = cash
     bet(self, cash)
+    update_actions(self) if remaining_cash > game.highest_bet
     Message.create! content: "#{username}: All In ($#{remaining_cash})!"
   end
 end
