@@ -95,7 +95,7 @@ RSpec.describe Game, type: :model do
   end
 
   it "deals unique cards" do
-    game = Game.create
+    game = Game.create(stage: "blinds")
     game.load_deck
     game.deal
     card = Game.find(game.id).game_cards.first
