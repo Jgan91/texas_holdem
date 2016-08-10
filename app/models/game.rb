@@ -77,9 +77,9 @@ class Game < ApplicationRecord
 
   def game_action
     all_players = find_players
-    update(stage: "blinds") if find_players[1].action == 1 && stage.nil? || stage == ""
-    all_players = find_players[2..-1] + find_players[0..1] if stage.nil? || stage == ""
-    deal if players_updated? && !stage.nil? && !stage == ""
+    update(stage: "blinds") if find_players[1].action == 1 && stage.nil?
+    all_players = find_players[2..-1] + find_players[0..1] unless stage
+    deal if players_updated? && stage
     all_players.reject { |player| player.action == 2 }.min_by(&:action).take_action
   end
 
