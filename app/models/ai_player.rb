@@ -18,7 +18,7 @@ class AiPlayer < ApplicationRecord
   end
 
   def bet_conservative(risk_factor)
-    return all_in if risk_factor == 10 && hand > 6 && !game.stage == "blinds"
+    return all_in if risk_factor == 10 && hand > 6 && !game.stage == "blinds" && game.stage
     if call_amount(self) > 0 && hand < 1
       risk_factor > 8 ? fold(self) : normal_bet
       risk_factor > 2 ? fold(self) : normal_bet
@@ -33,7 +33,7 @@ class AiPlayer < ApplicationRecord
 
   def hand
     analyze = CardAnalyzer.new
-    if game.stage == "blinds"
+    if game.stage == "blinds" || game.stage.nil?
       evaluate_pocket
     else
       hand = cards + Card.find(game.game_cards)
@@ -54,7 +54,7 @@ class AiPlayer < ApplicationRecord
   end
 
   def bet_aggressive(risk_factor)
-    return all_in if risk_factor > 7 && hand > 5 && !game.stage == "blinds"
+    return all_in if risk_factor > 7 && hand > 5 && !game.stage == "blinds" && game.stage
     if game.highest_bet > total_bet && hand < 1
       risk_factor > 5 ? fold(self) : normal_bet
     elsif game.highest_bet > total_bet && hand > 2

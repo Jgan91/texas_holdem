@@ -26,7 +26,7 @@ class User < ApplicationRecord
     elsif action == "fold"
       fold(self)
     end
-    Message.create! content: "#{username}: #{action}"
+    Message.create! content: "#{username}: #{action.capitalize}"
   end
 
   def take_action

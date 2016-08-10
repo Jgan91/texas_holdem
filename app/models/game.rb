@@ -76,10 +76,10 @@ class Game < ApplicationRecord
   end
 
   def game_action
-    deal if players_updated?
     all_players = find_players
-
-    all_players = find_players[2..-1] + find_players[0..1] if stage == "blinds"
+    update(stage: "blinds") if find_players[1].action == 1 && stage.nil?
+    all_players = find_players[2..-1] + find_players[0..1] if stage.nil?
+    deal if players_updated? && stage
     all_players.reject { |player| player.action == 2 }.min_by(&:action).take_action
   end
 
@@ -147,7 +147,7 @@ class Game < ApplicationRecord
   end
 
   def reset_game
-    update(pot: 0, stage: "blinds", game_cards: [], raise_count: 0)
+    update(pot: 0, stage: nil, game_cards: [], raise_count: 0)
     players.each { |player| reset(player) }
     self
   end
