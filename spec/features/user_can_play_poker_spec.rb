@@ -26,7 +26,7 @@ RSpec.feature "user can play poker" do
     click_on "Check / Call"
     click_on "Fold"
 
-    expect(Game.last.stage).to eq "blinds"
+    expect(Game.last.stage).to eq nil
     expect(Game.last.find_players).to eq [ai, user]
     # user = User.last
     # expect(page).to have_content "Flop:"
